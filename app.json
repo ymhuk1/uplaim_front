@@ -1,0 +1,45 @@
+{
+  "expo": {
+    "name": "Uplaim",
+    "slug": "desert",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#181629"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": false
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#24224A"
+      },
+      "package": "com.viktorka.uplaim"
+    },
+    "scheme": "uplaim",
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router"
+    ],
+    "extra": {
+      "API_PROD": "https://admin.uplaim.com",
+      "API_STAGE": "http://127.0.0.1:5000",
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "1acce26d-f091-4759-b151-a424b4ba99f3"
+      }
+    }
+  }
+}
