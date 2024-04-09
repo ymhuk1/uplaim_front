@@ -5,7 +5,6 @@ import {
   Text,
   ScrollView,
   Alert,
-  Dimensions,
   TouchableOpacity,
   StatusBar,
 } from "react-native";

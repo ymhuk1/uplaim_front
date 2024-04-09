@@ -158,7 +158,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingTop: 80,
     paddingBottom: 60,
-    flex: 1,
   },
   iconContainer: {},
   icon: {
@@ -175,12 +174,14 @@ const styles = StyleSheet.create({
     color: COLORS.text,
   },
   smsButton: {
-    paddingVertical: 30,
+    paddingTop: 30,
+    marginBottom: 35,
   },
   button: {
-    paddingVertical: 150,
+    marginBottom: 260,
   },
   textMenu: {
+    display: "none",
     fontSize: SIZES.medium,
     color: COLORS.text,
     marginLeft: 8,

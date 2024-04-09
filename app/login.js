@@ -19,6 +19,9 @@ import ButtonComponent from "../components/ButtonComponent";
 import NewButtonComponent from "../components/NewButtonComponent";
 import { handleLogout } from "../components/utils/utils";
 import { COLORS, SIZES } from "../constants/theme";
+import loadingSkeleton, {
+  LoadingSkeleton,
+} from "../components/SkeletonLoaderComponent";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
@@ -30,6 +33,7 @@ export default function LoginScreen() {
   const [error, setError] = useState("");
   const [checkboxError, setCheckboxError] = useState("");
   const [token, setToken] = useState(null);
+  const [skeletonLoading, setSkeletonLoading] = useState(false);
   const deviceInfo = Constants.deviceName;
 
   // console.log("height: ", Dimensions.get("window").height)
@@ -93,6 +97,7 @@ export default function LoginScreen() {
 
         // Handle response data
         if (responseData.message === "SMS code sent") {
+          setSkeletonLoading(true);
           const receivedToken = responseData.token;
           const userData = {
             phoneNumber,
@@ -123,6 +128,7 @@ export default function LoginScreen() {
       }
     } finally {
       setLoading(false);
+      setSkeletonLoading(false);
     }
   };
 
@@ -133,92 +139,97 @@ export default function LoginScreen() {
       automaticallyAdjustKeyboardInsets={true}
       contentContainerStyle={styles.container}
     >
-      <ImageBackground
-        source={require("../assets/background.png")}
-        contentFit={"cover"}
-        style={styles.containerViewIMG}
-      >
-        <View style={styles.containerView}>
-          <View>
-            <Image
-              contentFit="contain"
-              contentPosition="center"
-              transition={1000}
-              source={require("../assets/logo.svg")}
-              width={210}
-              height={50}
-            />
-          </View>
-          <View style={styles.textContainer}>
-            <Text style={styles.text}>Войти с помощью</Text>
-          </View>
+      {skeletonLoading ? (
+        <LoadingSkeleton />
+      ) : (
+        <ImageBackground
+          source={require("../assets/background.png")}
+          contentFit={"cover"}
+          style={styles.containerViewIMG}
+        >
+          <View style={styles.containerView}>
+            <View>
+              <Image
+                contentFit="contain"
+                contentPosition="center"
+                transition={1000}
+                source={require("../assets/logo.svg")}
+                width={210}
+                height={50}
+              />
+            </View>
+            <View style={styles.textContainer}>
+              <Text style={styles.text}>Войти с помощью</Text>
+            </View>
 
-          <View style={styles.iconSocialIn}>
-            <View style={styles.iconBack}>
-              <Image
-                contentFit="contain"
-                contentPosition={"center"}
-                transition={1000}
-                source={require("../assets/google.svg")}
-                style={styles.iconSocial}
+            <View style={styles.iconSocialIn}>
+              <View style={styles.iconBack}>
+                <Image
+                  contentFit="contain"
+                  contentPosition={"center"}
+                  transition={1000}
+                  source={require("../assets/google.svg")}
+                  style={styles.iconSocial}
+                />
+              </View>
+              <View style={styles.iconBack}>
+                <Image
+                  contentFit="contain"
+                  contentPosition={"center"}
+                  transition={1000}
+                  source={require("../assets/apple.svg")}
+                  style={styles.iconSocial}
+                />
+              </View>
+              <View style={styles.iconBack}>
+                <Image
+                  contentFit="contain"
+                  contentPosition={"center"}
+                  transition={1000}
+                  source={require("../assets/vk.svg")}
+                  style={styles.iconSocial}
+                />
+              </View>
+            </View>
+
+            <View style={styles.textContainer}>
+              <Text style={styles.text}>или зарегистрироваться</Text>
+            </View>
+            <View style={styles.input}>
+              <InputComponent
+                placeholder="Введите номер"
+                keyboardType="numeric"
+                value={phoneNumber}
+                onChangeText={setPhoneNumber}
+                error={error}
+              />
+              <InputComponent
+                placeholder="Реферальный код"
+                value={referralCode}
+                onChangeText={setReferralCode}
               />
             </View>
-            <View style={styles.iconBack}>
-              <Image
-                contentFit="contain"
-                contentPosition={"center"}
-                transition={1000}
-                source={require("../assets/apple.svg")}
-                style={styles.iconSocial}
+            <View>
+              <CheckboxComponent
+                isChecked={isChecked}
+                onToggle={setIsChecked}
+                error={checkboxError}
+                title={"Я согласен с Политикой конфиденциальности"}
               />
             </View>
-            <View style={styles.iconBack}>
-              <Image
-                contentFit="contain"
-                contentPosition={"center"}
-                transition={1000}
-                source={require("../assets/vk.svg")}
-                style={styles.iconSocial}
+            <View style={styles.button}>
+              <NewButtonComponent
+                title={"Войти"}
+                filled={true}
+                height={48}
+                fontSize={18}
+                onPress={handleLogin}
               />
             </View>
           </View>
-          <View style={styles.textContainer}>
-            <Text style={styles.text}>или зарегистрироваться</Text>
-          </View>
-          <View style={styles.input}>
-            <InputComponent
-              placeholder="Введите номер"
-              keyboardType="numeric"
-              value={phoneNumber}
-              onChangeText={setPhoneNumber}
-              error={error}
-            />
-            <InputComponent
-              placeholder="Реферальный код"
-              value={referralCode}
-              onChangeText={setReferralCode}
-            />
-          </View>
-          <View>
-            <CheckboxComponent
-              isChecked={isChecked}
-              onToggle={setIsChecked}
-              error={checkboxError}
-              title={"Я согласен с Политикой конфиденциальности"}
-            />
-          </View>
-          <View style={styles.button}>
-            <NewButtonComponent
-              title={"Войти"}
-              filled={true}
-              height={48}
-              fontSize={18}
-              onPress={handleLogin}
-            />
-          </View>
-        </View>
-        <StatusBar backgroundColor="transparent" barStyle="light-content" />
-      </ImageBackground>
+          <StatusBar backgroundColor="transparent" barStyle="light-content" />
+        </ImageBackground>
+      )}
     </ScrollView>
   );
 }

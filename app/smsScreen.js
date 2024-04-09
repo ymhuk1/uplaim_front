@@ -157,7 +157,7 @@ export default function SmsScreen() {
 
   return (
     <ScrollView
-      // style={styles.container}
+      style={styles.container}
       showsVerticalScrollIndicator={false}
       automaticallyAdjustKeyboardInsets={true}
       contentContainerStyle={styles.container}
@@ -232,7 +232,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingTop: 80,
     paddingBottom: 60,
-    flex: 1,
   },
   iconContainer: {},
   icon: {
@@ -269,7 +268,6 @@ const styles = StyleSheet.create({
   },
   smsButton: {
     paddingVertical: 60,
-    marginBottom: 30,
   },
   button: {},
   smsRepeat: {
