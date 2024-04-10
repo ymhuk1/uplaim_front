@@ -19,9 +19,6 @@ import ButtonComponent from "../components/ButtonComponent";
 import NewButtonComponent from "../components/NewButtonComponent";
 import { handleLogout } from "../components/utils/utils";
 import { COLORS, SIZES } from "../constants/theme";
-import loadingSkeleton, {
-  LoadingSkeleton,
-} from "../components/SkeletonLoaderComponent";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
@@ -33,7 +30,6 @@ export default function LoginScreen() {
   const [error, setError] = useState("");
   const [checkboxError, setCheckboxError] = useState("");
   const [token, setToken] = useState(null);
-  const [skeletonLoading, setSkeletonLoading] = useState(false);
   const deviceInfo = Constants.deviceName;
 
   // console.log("height: ", Dimensions.get("window").height)
@@ -97,7 +93,6 @@ export default function LoginScreen() {
 
         // Handle response data
         if (responseData.message === "SMS code sent") {
-          setSkeletonLoading(true);
           const receivedToken = responseData.token;
           const userData = {
             phoneNumber,
@@ -128,7 +123,6 @@ export default function LoginScreen() {
       }
     } finally {
       setLoading(false);
-      setSkeletonLoading(false);
     }
   };
 
@@ -139,9 +133,6 @@ export default function LoginScreen() {
       automaticallyAdjustKeyboardInsets={true}
       contentContainerStyle={styles.container}
     >
-      {skeletonLoading ? (
-        <LoadingSkeleton />
-      ) : (
         <ImageBackground
           source={require("../assets/background.png")}
           contentFit={"cover"}
@@ -229,7 +220,6 @@ export default function LoginScreen() {
           </View>
           <StatusBar backgroundColor="transparent" barStyle="light-content" />
         </ImageBackground>
-      )}
     </ScrollView>
   );
 }
