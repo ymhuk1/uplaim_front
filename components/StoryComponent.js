@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     storiesContainer: {
         overflow: 'hidden',
         flexDirection: 'row',
-        marginBottom: 30,
+        // marginBottom: 30,
         marginRight: -15,
     },
     story: {

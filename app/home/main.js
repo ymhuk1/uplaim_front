@@ -23,8 +23,8 @@ import SliderComponent from "../../components/SliderComponent";
 import * as SecureStore from "expo-secure-store";
 import { ImageBackground, Image } from "expo-image";
 import { Link, useRouter } from "expo-router";
-import { MotiView } from "moti";
 import { Skeleton } from "moti/skeleton";
+import { SKELETON } from "../../constants/theme";
 
 export default function MainScreen() {
   const [refreshing, setRefreshing] = useState(false);
@@ -36,7 +36,7 @@ export default function MainScreen() {
   const [token, setToken] = useState(null);
   const [notify, setNotify] = useState(true);
 
-  const [skeleton, setSkeleton] = useState(false);
+  const [skeleton, setSkeleton] = useState(true);
 
   const router = useRouter();
 
@@ -184,15 +184,14 @@ export default function MainScreen() {
   };
 
   const onRefresh = () => {
-      setRefreshing(true);
-      fetchData();
-      setSkeleton(true);
+    setRefreshing(true);
+    setSkeleton(true);
+    fetchData();
   };
 
   useEffect(() => {
-    setRefreshing(true);
+    setSkeleton(false);
     fetchData();
-    setSkeleton(true);
   }, []);
 
   return (
@@ -209,30 +208,11 @@ export default function MainScreen() {
           contentFit={"cover"}
         >
           <View style={styles.containerView}>
-            <Skeleton
-              height={90}
-              width={"100%"}
-              colorMode="dark"
-              transition={{
-                type: "timing",
-                duration: 2000,
-              }}
-            >
-              <HeaderComponent home={true} main={true} notify={notify} />
-            </Skeleton>
-
+            <HeaderComponent home={true} main={true} notify={notify} />
             <View style={styles.topContainer}>
               <View style={styles.leftContainer}>
                 <View style={styles.textContainer}>
-                  <Skeleton
-                    height={35}
-                    width={"80%"}
-                    colorMode="dark"
-                    transition={{
-                      type: "timing",
-                      duration: 5000,
-                    }}
-                  >
+                  <Skeleton height={35} width={"80%"} {...SKELETON}>
                     <Text style={styles.text}>
                       Привет, {clientData.name || "Гость"}!
                     </Text>
@@ -240,14 +220,10 @@ export default function MainScreen() {
                 </View>
 
                 <Skeleton
-                  height={25}
-                  width={"70%"}
-                  children={true}
+                  height={35}
+                  width={"65%"}
                   colorMode="dark"
-                  transition={{
-                    type: "timing",
-                    duration: 2000,
-                  }}
+                  {...SKELETON}
                 >
                   <View style={styles.bottomContainer}>
                     <View style={styles.background}>
@@ -285,16 +261,7 @@ export default function MainScreen() {
                 </Skeleton>
               </View>
               <View>
-                <Skeleton
-                  height={65}
-                  width={65}
-                  colorMode="dark"
-                  // radius={"round"}
-                  transition={{
-                    type: "timing",
-                    duration: 3000,
-                  }}
-                >
+                <Skeleton height={65} width={65} {...SKELETON}>
                   <TouchableOpacity
                     onPress={() =>
                       router.push({ pathname: "/secondary/tariffs" })
@@ -308,15 +275,7 @@ export default function MainScreen() {
               </View>
             </View>
 
-            <Skeleton
-              height={120}
-              width={"80%"}
-              colorMode="dark"
-              transition={{
-                type: "timing",
-                duration: 2000,
-              }}
-            >
+            <Skeleton height={112} width={300} {...SKELETON}>
               <StoryComponent
                 data={stories}
                 style={styles.story}
@@ -324,19 +283,11 @@ export default function MainScreen() {
               />
             </Skeleton>
 
-            <Skeleton
-              height={30}
-              width={"70%"}
-              colorMode="dark"
-              transition={{
-                type: "timing",
-                duration: 2000,
-              }}
+            <TouchableOpacity
+              onPress={() => router.push({ pathname: "/home/qrcode" })}
+              style={styles.textContainer2}
             >
-              <TouchableOpacity
-                onPress={() => router.push({ pathname: "/home/qrcode" })}
-                style={styles.textContainer2}
-              >
+              <Skeleton height={26} width={22} {...SKELETON}>
                 <Image
                   contentFit="contain"
                   contentPosition={"center"}
@@ -346,29 +297,19 @@ export default function MainScreen() {
                   height={24}
                   style={{ marginBottom: 2, marginRight: 3 }}
                 />
+              </Skeleton>
+              <Skeleton height={26} width={220} {...SKELETON}>
                 <Text style={styles.text2}>Мои компании</Text>
-              </TouchableOpacity>
-            </Skeleton>
+              </Skeleton>
+            </TouchableOpacity>
 
-            {myCompanies.length === 0 ? (
-              <Skeleton
-                height={180}
-                width={"50%"}
-                colorMode="dark"
-                transition={{
-                  type: "timing",
-                  duration: 2000,
-                }}
+            {!myCompanies.length === 0 ? (
+              <Link
+                href={"/secondary/categories"}
+                style={[styles.view, styles.viewLink, { height: itemHeight1 }]}
               >
-                <Link
-                  href={"/secondary/categories"}
-                  style={[
-                    styles.view,
-                    styles.viewLink,
-                    { height: itemHeight1 },
-                  ]}
-                >
-                  <View style={styles.addCompany}>
+                <View style={styles.addCompany}>
+                  <Skeleton height={2} width={72} {...SKELETON}>
                     <Image
                       contentFit="contain"
                       contentPosition={"center"}
@@ -378,34 +319,31 @@ export default function MainScreen() {
                       height={72}
                       style={{ marginBottom: 2, marginRight: 3 }}
                     />
+                  </Skeleton>
+
+                  <Skeleton height={10} width={10} {...SKELETON}>
                     <Text style={styles.textAddCompany}>Добавить компанию</Text>
-                  </View>
-                </Link>
-              </Skeleton>
+                  </Skeleton>
+                </View>
+              </Link>
             ) : (
-              <SliderComponent
-                myCompany={true}
-                data={groupedData1}
-                itemsPerSlide={itemsPerSlide1}
-                itemHeight={itemHeight1}
-                slideHeight={slideHeight1}
-                addCompany={true}
-              />
+              <Skeleton height={380} width={"100%"} {...SKELETON}>
+                <SliderComponent
+                  myCompany={true}
+                  data={groupedData1}
+                  itemsPerSlide={itemsPerSlide1}
+                  itemHeight={itemHeight1}
+                  slideHeight={slideHeight1}
+                  addCompany={true}
+                />
+              </Skeleton>
             )}
 
             <TouchableOpacity
               onPress={() => router.push({ pathname: "/secondary/categories" })}
               style={styles.textContainer2}
             >
-              <Skeleton
-                height={25}
-                width={25}
-                colorMode="dark"
-                transition={{
-                  type: "timing",
-                  duration: 2000,
-                }}
-              >
+              <Skeleton height={25} width={25} {...SKELETON}>
                 <Image
                   contentFit="contain"
                   contentPosition={"center"}
@@ -416,28 +354,13 @@ export default function MainScreen() {
                   style={{ marginBottom: 2, marginRight: 3 }}
                 />
               </Skeleton>
-              <Skeleton
-                height={35}
-                width={180}
-                colorMode="dark"
-                transition={{
-                  type: "timing",
-                  duration: 2000,
-                }}
-              >
+
+              <Skeleton height={35} width={180} {...SKELETON}>
                 <Text style={styles.text2}>Партнеры</Text>
               </Skeleton>
             </TouchableOpacity>
 
-            <Skeleton
-              height={320}
-              width={"100%"}
-              colorMode="dark"
-              transition={{
-                type: "timing",
-                duration: 2000,
-              }}
-            >
+            <Skeleton height={320} width={"100%"} {...SKELETON}>
               <SliderComponent
                 partners={true}
                 data={groupedData2}
@@ -447,15 +370,7 @@ export default function MainScreen() {
               />
             </Skeleton>
 
-            <Skeleton
-              height={115}
-              width={"100%"}
-              colorMode="dark"
-              transition={{
-                type: "timing",
-                duration: 2000,
-              }}
-            >
+            <Skeleton height={115} width={"100%"} {...SKELETON}>
               <TouchableOpacity
                 onPress={() => router.push({ pathname: "/secondary/referral" })}
                 style={styles.referral}
@@ -514,15 +429,7 @@ export default function MainScreen() {
               }
               style={styles.textContainer2}
             >
-              <Skeleton
-                height={24}
-                width={24}
-                colorMode="dark"
-                transition={{
-                  type: "timing",
-                  duration: 2000,
-                }}
-              >
+              <Skeleton height={24} width={24} {...SKELETON}>
                 <Image
                   contentFit="contain"
                   contentPosition={"center"}
@@ -534,15 +441,7 @@ export default function MainScreen() {
                 />
               </Skeleton>
 
-              <Skeleton
-                height={32}
-                width={"90%"}
-                colorMode="dark"
-                transition={{
-                  type: "timing",
-                  duration: 2000,
-                }}
-              >
+              <Skeleton height={32} width={"90%"} {...SKELETON}>
                 <Text style={styles.text2}>Купоны и промокоды</Text>
               </Skeleton>
             </TouchableOpacity>
@@ -550,15 +449,7 @@ export default function MainScreen() {
             {coupons.length === 0 ? (
               <Text style={styles.textCouponsEmpty}>Пока нет купонов</Text>
             ) : (
-              <Skeleton
-                height={250}
-                width={"100%"}
-                colorMode="dark"
-                transition={{
-                  type: "timing",
-                  duration: 2000,
-                }}
-              >
+              <Skeleton height={250} width={"100%"} {...SKELETON}>
                 <SliderComponent
                   coupon={true}
                   data={groupedData3}
@@ -623,9 +514,10 @@ const styles = StyleSheet.create({
   },
   textContainer: {},
   textContainer2: {
+    marginTop: 30,
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
+    marginBottom: 20,
   },
   text: {
     fontSize: 24,

@@ -1,3 +1,10 @@
+import { Dimensions } from "react-native";
+
+const { width } = Dimensions.get("window");
+const { height } = Dimensions.get("window");
+
+
+
 const COLORS = {
   primary: "#181629",
   iconBack: "#24224A",
@@ -14,4 +21,13 @@ const SIZES = {
   xxLarge: 32,
 };
 
-export { COLORS, SIZES };
+const SKELETON = {
+  // colorMode: "light",
+  transition: {
+    type: "timing",
+    duration: 1000,
+  },
+  colors: ["#152f55", "#320a77"],
+};
+
+export { COLORS, SIZES, SKELETON };
