@@ -274,7 +274,6 @@ export default function MainScreen() {
                 </Skeleton>
               </View>
             </View>
-
             <Skeleton height={112} width={300} {...SKELETON}>
               <StoryComponent
                 data={stories}
@@ -282,7 +281,6 @@ export default function MainScreen() {
                 stories={true}
               />
             </Skeleton>
-
             <TouchableOpacity
               onPress={() => router.push({ pathname: "/home/qrcode" })}
               style={styles.textContainer2}
@@ -303,31 +301,28 @@ export default function MainScreen() {
               </Skeleton>
             </TouchableOpacity>
 
-            {!myCompanies.length === 0 ? (
+            //не работает запрос компаний
+            
+            {myCompanies.length === 0 ? (
               <Link
                 href={"/secondary/categories"}
                 style={[styles.view, styles.viewLink, { height: itemHeight1 }]}
               >
                 <View style={styles.addCompany}>
-                  <Skeleton height={2} width={72} {...SKELETON}>
-                    <Image
-                      contentFit="contain"
-                      contentPosition={"center"}
-                      transition={1000}
-                      source={require("../../assets/plus-company.svg")}
-                      width={72}
-                      height={72}
-                      style={{ marginBottom: 2, marginRight: 3 }}
-                    />
-                  </Skeleton>
-
-                  <Skeleton height={10} width={10} {...SKELETON}>
-                    <Text style={styles.textAddCompany}>Добавить компанию</Text>
-                  </Skeleton>
+                  <Image
+                    contentFit="contain"
+                    contentPosition={"center"}
+                    transition={1000}
+                    source={require("../../assets/plus-company.svg")}
+                    width={72}
+                    height={72}
+                    style={{ marginBottom: 2, marginRight: 3 }}
+                  />
+                  <Text style={styles.textAddCompany}>Добавить компанию</Text>
                 </View>
               </Link>
             ) : (
-              <Skeleton height={380} width={"100%"} {...SKELETON}>
+              <Skeleton height={200} width={"100%"} {...SKELETON}>
                 <SliderComponent
                   myCompany={true}
                   data={groupedData1}
@@ -338,7 +333,6 @@ export default function MainScreen() {
                 />
               </Skeleton>
             )}
-
             <TouchableOpacity
               onPress={() => router.push({ pathname: "/secondary/categories" })}
               style={styles.textContainer2}
@@ -359,7 +353,6 @@ export default function MainScreen() {
                 <Text style={styles.text2}>Партнеры</Text>
               </Skeleton>
             </TouchableOpacity>
-
             <Skeleton height={320} width={"100%"} {...SKELETON}>
               <SliderComponent
                 partners={true}
@@ -369,7 +362,6 @@ export default function MainScreen() {
                 slideHeight={slideHeight2}
               />
             </Skeleton>
-
             <Skeleton height={115} width={"100%"} {...SKELETON}>
               <TouchableOpacity
                 onPress={() => router.push({ pathname: "/secondary/referral" })}
@@ -422,7 +414,6 @@ export default function MainScreen() {
                 </View>
               </TouchableOpacity>
             </Skeleton>
-
             <TouchableOpacity
               onPress={() =>
                 router.push({ pathname: "/secondary/couponsList" })
@@ -445,7 +436,6 @@ export default function MainScreen() {
                 <Text style={styles.text2}>Купоны и промокоды</Text>
               </Skeleton>
             </TouchableOpacity>
-
             {coupons.length === 0 ? (
               <Text style={styles.textCouponsEmpty}>Пока нет купонов</Text>
             ) : (
@@ -545,7 +535,6 @@ const styles = StyleSheet.create({
     alignContent: "center",
   },
   banner: {
-    // marginHorizontal: 15,
     borderRadius: 12,
     height: 150,
     marginBottom: 30,

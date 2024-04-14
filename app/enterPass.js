@@ -15,7 +15,7 @@ import { router } from "expo-router";
 import { ImageBackground, Image } from "expo-image";
 import { handleLogout } from "../components/utils/utils";
 import NewButtonComponent from "../components/NewButtonComponent";
-import { COLORS, SIZES } from "../constants/theme";
+import { COLORS, HEIGHT, SIZES } from "../constants/theme";
 
 export default function EnterPassScreen() {
   const [passCode, setPassCode] = useState(["", "", "", ""]);
@@ -81,6 +81,7 @@ export default function EnterPassScreen() {
       <ImageBackground
         source={require("../assets/background.png")}
         contentFit="cover"
+        style={styles.containerViewIMG}
       >
         <View style={styles.containerView}>
           <View style={styles.iconContainer}>
@@ -108,8 +109,8 @@ export default function EnterPassScreen() {
             <NewButtonComponent
               title={"Подтвердить"}
               filled={true}
-              height={48}
-              fontSize={18}
+              height={54}
+              fontSize={24}
               onPress={handleLogin}
             />
           </View>
@@ -126,6 +127,10 @@ export default function EnterPassScreen() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.primary,
+    flex: 1,
+  },
+  containerViewIMG: {
+    minHeight: HEIGHT.height,
     flex: 1,
   },
   containerView: {
@@ -149,10 +154,11 @@ const styles = StyleSheet.create({
   },
   smsButton: {
     paddingTop: 30,
-    marginBottom: 35,
+    marginBottom: 71,
   },
   button: {
-    marginBottom: 260,
+    width: 260,
+    marginBottom: 200,
   },
   textMenu: {
     flex: 1,

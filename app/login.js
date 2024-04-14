@@ -18,7 +18,7 @@ import InputComponent from "../components/InputComponent";
 import ButtonComponent from "../components/ButtonComponent";
 import NewButtonComponent from "../components/NewButtonComponent";
 import { handleLogout } from "../components/utils/utils";
-import { COLORS, SIZES } from "../constants/theme";
+import { COLORS, HEIGHT, SIZES } from "../constants/theme";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
@@ -133,93 +133,93 @@ export default function LoginScreen() {
       automaticallyAdjustKeyboardInsets={true}
       contentContainerStyle={styles.container}
     >
-        <ImageBackground
-          source={require("../assets/background.png")}
-          contentFit={"cover"}
-          style={styles.containerViewIMG}
-        >
-          <View style={styles.containerView}>
-            <View>
+      <ImageBackground
+        source={require("../assets/background.png")}
+        contentFit={"cover"}
+        style={styles.containerViewIMG}
+      >
+        <View style={styles.containerView}>
+          <View style={styles.logo}>
+            <Image
+              contentFit="contain"
+              contentPosition="center"
+              transition={1000}
+              source={require("../assets/logo.svg")}
+              width={210}
+              height={50}
+            />
+          </View>
+          <View style={styles.textContainer}>
+            <Text style={styles.text}>Войти с помощью</Text>
+          </View>
+
+          <View style={styles.iconSocialIn}>
+            <View style={styles.iconBack}>
               <Image
                 contentFit="contain"
-                contentPosition="center"
+                contentPosition={"center"}
                 transition={1000}
-                source={require("../assets/logo.svg")}
-                width={210}
-                height={50}
+                source={require("../assets/google.svg")}
+                style={styles.iconSocial}
               />
             </View>
-            <View style={styles.textContainer}>
-              <Text style={styles.text}>Войти с помощью</Text>
-            </View>
-
-            <View style={styles.iconSocialIn}>
-              <View style={styles.iconBack}>
-                <Image
-                  contentFit="contain"
-                  contentPosition={"center"}
-                  transition={1000}
-                  source={require("../assets/google.svg")}
-                  style={styles.iconSocial}
-                />
-              </View>
-              <View style={styles.iconBack}>
-                <Image
-                  contentFit="contain"
-                  contentPosition={"center"}
-                  transition={1000}
-                  source={require("../assets/apple.svg")}
-                  style={styles.iconSocial}
-                />
-              </View>
-              <View style={styles.iconBack}>
-                <Image
-                  contentFit="contain"
-                  contentPosition={"center"}
-                  transition={1000}
-                  source={require("../assets/vk.svg")}
-                  style={styles.iconSocial}
-                />
-              </View>
-            </View>
-
-            <View style={styles.textContainer}>
-              <Text style={styles.text}>или зарегистрироваться</Text>
-            </View>
-            <View style={styles.input}>
-              <InputComponent
-                placeholder="Введите номер"
-                keyboardType="numeric"
-                value={phoneNumber}
-                onChangeText={setPhoneNumber}
-                error={error}
-              />
-              <InputComponent
-                placeholder="Реферальный код"
-                value={referralCode}
-                onChangeText={setReferralCode}
+            <View style={styles.iconBack}>
+              <Image
+                contentFit="contain"
+                contentPosition={"center"}
+                transition={1000}
+                source={require("../assets/apple.svg")}
+                style={styles.iconSocial}
               />
             </View>
-            <View>
-              <CheckboxComponent
-                isChecked={isChecked}
-                onToggle={setIsChecked}
-                error={checkboxError}
-                title={"Я согласен с Политикой конфиденциальности"}
-              />
-            </View>
-            <View style={styles.button}>
-              <NewButtonComponent
-                title={"Войти"}
-                filled={true}
-                height={48}
-                fontSize={18}
-                onPress={handleLogin}
+            <View style={styles.iconBack}>
+              <Image
+                contentFit="contain"
+                contentPosition={"center"}
+                transition={1000}
+                source={require("../assets/vk.svg")}
+                style={styles.iconSocial}
               />
             </View>
           </View>
-          <StatusBar backgroundColor="transparent" barStyle="light-content" />
-        </ImageBackground>
+
+          <View style={styles.textContainer}>
+            <Text style={styles.text}>или зарегистрироваться</Text>
+          </View>
+          <View style={styles.input}>
+            <InputComponent
+              placeholder="Введите номер"
+              keyboardType="numeric"
+              value={phoneNumber}
+              onChangeText={setPhoneNumber}
+              error={error}
+            />
+            <InputComponent
+              placeholder="Реферальный код"
+              value={referralCode}
+              onChangeText={setReferralCode}
+            />
+          </View>
+          <View style={styles.checkbox}>
+            <CheckboxComponent
+              isChecked={isChecked}
+              onToggle={setIsChecked}
+              error={checkboxError}
+              title={"Я согласен с Политикой конфиденциальности"}
+            />
+          </View>
+          <View style={styles.button}>
+            <NewButtonComponent
+              title={"Войти"}
+              filled={true}
+              height={54}
+              fontSize={24}
+              onPress={handleLogin}
+            />
+          </View>
+        </View>
+        <StatusBar backgroundColor="transparent" barStyle="light-content" />
+      </ImageBackground>
     </ScrollView>
   );
 }
@@ -227,42 +227,52 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.primary,
+  },
+  containerViewIMG: {
+    minHeight: HEIGHT.height,
     flex: 1,
   },
-  containerViewIMG: {},
   containerView: {
     alignItems: "center",
-    paddingVertical: 80,
   },
   logo: {
-    width: 190,
-    height: 50,
+    marginTop: 55,
+    marginBottom: 55,
   },
   iconSocialIn: {
-    paddingHorizontal: 50,
+    marginBottom: 40,
     flexDirection: "row",
   },
   iconBack: {
     marginHorizontal: 10,
-    borderRadius: 20,
+    borderRadius: 12,
     backgroundColor: COLORS.iconBack,
     height: 80,
     width: 80,
+    justifyContent: "center",
+    alignItems: "center",
   },
   iconSocial: {
     height: 40,
     width: 40,
-    margin: 20,
   },
   textContainer: {
-    paddingVertical: 40,
+    marginBottom: 40,
+    alignItems: "center",
   },
   text: {
     fontSize: SIZES.medium,
     color: COLORS.text,
   },
+  input: {
+    gap: 25,
+  },
+  checkbox: {
+    marginLeft: 35,
+    marginBottom: 70,
+  },
   button: {
+    marginBottom: 71,
     width: 260,
-    paddingVertical: 40,
   },
 });

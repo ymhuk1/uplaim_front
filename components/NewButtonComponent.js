@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     containerButton: {
     },
     button: {
-        borderRadius: 8,
+        borderRadius: 16,
         alignItems: 'center',
         justifyContent: 'center',
         marginBottom: 10,

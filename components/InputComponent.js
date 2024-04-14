@@ -37,12 +37,10 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         backgroundColor: 'rgba(18, 17, 35, 1)',
         color: 'white',
-        marginBottom: 25,
     },
     errorText: {
         fontSize: 12,
         color: 'red',
-        marginTop: -26,
         marginLeft: 5,
         paddingVertical: 5,
     },

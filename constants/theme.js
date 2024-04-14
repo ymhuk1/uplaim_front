@@ -3,7 +3,13 @@ import { Dimensions } from "react-native";
 const { width } = Dimensions.get("window");
 const { height } = Dimensions.get("window");
 
+const HEIGHT ={
+  height: height,
+}
 
+const WIDTH = {
+  width: width,
+}
 
 const COLORS = {
   primary: "#181629",
@@ -25,9 +31,9 @@ const SKELETON = {
   // colorMode: "light",
   transition: {
     type: "timing",
-    duration: 1000,
+    duration: 2000,
   },
-  colors: ["#152f55", "#320a77"],
+  colors: ["#1E192F", "#332a4f"],
 };
 
-export { COLORS, SIZES, SKELETON };
+export { COLORS, SIZES, SKELETON, HEIGHT, WIDTH };

@@ -15,7 +15,7 @@ import SmsComponent from "../components/SmsComponent";
 import * as SecureStore from "expo-secure-store";
 import { router } from "expo-router";
 import NewButtonComponent from "../components/NewButtonComponent";
-import { COLORS, SIZES } from "../constants/theme";
+import { COLORS, HEIGHT, SIZES } from "../constants/theme";
 
 export default function SmsScreen() {
   const inputRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
@@ -165,6 +165,7 @@ export default function SmsScreen() {
       <ImageBackground
         source={require("../assets/background.png")}
         scontentFit={"cover"}
+        style={styles.containerViewIMG}
       >
         <View style={styles.containerView}>
           <View style={styles.iconContainer}>
@@ -211,8 +212,8 @@ export default function SmsScreen() {
             <NewButtonComponent
               title={"Подтвердить"}
               filled={true}
-              height={48}
-              fontSize={18}
+              height={54}
+              fontSize={24}
               onPress={handleVerifyCode}
             />
           </View>
@@ -226,6 +227,10 @@ export default function SmsScreen() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.primary,
+    flex: 1,
+  },
+  containerViewIMG: {
+    minHeight: HEIGHT.height,
     flex: 1,
   },
   containerView: {
@@ -269,7 +274,9 @@ const styles = StyleSheet.create({
   smsButton: {
     paddingVertical: 60,
   },
-  button: {},
+  button: {
+    width: 260,
+  },
   smsRepeat: {
     width: 280,
     fontSize: SIZES.medium,

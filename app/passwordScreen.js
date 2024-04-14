@@ -16,7 +16,7 @@ import { router } from "expo-router";
 import { ImageBackground, Image } from "expo-image";
 import { handleLogout } from "../components/utils/utils";
 import NewButtonComponent from "../components/NewButtonComponent";
-import { COLORS, SIZES } from "../constants/theme";
+import { COLORS, HEIGHT, SIZES } from "../constants/theme";
 export default function PasswordScreen() {
   const [passCode, setPassCode] = useState(["", "", "", ""]);
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -107,6 +107,7 @@ export default function PasswordScreen() {
       <ImageBackground
         source={require("../assets/background.png")}
         contentFit="cover"
+        style={styles.containerViewIMG}
       >
         <View style={styles.containerView}>
           <View style={styles.iconContainer}>
@@ -134,8 +135,8 @@ export default function PasswordScreen() {
             <NewButtonComponent
               title={"Подтвердить"}
               filled={true}
-              height={48}
-              fontSize={18}
+              height={54}
+              fontSize={24}
               onPress={handleCreatePassword}
             />
           </View>
@@ -152,6 +153,10 @@ export default function PasswordScreen() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.primary,
+    flex: 1,
+  },
+  containerViewIMG: {
+    minHeight: HEIGHT.height,
     flex: 1,
   },
   containerView: {
@@ -175,9 +180,10 @@ const styles = StyleSheet.create({
   },
   smsButton: {
     paddingTop: 30,
-    marginBottom: 35,
+    marginBottom: 70,
   },
   button: {
+    width: 260,
     marginBottom: 260,
   },
   textMenu: {
