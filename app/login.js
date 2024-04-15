@@ -227,6 +227,7 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.primary,
+    flex: 1,
   },
   containerViewIMG: {
     minHeight: HEIGHT.height,
