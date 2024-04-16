@@ -107,7 +107,7 @@ export default function MainScreen() {
 
         // Story
         const storiesResponse = await fetch(
-          "https://admin.saveup.pro/api/stories",
+          "https://admin.uplaim.com/api/stories",
           { headers }
         );
         if (storiesResponse.ok) {
@@ -119,7 +119,7 @@ export default function MainScreen() {
 
         // Client
         const clientResponse = await fetch(
-          "https://admin.saveup.pro/api/client",
+          "https://admin.uplaim.com/api/client",
           { headers }
         );
         if (clientResponse.ok) {
@@ -141,7 +141,7 @@ export default function MainScreen() {
 
         // My companies
         const myCompaniesResponse = await fetch(
-          "https://admin.saveup.pro/api/my_companies",
+          "https://admin.uplaim.com/api/my_companies",
           { headers }
         );
         if (myCompaniesResponse.ok) {
@@ -153,7 +153,7 @@ export default function MainScreen() {
 
         // Partners / Categories
         const categoriesResponse = await fetch(
-          "https://admin.saveup.pro/api/categories",
+          "https://admin.uplaim.com/api/categories",
           { headers }
         );
         if (categoriesResponse.ok) {
@@ -165,7 +165,7 @@ export default function MainScreen() {
 
         // Coupons
         const couponsResponse = await fetch(
-          "https://admin.saveup.pro/api/coupon",
+          "https://admin.uplaim.com/api/coupon",
           { headers }
         );
         if (couponsResponse.ok) {
@@ -285,7 +285,7 @@ export default function MainScreen() {
               onPress={() => router.push({ pathname: "/home/qrcode" })}
               style={styles.textContainer2}
             >
-              <Skeleton height={26} width={22} {...SKELETON}>
+              <Skeleton height={27} width={22} {...SKELETON}>
                 <Image
                   contentFit="contain"
                   contentPosition={"center"}
@@ -296,33 +296,37 @@ export default function MainScreen() {
                   style={{ marginBottom: 2, marginRight: 3 }}
                 />
               </Skeleton>
-              <Skeleton height={26} width={220} {...SKELETON}>
+              <Skeleton height={27} width={220} {...SKELETON}>
                 <Text style={styles.text2}>Мои компании</Text>
               </Skeleton>
             </TouchableOpacity>
 
-            //не работает запрос компаний
-            
-            {myCompanies.length === 0 ? (
-              <Link
-                href={"/secondary/categories"}
-                style={[styles.view, styles.viewLink, { height: itemHeight1 }]}
-              >
-                <View style={styles.addCompany}>
-                  <Image
-                    contentFit="contain"
-                    contentPosition={"center"}
-                    transition={1000}
-                    source={require("../../assets/plus-company.svg")}
-                    width={72}
-                    height={72}
-                    style={{ marginBottom: 2, marginRight: 3 }}
-                  />
-                  <Text style={styles.textAddCompany}>Добавить компанию</Text>
-                </View>
-              </Link>
+            {myCompanies.length === 0 ? ( // компании не загружаются
+              <Skeleton height={180} width={"100%"} {...SKELETON}>
+                <Link
+                  href={"/secondary/categories"}
+                  style={[
+                    styles.view,
+                    styles.viewLink,
+                    { height: itemHeight1 },
+                  ]}
+                >
+                  <View style={styles.addCompany}>
+                    <Image
+                      contentFit="contain"
+                      contentPosition={"center"}
+                      transition={1000}
+                      source={require("../../assets/plus-company.svg")}
+                      width={72}
+                      height={72}
+                      style={{ marginBottom: 2, marginRight: 3 }}
+                    />
+                    <Text style={styles.textAddCompany}>Добавить компанию</Text>
+                  </View>
+                </Link>
+              </Skeleton>
             ) : (
-              <Skeleton height={200} width={"100%"} {...SKELETON}>
+              <Skeleton height={375} width={"100%"} {...SKELETON}>
                 <SliderComponent
                   myCompany={true}
                   data={groupedData1}

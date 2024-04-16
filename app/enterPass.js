@@ -15,7 +15,7 @@ import { router } from "expo-router";
 import { ImageBackground, Image } from "expo-image";
 import { handleLogout } from "../components/utils/utils";
 import NewButtonComponent from "../components/NewButtonComponent";
-import { COLORS, HEIGHT, SIZES } from "../constants/theme";
+import { styles, containerStyles, buttonStyles } from "../styles/enterPassStyles";
 
 export default function EnterPassScreen() {
   const [passCode, setPassCode] = useState(["", "", "", ""]);
@@ -74,9 +74,10 @@ export default function EnterPassScreen() {
 
   return (
     <ScrollView
-      style={styles.container}
+      style={containerStyles}
       showsVerticalScrollIndicator={false}
       automaticallyAdjustKeyboardInsets={true}
+      contentContainerStyle={containerStyles}
     >
       <ImageBackground
         source={require("../assets/background.png")}
@@ -105,7 +106,7 @@ export default function EnterPassScreen() {
             />
           </View>
 
-          <View style={styles.button}>
+          <View style={buttonStyles}>
             <NewButtonComponent
               title={"Подтвердить"}
               filled={true}
@@ -123,48 +124,3 @@ export default function EnterPassScreen() {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: COLORS.primary,
-    flex: 1,
-  },
-  containerViewIMG: {
-    minHeight: HEIGHT.height,
-    flex: 1,
-  },
-  containerView: {
-    alignItems: "center",
-    paddingTop: 80,
-    paddingBottom: 40,
-  },
-  iconContainer: {},
-  icon: {
-    maxWidth: 185,
-    height: 40,
-  },
-  textContainer: {},
-  text: {
-    paddingTop: 100,
-    textAlign: "center",
-    maxWidth: 185,
-    fontSize: SIZES.xLarge,
-    fontWeight: "bold",
-    color: COLORS.text,
-  },
-  smsButton: {
-    paddingTop: 30,
-    marginBottom: 71,
-  },
-  button: {
-    width: 260,
-    marginBottom: 200,
-  },
-  textMenu: {
-    flex: 1,
-    fontSize: SIZES.medium,
-    color: COLORS.text,
-    marginLeft: 8,
-    textAlign: "center",
-  },
-});

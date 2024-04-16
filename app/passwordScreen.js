@@ -16,7 +16,8 @@ import { router } from "expo-router";
 import { ImageBackground, Image } from "expo-image";
 import { handleLogout } from "../components/utils/utils";
 import NewButtonComponent from "../components/NewButtonComponent";
-import { COLORS, HEIGHT, SIZES } from "../constants/theme";
+import { styles } from "../styles/passwordScreenStyles";
+
 export default function PasswordScreen() {
   const [passCode, setPassCode] = useState(["", "", "", ""]);
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -149,48 +150,3 @@ export default function PasswordScreen() {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: COLORS.primary,
-    flex: 1,
-  },
-  containerViewIMG: {
-    minHeight: HEIGHT.height,
-    flex: 1,
-  },
-  containerView: {
-    alignItems: "center",
-    paddingTop: 80,
-    paddingBottom: 60,
-  },
-  iconContainer: {},
-  icon: {
-    maxWidth: 185,
-    height: 40,
-  },
-  textContainer: {},
-  text: {
-    paddingTop: 100,
-    textAlign: "center",
-    maxWidth: 185,
-    fontSize: SIZES.xLarge,
-    fontWeight: "bold",
-    color: COLORS.text,
-  },
-  smsButton: {
-    paddingTop: 30,
-    marginBottom: 70,
-  },
-  button: {
-    width: 260,
-    marginBottom: 260,
-  },
-  textMenu: {
-    display: "none",
-    fontSize: SIZES.medium,
-    color: COLORS.text,
-    marginLeft: 8,
-    textAlign: "center",
-  },
-});

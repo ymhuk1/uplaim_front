@@ -18,7 +18,17 @@ import InputComponent from "../components/InputComponent";
 import ButtonComponent from "../components/ButtonComponent";
 import NewButtonComponent from "../components/NewButtonComponent";
 import { handleLogout } from "../components/utils/utils";
-import { COLORS, HEIGHT, SIZES } from "../constants/theme";
+import {
+  styles,
+  containerStyles,
+  inputStyles,
+  buttonStyles,
+  textContainerStyles,
+  logoStyles,
+  iconStyles,
+  checkboxStyles,
+  containerViewIMGStyles,
+} from "../styles/loginStyles";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
@@ -128,18 +138,18 @@ export default function LoginScreen() {
 
   return (
     <ScrollView
-      style={styles.container}
+      style={containerStyles}
       showsVerticalScrollIndicator={false}
       automaticallyAdjustKeyboardInsets={true}
-      contentContainerStyle={styles.container}
+      contentContainerStyle={containerStyles}
     >
       <ImageBackground
         source={require("../assets/background.png")}
         contentFit={"cover"}
-        style={styles.containerViewIMG}
+        style={containerViewIMGStyles}
       >
         <View style={styles.containerView}>
-          <View style={styles.logo}>
+          <View style={logoStyles}>
             <Image
               contentFit="contain"
               contentPosition="center"
@@ -149,11 +159,11 @@ export default function LoginScreen() {
               height={50}
             />
           </View>
-          <View style={styles.textContainer}>
+          <View style={textContainerStyles}>
             <Text style={styles.text}>Войти с помощью</Text>
           </View>
 
-          <View style={styles.iconSocialIn}>
+          <View style={iconStyles}>
             <View style={styles.iconBack}>
               <Image
                 contentFit="contain"
@@ -183,10 +193,10 @@ export default function LoginScreen() {
             </View>
           </View>
 
-          <View style={styles.textContainer}>
+          <View style={textContainerStyles}>
             <Text style={styles.text}>или зарегистрироваться</Text>
           </View>
-          <View style={styles.input}>
+          <View style={inputStyles}>
             <InputComponent
               placeholder="Введите номер"
               keyboardType="numeric"
@@ -200,7 +210,7 @@ export default function LoginScreen() {
               onChangeText={setReferralCode}
             />
           </View>
-          <View style={styles.checkbox}>
+          <View style={checkboxStyles}>
             <CheckboxComponent
               isChecked={isChecked}
               onToggle={setIsChecked}
@@ -208,7 +218,7 @@ export default function LoginScreen() {
               title={"Я согласен с Политикой конфиденциальности"}
             />
           </View>
-          <View style={styles.button}>
+          <View style={buttonStyles}>
             <NewButtonComponent
               title={"Войти"}
               filled={true}
@@ -223,57 +233,3 @@ export default function LoginScreen() {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: COLORS.primary,
-    flex: 1,
-  },
-  containerViewIMG: {
-    minHeight: HEIGHT.height,
-    flex: 1,
-  },
-  containerView: {
-    alignItems: "center",
-  },
-  logo: {
-    marginTop: 55,
-    marginBottom: 55,
-  },
-  iconSocialIn: {
-    marginBottom: 40,
-    flexDirection: "row",
-  },
-  iconBack: {
-    marginHorizontal: 10,
-    borderRadius: 12,
-    backgroundColor: COLORS.iconBack,
-    height: 80,
-    width: 80,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  iconSocial: {
-    height: 40,
-    width: 40,
-  },
-  textContainer: {
-    marginBottom: 40,
-    alignItems: "center",
-  },
-  text: {
-    fontSize: SIZES.medium,
-    color: COLORS.text,
-  },
-  input: {
-    gap: 25,
-  },
-  checkbox: {
-    marginLeft: 35,
-    marginBottom: 70,
-  },
-  button: {
-    marginBottom: 71,
-    width: 260,
-  },
-});

@@ -15,7 +15,12 @@ import SmsComponent from "../components/SmsComponent";
 import * as SecureStore from "expo-secure-store";
 import { router } from "expo-router";
 import NewButtonComponent from "../components/NewButtonComponent";
-import { COLORS, HEIGHT, SIZES } from "../constants/theme";
+import {
+  styles,
+  containerStyles,
+  textContainerStyles,
+  smsButtonstyles,
+} from "../styles/smsScreenStyles";
 
 export default function SmsScreen() {
   const inputRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
@@ -157,10 +162,10 @@ export default function SmsScreen() {
 
   return (
     <ScrollView
-      style={styles.container}
+      style={containerStyles}
       showsVerticalScrollIndicator={false}
       automaticallyAdjustKeyboardInsets={true}
-      contentContainerStyle={styles.container}
+      contentContainerStyle={containerStyles}
     >
       <ImageBackground
         source={require("../assets/background.png")}
@@ -178,7 +183,7 @@ export default function SmsScreen() {
               height={40}
             />
           </View>
-          <View style={styles.textContainer}>
+          <View style={textContainerStyles}>
             <Text style={styles.text}>Код из СМС</Text>
           </View>
           <View style={styles.textContainer2}>
@@ -186,7 +191,7 @@ export default function SmsScreen() {
               Мы выслали СМС-код на номер +{phoneNumber}
             </Text>
           </View>
-          <View style={styles.smsButton}>
+          <View style={smsButtonstyles}>
             <SmsComponent
               keyboardType="numeric"
               onSmsCodeChange={handleSmsCodeChange}
@@ -223,66 +228,3 @@ export default function SmsScreen() {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: COLORS.primary,
-    flex: 1,
-  },
-  containerViewIMG: {
-    minHeight: HEIGHT.height,
-    flex: 1,
-  },
-  containerView: {
-    alignItems: "center",
-    paddingTop: 80,
-    paddingBottom: 60,
-  },
-  iconContainer: {},
-  icon: {
-    maxWidth: 185,
-    height: 40,
-  },
-  textContainer: {
-    paddingTop: 80,
-    paddingBottom: 30,
-  },
-  textContainer2: {},
-  textContainer3: {},
-  textContainer4: {},
-  text: {
-    fontSize: SIZES.xLarge,
-    fontWeight: "bold",
-    color: "white",
-  },
-  text2: {
-    width: 250,
-    fontSize: SIZES.medium,
-    color: COLORS.text,
-    textAlign: "center",
-  },
-  text3: {
-    width: 280,
-    fontSize: SIZES.medium,
-    color: "white",
-    textAlign: "center",
-  },
-  text4: {
-    fontSize: SIZES.medium,
-    color: COLORS.text,
-  },
-  smsButton: {
-    paddingVertical: 60,
-  },
-  button: {
-    width: 260,
-  },
-  smsRepeat: {
-    width: 280,
-    fontSize: SIZES.medium,
-    color: "#3D4ABA",
-    textAlign: "center",
-    textDecorationLine: "underline",
-    paddingVertical: 60,
-  },
-});
