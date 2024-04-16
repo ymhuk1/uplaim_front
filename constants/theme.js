@@ -32,7 +32,7 @@ const SKELETON = {
     type: "timing",
     duration: 2000,
   },
-  colors: ["#1E192F", "#332a4f"],
+  colors: ["#1E192F", "#201b44"],
 };
 
 export { COLORS, SIZES, SKELETON, HEIGHT, WIDTH };
