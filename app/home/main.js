@@ -301,7 +301,7 @@ export default function MainScreen() {
               </Skeleton>
             </TouchableOpacity>
 
-            {myCompanies.length === 0 ? ( // компании не загружаются
+            {myCompanies.length === 0 ? (
               <Skeleton height={180} width={"100%"} {...SKELETON}>
                 <Link
                   href={"/secondary/categories"}
