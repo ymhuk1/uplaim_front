@@ -6,6 +6,7 @@ import {textPrimaryColor} from "../../components/ColorsComponent";
 import NewButtonComponent from "../../components/NewButtonComponent";
 import QRCodeComponent from "../../components/QRCodeComponent";
 import {useRouter} from "expo-router";
+import { FONTS, HEIGHT } from "../../constants/theme";
 
 
 export default function RecommendPage() {
@@ -28,7 +29,9 @@ export default function RecommendPage() {
             style={styles.container} showsVerticalScrollIndicator={false}>
             <ImageBackground
                 source={require('../../assets/background.png')}
-                contentFit={"cover"}>
+                contentFit={"cover"}
+                style={styles.containerImg}
+                >
                 <View style={styles.containerView}>
                     <HeaderComponent text={textValue} secondary={true}/>
                     <View style={styles.logoContainer}>
@@ -40,7 +43,7 @@ export default function RecommendPage() {
                         width={250}
                         height={50}/>
                         <Text style={styles.textContainer}>Рекомендуйте партнеров SaveUp</Text>
-                        <NewButtonComponent title={'Выбрать партнера'} filled={true} height={48} fontSize={18} onPress={() => router.push({ pathname: "/secondary/findCompany"})}/>
+                        <NewButtonComponent title={'Выбрать партнера'} filled={true} height={48} width={300} fontSize={18} onPress={() => router.push({ pathname: "/secondary/findCompany"})}/>
                     </View>
                     <View style={styles.thirdContainer}>
                         <View style={styles.leftThirdContainer}>
@@ -87,10 +90,12 @@ export default function RecommendPage() {
 const styles = StyleSheet.create({
     container: {
     },
+    containerImg: {
+     minHeight: HEIGHT.height,   
+    },
     containerView: {
         marginHorizontal: 15,
         marginBottom: 80,
-        height: 770,
     },
     logoContainer: {
         marginTop: 150,
@@ -98,12 +103,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     textContainer: {
+        fontFamily: FONTS.medium,
         marginVertical: 60,
         color: textPrimaryColor,
-        fontWeight: "bold",
         fontSize: 24,
         textAlign: "center",
-        width: 300,
+        // width: 300,
     },
     thirdContainer: {
         marginVertical: 15,
@@ -128,11 +133,13 @@ const styles = StyleSheet.create({
         margin: 10,
     },
     textTwo: {
+        fontFamily: FONTS.medium,
         fontSize: 14,
         color: "white",
         marginLeft: 6,
     },
     textThird: {
+        fontFamily: FONTS.regular,
         fontSize: 14,
         color: "white",
         marginLeft: 6,
@@ -145,6 +152,7 @@ const styles = StyleSheet.create({
         padding: 12,
     },
     textLinkLeftThirdContainer: {
+        fontFamily: FONTS.regular,
         fontSize: 14,
         color: "white",
     },

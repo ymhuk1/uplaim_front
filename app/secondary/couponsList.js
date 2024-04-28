@@ -4,6 +4,7 @@ import {Image, ImageBackground} from "expo-image";
 import {textPrimaryColor} from "../../components/ColorsComponent";
 import Constants from 'expo-constants';
 import HeaderComponent from "../../components/HeaderComponent";
+import { FONTS, HEIGHT } from "../../constants/theme";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
@@ -90,7 +91,9 @@ export default function CouponsList() {
             style={styles.container} showsVerticalScrollIndicator={false}>
             <ImageBackground
                 source={require('../../assets/background.png')}
-                contentFit={"cover"}>
+                contentFit={"cover"}
+                style={styles.containerImg}
+                >
                 <View style={styles.containerView}>
                     <HeaderComponent text={textValue} secondary={true}/>
                     <View style={styles.storyContainer}>
@@ -167,122 +170,128 @@ export default function CouponsList() {
 }
 
 const styles = StyleSheet.create({
-    container: {},
-    containerView: {
-        marginHorizontal: 15,
-        marginBottom: 80,
-        minHeight: 760,
-    },
-    textContainer2: {
-        flexDirection: "row",
-        alignItems: "center",
-        marginBottom: 10,
-    },
-    text2: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: textPrimaryColor,
-        marginLeft: 7,
-    },
+  container: {},
+  containerImg: {
+    minHeight: HEIGHT.height,
+  },
+  containerView: {
+    marginHorizontal: 15,
+    marginBottom: 80,
+    minHeight: 760,
+  },
+  textContainer2: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  text2: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: textPrimaryColor,
+    marginLeft: 7,
+  },
 
-    storiesContainer: {
-        overflow: 'hidden',
-        flexDirection: 'row',
-        marginBottom: 30,
-        marginRight: -15,
-        marginTop: 20
-    },
-    story: {
-        width: 120,
-        height: 112,
-        borderRadius: 12,
-        backgroundColor: '#24224A',
-        marginRight: 10,
-    },
-    iconStories: {
-        width: 46,
-        height: 46,
-        marginHorizontal: 12,
-        marginVertical: 10,
-    },
-    textContainer: {
-        marginHorizontal: 12,
-        width: 80,
-        flex: 1,
-        justifyContent: 'flex-end',
-        marginBottom: 10,
-    },
-    textStories: {
-        fontSize: 14,
-        color: 'white',
-        fontWeight: 'bold',
-    },
-    couponsContainer: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'space-between',
-    },
-    view: {
-        width: '48%',
-        borderRadius: 12,
-        backgroundColor: '#24224A',
-        marginBottom: 15,
-        height: 240,
-    },
-    itemActivity: {
-        alignItems: "flex-start",
-    },
-    backActivity: {
-        margin: 10,
-        borderRadius: 8,
-        flexDirection: "row",
-        alignItems: "center",
-    },
-    activity: {
-        fontSize: 12,
-        lineHeight: 14,
-        padding: 5,
-        paddingHorizontal: 10,
-    },
-    logoContainer:{
-        marginTop: 5,
-        marginBottom: 15,
-        alignItems: "center"
-    },
-    textNameContainer: {
-        height: 80,
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginHorizontal: 10,
-    },
-    nameCompany: {
-        color: textPrimaryColor,
-        fontSize: 16,
-        fontWeight: "bold",
-    },
-    selectedCategory: {
-        borderWidth: 4,
-        borderColor: '#9B51E0'
-    },
-    couponContainer: {
-        alignItems: "center",
-    },
-    nameCoupon: {
-        color: "white",
-        fontSize: 16,
-        fontWeight: "bold",
-    },
-    deskCoupon: {
-        marginVertical: 7,
-        color: "white",
-        fontSize: 14,
-        fontWeight: "300",
-        width: 120,
-        textAlign: "center",
-    },
-    dateCoupon: {
-        fontSize: 12,
-        fontWeight: "300",
-        color: "#9A95B2",
-    },
-})
+  storiesContainer: {
+    overflow: "hidden",
+    flexDirection: "row",
+    marginBottom: 30,
+    marginRight: -15,
+    marginTop: 20,
+  },
+  story: {
+    width: 120,
+    height: 112,
+    borderRadius: 12,
+    backgroundColor: "#24224A",
+    marginRight: 10,
+  },
+  iconStories: {
+    width: 46,
+    height: 46,
+    marginHorizontal: 12,
+    marginVertical: 10,
+  },
+  textContainer: {
+    marginHorizontal: 12,
+    width: 80,
+    flex: 1,
+    justifyContent: "flex-end",
+    marginBottom: 10,
+  },
+  textStories: {
+    fontSize: 14,
+    color: "white",
+    fontWeight: "bold",
+  },
+  couponsContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+  },
+  view: {
+    width: "48%",
+    borderRadius: 12,
+    backgroundColor: "#24224A",
+    marginBottom: 15,
+    height: 240,
+  },
+  itemActivity: {
+    alignItems: "flex-start",
+  },
+  backActivity: {
+    margin: 10,
+    borderRadius: 8,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  activity: {
+    fontSize: 12,
+    lineHeight: 14,
+    padding: 5,
+    paddingHorizontal: 10,
+  },
+  logoContainer: {
+    marginTop: 5,
+    marginBottom: 15,
+    alignItems: "center",
+  },
+  textNameContainer: {
+    height: 80,
+    alignItems: "center",
+    justifyContent: "center",
+    marginHorizontal: 10,
+  },
+  nameCompany: {
+    color: textPrimaryColor,
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  selectedCategory: {
+    borderWidth: 4,
+    borderColor: "#9B51E0",
+  },
+  couponContainer: {
+    alignItems: "center",
+  },
+  nameCoupon: {
+    fontFamily: FONTS.medium,
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  deskCoupon: {
+    fontFamily: FONTS.light,
+    marginVertical: 7,
+    color: "white",
+    fontSize: 14,
+    fontWeight: "300",
+    width: 120,
+    textAlign: "center",
+  },
+  dateCoupon: {
+    fontFamily: FONTS.light,
+    fontSize: 12,
+    fontWeight: "300",
+    color: "#9A95B2",
+  },
+});

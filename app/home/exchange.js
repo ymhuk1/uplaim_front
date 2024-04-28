@@ -9,6 +9,7 @@ import NewButtonComponent from "../../components/NewButtonComponent";
 import {router, useLocalSearchParams} from "expo-router";
 import InfoModalComponent from "../../components/InfoModalComponent";
 import NewTagComponent from "../../components/NewTagComponent";
+import { FONTS, SIZES } from "../../constants/theme";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
@@ -266,8 +267,8 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     text2: {
-        fontSize: 24,
-        fontWeight: 'bold',
+        fontFamily: FONTS.medium,
+        fontSize: SIZES.xLarge,
         color: textPrimaryColor,
     },
 

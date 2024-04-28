@@ -6,6 +6,7 @@ import SearchComponent from "../../components/SearchComponent";
 import Constants from 'expo-constants';
 import {Link, useLocalSearchParams} from "expo-router";
 import {LinearGradient} from "expo-linear-gradient";
+import { HEIGHT } from "../../constants/theme";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
@@ -91,7 +92,9 @@ export default function CompanyList() {
             style={styles.container} showsVerticalScrollIndicator={false}>
             <ImageBackground
                 source={require('../../assets/background.png')}
-                contentFit={"cover"}>
+                contentFit={"cover"}
+                style={styles.containerImg}
+                >
                 <View style={styles.containerView}>
                     <View style={styles.textContainer2}>
                         <Text style={styles.text2}>Партнеры</Text>
@@ -198,6 +201,9 @@ export default function CompanyList() {
 
 const styles = StyleSheet.create({
     container: {},
+    containerImg: {
+     minHeight: HEIGHT.height,   
+    },
     containerView: {
         marginHorizontal: 15,
         marginBottom: 80,

@@ -4,6 +4,7 @@ import {Image} from "expo-image";
 import {elemBackgroundColor, textColor3, textPrimaryColor} from "./ColorsComponent";
 import Constants from 'expo-constants';
 import {Link, useRouter} from "expo-router";
+import { FONTS, SIZES } from '../constants/theme';
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
@@ -171,6 +172,7 @@ const SearchComponent = ({main, modal, company}) => {
 
 const styles = StyleSheet.create({
     inputContainer: {
+        paddingLeft: 4,
     },
     customInput: {
         padding: 10,
@@ -188,6 +190,7 @@ const styles = StyleSheet.create({
         right: 10,
     },
     customInputText: {
+        fontFamily: FONTS.regular,
         color: textPrimaryColor,
     },
     centeredView: {
@@ -222,9 +225,9 @@ const styles = StyleSheet.create({
         marginBottom: 15,
     },
     storyTitle: {
+        fontFamily: FONTS.medium,
         color: textPrimaryColor,
-        fontSize: 18,
-        fontWeight: "bold",
+        fontSize: SIZES.medium,
         padding: 15,
     },
     storyContainer: {
@@ -233,7 +236,8 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     storyName: {
-        fontSize: 16,
+        fontFamily: FONTS.regular,
+        fontSize: 14,
         color: textPrimaryColor,
         paddingLeft: 10,
     },
@@ -244,11 +248,10 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     companyName: {
+        fontFamily: FONTS.regular,
         marginLeft: 10,
         color: textPrimaryColor,
         fontSize: 18,
-        fontWeight: "bold",
-
     },
 })
 

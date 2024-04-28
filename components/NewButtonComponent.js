@@ -3,6 +3,7 @@ import { View, TouchableOpacity, Text, ActivityIndicator, StyleSheet } from 'rea
 import { LinearGradient } from 'expo-linear-gradient';
 import {textColor4, textDisabledColor, textPrimaryColor} from "./ColorsComponent";
 import head from "expo-router/head";
+import { FONTS } from '../constants/theme';
 
 const GradientButton = ({ title, onPress, width, height, fontSize, disabled }) => {
     return (
@@ -51,42 +52,43 @@ const NewButtonComponent = ({ title, onPress, loading, width, filled, empty, hei
 };
 
 const styles = StyleSheet.create({
-    containerButton: {
-    },
-    button: {
-        borderRadius: 16,
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginBottom: 10,
-    },
-    buttonEmpty: {
-        borderRadius: 8,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderWidth: 1,
-        borderColor: textColor4,
-        alignSelf: 'stretch',
-    },
-    buttonText: {
-        color: 'white',
-        paddingHorizontal: 10,
-        marginBottom: 3,
-        textAlign: "center",
-    },
-    buttonEmptyDisabled: {
-        borderRadius: 8,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderWidth: 1,
-        borderColor: textDisabledColor,
-        alignSelf: 'stretch',
-    },
-    buttonTextDisabled: {
-        color: textDisabledColor,
-        paddingHorizontal: 10,
-        marginBottom: 3,
-        textAlign: "center",
-    }
+  containerButton: {
+  },
+  button: {
+    borderRadius: 16,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 10,
+  },
+  buttonEmpty: {
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: textColor4,
+    alignSelf: "stretch",
+  },
+  buttonText: {
+    fontFamily: FONTS.medium,
+    color: "white",
+    paddingHorizontal: 10,
+    marginBottom: 3,
+    textAlign: "center",
+  },
+  buttonEmptyDisabled: {
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: textDisabledColor,
+    alignSelf: "stretch",
+  },
+  buttonTextDisabled: {
+    color: textDisabledColor,
+    paddingHorizontal: 10,
+    marginBottom: 3,
+    textAlign: "center",
+  },
 });
 
 export default NewButtonComponent;

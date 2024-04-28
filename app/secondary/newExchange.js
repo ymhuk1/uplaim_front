@@ -10,6 +10,7 @@ import NewTagComponent from "../../components/NewTagComponent";
 import {getBallsText} from "../../components/utils/utils";
 import {textColor3, textPrimaryColor} from "../../components/ColorsComponent";
 import CreateExchangeModalComponent from "../../components/CreateExchangeModalComponent";
+import { FONTS, SIZES } from "../../constants/theme";
 
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
@@ -496,13 +497,13 @@ const styles = StyleSheet.create({
         maxWidth: "100%",
     },
     headerText: {
+        fontFamily: FONTS.medium,
         fontSize: 18,
-        fontWeight: "bold",
         color: textPrimaryColor,
         marginBottom: 10,
     },
     dopText: {
-        fontSize: 16,
+        fontSize: SIZES.medium,
         color: textPrimaryColor,
         marginBottom: 10,
     },
@@ -520,8 +521,8 @@ const styles = StyleSheet.create({
         marginRight: 10
     },
     companyGiveText: {
+        fontFamily: FONTS.medium,
         fontSize: 16,
-        fontWeight: "bold",
         color: textPrimaryColor
     },
     containerText: {

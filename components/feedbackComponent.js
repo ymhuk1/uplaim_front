@@ -129,7 +129,6 @@ const FeedbackComponent = ({ onClose, height, headerPopup1, headerPopup2,  }) =>
           selectedColor="#F456FE"
           unSelectedColor="#9A95B2"
           size={27.5}
-          starImage={require("../assets/rating-star.png")}
           onFinishRating={(rating) => setRating(rating)}
           error={error}
         />

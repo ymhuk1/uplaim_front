@@ -5,6 +5,7 @@ import {Image, ImageBackground} from "expo-image";
 import {elemBackgroundColor, textPrimaryColor} from "../../components/ColorsComponent";
 import Constants from "expo-constants";
 import {useRouter} from "expo-router";
+import { HEIGHT } from "../../constants/theme";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
@@ -54,7 +55,9 @@ export default function FindCompany() {
             style={styles.container} showsVerticalScrollIndicator={false}>
             <ImageBackground
                 source={require('../../assets/background.png')}
-                contentFit={"cover"}>
+                contentFit={"cover"}
+                style={styles.containerImg}
+                >
                 <View style={styles.containerView}>
                     <HeaderComponent text={textValue} secondary={true}/>
                     <View>
@@ -156,6 +159,9 @@ export default function FindCompany() {
 
 const styles = StyleSheet.create({
     container: {},
+    containerImg: {
+        minHeight: HEIGHT.height,
+    },
     containerView: {
         marginHorizontal: 15,
         marginBottom: 80,

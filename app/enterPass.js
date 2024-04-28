@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   StyleSheet,
@@ -15,12 +15,35 @@ import { router } from "expo-router";
 import { ImageBackground, Image } from "expo-image";
 import { handleLogout } from "../components/utils/utils";
 import NewButtonComponent from "../components/NewButtonComponent";
-import { styles, containerStyles, buttonStyles } from "../styles/enterPassStyles";
+import {
+  styles,
+  containerStyles,
+  buttonStyles,
+} from "../styles/enterPassStyles";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
 
 export default function EnterPassScreen() {
   const [passCode, setPassCode] = useState(["", "", "", ""]);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [token, setToken] = useState("");
+
+  const [fontsLoaded, fontError] = useFonts({
+    "Rubik-Light": require("../assets/fonts/Rubik-Light.ttf"),
+    "Rubik-Medium": require("../assets/fonts/Rubik-Medium.ttf"),
+    "Rubik-Regular": require("../assets/fonts/Rubik-Regular.ttf"),
+    "Rubik-Bold": require("../assets/fonts/Rubik-Bold.ttf"),
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded || fontError) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, fontError]);
+
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
 
   const handlePassCodeChange = (newPassCode) => {
     setPassCode(newPassCode);

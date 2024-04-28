@@ -24,7 +24,8 @@ import * as SecureStore from "expo-secure-store";
 import { ImageBackground, Image } from "expo-image";
 import { Link, useRouter } from "expo-router";
 import { Skeleton } from "moti/skeleton";
-import { SKELETON } from "../../constants/theme";
+import { FONTS, SIZES, SKELETON } from "../../constants/theme";
+
 
 export default function MainScreen() {
   const [refreshing, setRefreshing] = useState(false);
@@ -221,7 +222,7 @@ export default function MainScreen() {
 
                 <Skeleton
                   height={35}
-                  width={"65%"}
+                  width={252}
                   colorMode="dark"
                   {...SKELETON}
                 >
@@ -233,8 +234,8 @@ export default function MainScreen() {
                         transition={1000}
                         source={require("../../assets/up.svg")}
                         width={21}
-                        height={16}
-                        style={{ marginBottom: 2, marginRight: 3 }}
+                        height={15}
+                        style={{ marginRight: 3 }}
                       />
                       <Text style={styles.upBalance}>
                         {clientData.up_balance}
@@ -246,7 +247,7 @@ export default function MainScreen() {
                         {clientData.balance} ₽
                       </Text>
                     </View>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => router.push({ pathname: "/secondary/gifts" })}>
                       <Image
                         contentFit="contain"
                         contentPosition={"center"}
@@ -254,7 +255,6 @@ export default function MainScreen() {
                         source={require("../../assets/gift.svg")}
                         width={24}
                         height={24}
-                        style={{ marginBottom: 2, marginRight: 3 }}
                       />
                     </TouchableOpacity>
                   </View>
@@ -285,19 +285,19 @@ export default function MainScreen() {
               onPress={() => router.push({ pathname: "/home/qrcode" })}
               style={styles.textContainer2}
             >
-              <Skeleton height={27} width={22} {...SKELETON}>
-                <Image
-                  contentFit="contain"
-                  contentPosition={"center"}
-                  transition={1000}
-                  source={require("../../assets/briefcase.svg")}
-                  width={24}
-                  height={24}
-                  style={{ marginBottom: 2, marginRight: 3 }}
-                />
-              </Skeleton>
-              <Skeleton height={27} width={220} {...SKELETON}>
-                <Text style={styles.text2}>Мои компании</Text>
+              <Skeleton height={35} width={220} {...SKELETON}>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Image
+                    contentFit="contain"
+                    contentPosition={"center"}
+                    transition={1000}
+                    source={require("../../assets/briefcase.svg")}
+                    width={24}
+                    height={24}
+                    style={{ marginBottom: 2, marginRight: 3 }}
+                  />
+                  <Text style={styles.text2}>Мои компании</Text>
+                </View>
               </Skeleton>
             </TouchableOpacity>
 
@@ -341,20 +341,19 @@ export default function MainScreen() {
               onPress={() => router.push({ pathname: "/secondary/categories" })}
               style={styles.textContainer2}
             >
-              <Skeleton height={25} width={25} {...SKELETON}>
-                <Image
-                  contentFit="contain"
-                  contentPosition={"center"}
-                  transition={1000}
-                  source={require("../../assets/bags-shopping.svg")}
-                  width={24}
-                  height={24}
-                  style={{ marginBottom: 2, marginRight: 3 }}
-                />
-              </Skeleton>
-
               <Skeleton height={35} width={180} {...SKELETON}>
-                <Text style={styles.text2}>Партнеры</Text>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Image
+                    contentFit="contain"
+                    contentPosition={"center"}
+                    transition={1000}
+                    source={require("../../assets/bags-shopping.svg")}
+                    width={24}
+                    height={24}
+                    style={{ marginBottom: 2, marginRight: 3 }}
+                  />
+                  <Text style={styles.text2}>Партнеры</Text>
+                </View>
               </Skeleton>
             </TouchableOpacity>
             <Skeleton height={320} width={"100%"} {...SKELETON}>
@@ -424,20 +423,19 @@ export default function MainScreen() {
               }
               style={styles.textContainer2}
             >
-              <Skeleton height={24} width={24} {...SKELETON}>
-                <Image
-                  contentFit="contain"
-                  contentPosition={"center"}
-                  transition={1000}
-                  source={require("../../assets/reciept.svg")}
-                  width={24}
-                  height={24}
-                  style={{ marginBottom: 2, marginRight: 3 }}
-                />
-              </Skeleton>
-
-              <Skeleton height={32} width={"90%"} {...SKELETON}>
-                <Text style={styles.text2}>Купоны и промокоды</Text>
+              <Skeleton height={35} width={"100%"} {...SKELETON}>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Image
+                    contentFit="contain"
+                    contentPosition={"center"}
+                    transition={1000}
+                    source={require("../../assets/reciept.svg")}
+                    width={24}
+                    height={24}
+                    style={{ marginBottom: 2, marginRight: 3 }}
+                  />
+                  <Text style={styles.text2}>Купоны и промокоды</Text>
+                </View>
               </Skeleton>
             </TouchableOpacity>
             {coupons.length === 0 ? (
@@ -487,7 +485,7 @@ const styles = StyleSheet.create({
     alignContent: "center",
   },
   bottomContainer: {
-    alignItems: "flex-start",
+    alignItems: "flex-end",
     flexDirection: "row",
   },
   background: {
@@ -495,7 +493,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     borderRadius: 8,
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "baseline",
     marginRight: 10,
   },
   background2: {
@@ -508,26 +506,27 @@ const styles = StyleSheet.create({
   },
   textContainer: {},
   textContainer2: {
+    fontFamily: FONTS.medium,
     marginTop: 30,
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 20,
   },
   text: {
-    fontSize: 24,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
+    fontSize: SIZES.xLarge,
     color: textPrimaryColor,
     marginBottom: 10,
   },
   text2: {
+    fontFamily: FONTS.medium,
     fontSize: 24,
-    fontWeight: "bold",
     color: textPrimaryColor,
     marginLeft: 7,
   },
   upBalance: {
+    fontFamily: FONTS.medium,
     fontSize: 16,
-    fontWeight: "bold",
     color: textPrimaryColor,
   },
   balance: {
@@ -561,6 +560,7 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   textAddCompany: {
+    fontFamily: FONTS.regular,
     color: textColor3,
     marginTop: 30,
     fontSize: 12,
@@ -579,8 +579,8 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   referralHeader: {
+    fontFamily: FONTS.medium,
     marginVertical: 10,
-    fontWeight: "bold",
     fontSize: 18,
     textAlign: "center",
     color: textPrimaryColor,
@@ -607,9 +607,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   referralBottomText: {
+    fontFamily: FONTS.medium,
     color: textPrimaryColor,
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: SIZES.xLarge,
     marginHorizontal: 15,
   },
 });

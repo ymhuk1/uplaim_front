@@ -1,8 +1,9 @@
 import { StyleSheet } from "react-native";
-import { COLORS, SIZES, HEIGHT } from "../constants/theme";
+import { COLORS, SIZES, HEIGHT, FONTS } from "../constants/theme";
 
 const styles = StyleSheet.create({
   input: {
+    fontFamily: FONTS.light,
     padding: 10,
     paddingHorizontal: 15,
     width: 280,
@@ -12,6 +13,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   errorText: {
+    fontFamily: FONTS.regular,
     fontSize: 12,
     color: "red",
     marginLeft: 5,

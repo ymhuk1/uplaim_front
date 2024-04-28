@@ -5,6 +5,7 @@ import {useEffect, useState} from "react";
 import Constants from 'expo-constants';
 import {textPrimaryColor} from "../../components/ColorsComponent";
 import {Link, useRouter} from "expo-router";
+import { FONTS, HEIGHT } from "../../constants/theme";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
@@ -39,7 +40,9 @@ export default function LoginScreen() {
             style={styles.container} showsVerticalScrollIndicator={false}>
             <ImageBackground
                 source={require('../../assets/background.png')}
-                contentFit={"cover"}>
+                contentFit={"cover"}
+                style={styles.containerImg}
+                >
                 <View style={styles.containerView}>
                     <HeaderComponent text={textValue} secondary={true}/>
                     {loading ? (
@@ -79,6 +82,9 @@ export default function LoginScreen() {
 
 const styles = StyleSheet.create({
     container: {},
+    containerImg: {
+     minHeight: HEIGHT.height,   
+    },
     containerView: {
         marginHorizontal: 15,
         marginBottom: 80,
@@ -99,7 +105,8 @@ const styles = StyleSheet.create({
 
     },
     textStories: {
-        fontWeight: "bold",
+        fontFamily: FONTS.medium,
+        // fontWeight: "bold",
         fontSize: 16,
         color: textPrimaryColor,
         marginLeft: 10,

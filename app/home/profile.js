@@ -4,6 +4,7 @@ import {Image, ImageBackground} from "expo-image";
 import {textPrimaryColor} from "../../components/ColorsComponent";
 import * as SecureStore from "expo-secure-store";
 import {router, useRouter} from "expo-router";
+import { FONTS, HEIGHT, SIZES } from "../../constants/theme";
 
 
 
@@ -24,10 +25,12 @@ export default function ProfileScreen() {
 
     return (
         <ScrollView
-            style={styles.container} showsVerticalScrollIndicator={false}>
+            style={styles.container} showsVerticalScrollIndicator={false} contentContainerStyle={styles.container}>
             <ImageBackground
                 source={require('../../assets/background.png')}
-                contentFit={"cover"}>
+                contentFit={"cover"}
+                style={styles.containerImg}
+                >
                 <View style={styles.containerView}>
                     <View style={styles.textContainerHead}>
                         <Text style={styles.textHead}>Настройки профиля</Text>
@@ -231,7 +234,9 @@ export default function ProfileScreen() {
 
 const styles = StyleSheet.create({
     container: {
-
+    },
+    containerImg: {
+        minHeight: HEIGHT.height,
     },
     containerView: {
         marginHorizontal: 15,
@@ -245,8 +250,8 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     textHead: {
+        fontFamily: FONTS.medium,
         fontSize: 24,
-        fontWeight: 'bold',
         color: textPrimaryColor,
         marginLeft: 7,
     },
@@ -265,8 +270,8 @@ const styles = StyleSheet.create({
 
     },
     text: {
-        fontSize: 24,
-        fontWeight: 'bold',
+        fontFamily: FONTS.medium,
+        fontSize: SIZES.xLarge,
         color: 'white',
     },
     minText: {
@@ -286,8 +291,9 @@ const styles = StyleSheet.create({
     textMenuContainer: {
 
     },
-    textMenu: {
-        fontSize: 16,
+    textMenu: { 
+        fontFamily: FONTS.regular,
+        fontSize: SIZES.medium,
         color: "white",
         marginLeft: 8,
         textAlign: "center",

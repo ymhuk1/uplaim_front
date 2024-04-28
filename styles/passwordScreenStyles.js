@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { COLORS, SIZES, HEIGHT } from "../constants/theme";
+import { COLORS, SIZES, HEIGHT, FONTS } from "../constants/theme";
 
 const styles = StyleSheet.create({
   container: {
@@ -20,8 +20,11 @@ const styles = StyleSheet.create({
     maxWidth: 185,
     height: 40,
   },
-  textContainer: {},
+  textContainer: {
+    fontFamily: FONTS.medium,
+  },
   text: {
+    fontFamily: FONTS.medium,
     paddingTop: 100,
     textAlign: "center",
     maxWidth: 185,

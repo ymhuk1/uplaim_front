@@ -22,8 +22,8 @@ const styles = StyleSheet.create({
     // marginBottom: 20,
   },
   rating: {
-    marginTop: 10,
-    marginBottom: 20,
+    marginTop: 18,
+    // marginBottom: 2,
     marginHorizontal: "auto",
   },
   textPopupContainer: {
@@ -37,7 +37,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     height: 47,
     fontSize: 16,
-    color: "white",
     borderRadius: 25,
   },
   textPopup2: {
@@ -46,7 +45,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     height: 100,
     fontSize: 16,
-    color: "white",
     borderRadius: 25,
     marginBottom: 20,
   },
