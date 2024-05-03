@@ -24,7 +24,7 @@ import {
 
 export default function SmsScreen() {
   const inputRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
-  const [timer, setTimer] = useState(1); // Обратный отсчет в секундах (увеличил таймер до 30 секунд)
+  const [timer, setTimer] = useState(10); // Обратный отсчет в секундах (увеличил таймер до 30 секунд)
   const [showRetryText, setShowRetryText] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [token, setToken] = useState("");
@@ -134,7 +134,7 @@ export default function SmsScreen() {
       if (responseData.message === "SMS code sent") {
         const receivedToken = responseData.token;
         setToken(receivedToken);
-        setTimer(1);
+        setTimer(10);
         setShowRetryText(false);
       } else {
         Alert.alert("Ошибка", "Произошла ошибка при отправке SMS");

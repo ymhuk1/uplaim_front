@@ -1,59 +1,99 @@
-import React from 'react';
-import { View, TouchableOpacity, Text, ActivityIndicator, StyleSheet } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import {textColor4, textDisabledColor, textPrimaryColor} from "./ColorsComponent";
+import React from "react";
+import {
+  View,
+  TouchableOpacity,
+  Text,
+  ActivityIndicator,
+  StyleSheet,
+} from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import {
+  textColor4,
+  textDisabledColor,
+  textPrimaryColor,
+} from "./ColorsComponent";
 import head from "expo-router/head";
-import { FONTS } from '../constants/theme';
+import { FONTS } from "../constants/theme";
 
-const GradientButton = ({ title, onPress, width, height, fontSize, disabled }) => {
-    return (
-        <TouchableOpacity onPress={onPress} disabled={onPress === null}>
-                <LinearGradient
-                    location={[  0.5, 0.5 ]}
-                    start={[  0.4, -0.9 ]}
-                    // end={[  0.1, 0.5 ]}
-                    colors={disabled ? ['#7c7f86', '#5F5F65'] : ['#7434b7', '#7730e5']}
-                    style={[styles.button, {width: width, height: height}]}>
-                    {onPress === null ? (
-                        <ActivityIndicator size="small" color="white" />
-                    ) : (
-                        <Text style={[styles.buttonText, {fontSize: fontSize}]}>{title}</Text>
-                    )}
-                </LinearGradient>
-        </TouchableOpacity>
-    );
+const GradientButton = ({
+  title,
+  onPress,
+  width,
+  height,
+  fontSize,
+  disabled,
+}) => {
+  return (
+    <TouchableOpacity onPress={onPress} disabled={onPress === null}>
+      <LinearGradient
+        location={[0.5, 0.5]}
+        start={[0.4, -0.9]}
+        // end={[  0.1, 0.5 ]}
+        colors={disabled ? ["#7c7f86", "#5F5F65"] : ["#7434b7", "#7730e5"]}
+        style={[styles.button, { width: width, height: height }]}
+      >
+        {onPress === null ? (
+          <ActivityIndicator size="small" color="white" />
+        ) : (
+          <Text style={[styles.buttonText, { fontSize: fontSize }]}>
+            {title}
+          </Text>
+        )}
+      </LinearGradient>
+    </TouchableOpacity>
+  );
 };
 
-const NewButtonComponent = ({ title, onPress, loading, width, filled, empty, height, fontSize, disabled }) => {
-    return (
-        <View style={styles.containerButton}>
-            {filled && (
-            <View>
-                <GradientButton
-                    onPress={loading ? null : onPress}
-                    title={title}
-                    width={width}
-                    height={height}
-                    fontSize={fontSize}
-                    disabled={disabled}
-                />
-            </View>
-             )}
-            {empty && (
-                <TouchableOpacity onPress={onPress} disabled={onPress === null}>
-                        <View style={[disabled ? styles.buttonEmptyDisabled : styles.buttonEmpty, {width: width, height: height}]}>
-                            <Text style={[disabled ? styles.buttonTextDisabled : styles.buttonText, {fontSize: fontSize}]}>{title}</Text>
-                        </View>
-                </TouchableOpacity>
-            )}
-
+const NewButtonComponent = ({
+  title,
+  onPress,
+  loading,
+  width,
+  filled,
+  empty,
+  height,
+  fontSize,
+  disabled,
+}) => {
+  return (
+    <View style={styles.containerButton}>
+      {filled && (
+        <View>
+          <GradientButton
+            onPress={loading ? null : onPress}
+            title={title}
+            width={width}
+            height={height}
+            fontSize={fontSize}
+            disabled={disabled}
+          />
         </View>
-    );
+      )}
+      {empty && (
+        <TouchableOpacity onPress={onPress} disabled={onPress === null}>
+          <View
+            style={[
+              disabled ? styles.buttonEmptyDisabled : styles.buttonEmpty,
+              { width: width, height: height },
+            ]}
+          >
+            <Text
+              style={[
+                disabled ? styles.buttonTextDisabled : styles.buttonText,
+                { fontSize: fontSize },
+              ]}
+            >
+              {title}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      )}
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
-  containerButton: {
-  },
+  containerButton: {},
   button: {
     borderRadius: 16,
     alignItems: "center",
