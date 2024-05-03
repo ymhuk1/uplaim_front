@@ -33,13 +33,13 @@ export default function Gifts() {
   };
   return (
     <ScrollView
-      style={styles.container}
+      // style={styles.container}
       // refreshControl={
       //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       // }
       // scrollEnabled={true}
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.container}
+      // showsVerticalScrollIndicator={false}
+      // contentContainerStyle={styles.container}
     >
       <ImageBackground
         source={require("../../assets/background.png")}

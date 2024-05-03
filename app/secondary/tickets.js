@@ -24,37 +24,56 @@ import { router } from "expo-router";
 const Tickets = () => {
   const [textValue, setTextValue] = useState("Ваши билеты");
 
-  // const [tickets, setTickets] = useState([]);
+  const renderActivatedTickets = () => {
+    const colors = ["#2FA44E", "#F2994A", "#F456FE"];
+    return colors.map((color, index) =>
+      renderActivatedTicketBlock(color, index)
+    );
+  };
 
-  // useEffect(() => {
-  //   // Fetch tickets data from API or any other source
-  //   fetchTickets();
-  // }, []);
+  const renderActivatedTicketBlock = (color, index) => {
+    const date = new Date().toLocaleDateString("ru-RU");
+    const numbers = [
+      "126415285452",
+      "245862145655",
+      "545554544541",
+      "554455544544",
+      "245862145655",
+      "245862145655",
+    ];
 
-  // const fetchTickets = async () => {
-  //   try {
-  //     // Make API request to fetch tickets data
-  //     const response = await fetch("https://example.com/api/tickets");
-  //     const data = await response.json();
-  //     setTickets(data);
-  //   } catch (error) {
-  //     console.error("Error fetching tickets:", error);
-  //   }
-  // };
-
-  // const renderItem = ({ item }) => (
-  //   <TouchableOpacity onPress={() => handleTicketPress(item)}>
-  //     <View style={styles.ticketContainer}>
-  //       <Text style={styles.ticketTitle}>{item.title}</Text>
-  //       <Text style={styles.ticketDescription}>{item.description}</Text>
-  //     </View>
-  //   </TouchableOpacity>
-  // );
-
-  // const handleTicketPress = (ticket) => {
-  //   // Handle ticket press event
-  //   console.log("Ticket pressed:", ticket);
-  // };
+    return (
+      <View
+        key={index}
+        style={[styles.activated__tickets_block, { borderColor: color }]}
+      >
+        <Text style={[styles.block__text, { color }]}>
+          Билеты розыгрыша “Лови момент” ({date}):
+        </Text>
+        <View style={styles.block__numbers}>
+          <View style={styles.block__number_left}>
+            {numbers.slice(0, 3).map((number) => (
+              <Text key={number} style={[styles.text__numbers]}>
+                {number}
+              </Text>
+            ))}
+          </View>
+          <View style={styles.block__number_right}>
+            {numbers.slice(3).map((number) => (
+              <Text key={number} style={[styles.text__numbers]}>
+                {number}
+              </Text>
+            ))}
+          </View>
+        </View>
+        <TouchableOpacity
+          style={[styles.block__button, { borderColor: color }]}
+        >
+          <Text style={styles.text__button}>Все билеты</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
 
   return (
     <ScrollView
@@ -62,105 +81,37 @@ const Tickets = () => {
       showsVerticalScrollIndicator={false}
       scrollEnabled={true}
     >
-      <View style={styles.ticket__container}>
-        <HeaderComponent text={textValue} secondary={true} />
-        <TicketsComponent
-          buttonTitle={"Активировать"}
-          ticketsTitle={"Неактивированные билеты"}
-          onButtonPress={() =>
-            router.push({ pathname: "/secondary/allRaffles" })
-          }
-          widthButton={142}
-          height={35}
-        />
-        <View style={styles.activated__ticket}>
-          <LinearGradient
-            colors={elemGradientColors}
-            style={styles.activated__ticket_inner}
-          >
-            <Text style={styles.activated__title}>Активированные билеты</Text>
-            <View style={styles.activated__tickets_block}>
-              <Text style={styles.block__text}>
-                Билеты розыгрыша “Лови момент”
-              </Text>
-              <Text style={styles.block__text}>(12.08.24):</Text>
-              <View style={styles.block__numbers}>
-                <View style={styles.block__number_left}>
-                  <Text style={styles.text__numbers}>126415285452</Text>
-                  <Text style={styles.text__numbers}>245862145655</Text>
-                  <Text style={styles.text__numbers}>545554544541</Text>
-                </View>
-                <View style={styles.block__number_right}>
-                  <Text style={styles.text__numbers}>554455544544</Text>
-                  <Text style={styles.text__numbers}>245862145655</Text>
-                  <Text style={styles.text__numbers}>245862145655</Text>
-                </View>
-              </View>
-              <TouchableOpacity style={styles.block__button}>
-                <Text style={styles.text__button}>Все билеты</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.activated__tickets_block}>
-              <Text style={[styles.block__text, { color: "#F2994A" }]}>
-                Билеты розыгрыша “Лови момент”
-              </Text>
-              <Text style={[styles.block__text, { color: "#F2994A" }]}>
-                (12.08.24):
-              </Text>
-              <View style={styles.block__numbers}>
-                <View style={styles.block__number_left}>
-                  <Text style={styles.text__numbers}>126415285452</Text>
-                  <Text style={styles.text__numbers}>245862145655</Text>
-                  <Text style={styles.text__numbers}>545554544541</Text>
-                </View>
-                <View style={styles.block__number_right}>
-                  <Text style={styles.text__numbers}>554455544544</Text>
-                  <Text style={styles.text__numbers}>245862145655</Text>
-                  <Text style={styles.text__numbers}>245862145655</Text>
-                </View>
-              </View>
-              <TouchableOpacity
-                style={[styles.block__button, { borderColor: "#F2994A" }]}
-              >
-                <Text style={styles.text__button}>Все билеты</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.activated__tickets_block}>
-              <Text style={[styles.block__text, { color: "#F456FE" }]}>
-                Билеты розыгрыша “Лови момент”
-              </Text>
-              <Text style={[styles.block__text, { color: "#F456FE" }]}>
-                (12.08.24):
-              </Text>
-              <View style={styles.block__numbers}>
-                <View style={styles.block__number_left}>
-                  <Text style={styles.text__numbers}>126415285452</Text>
-                  <Text style={styles.text__numbers}>245862145655</Text>
-                  <Text style={styles.text__numbers}>545554544541</Text>
-                </View>
-                <View style={styles.block__number_right}>
-                  <Text style={styles.text__numbers}>554455544544</Text>
-                  <Text style={styles.text__numbers}>245862145655</Text>
-                  <Text style={styles.text__numbers}>245862145655</Text>
-                </View>
-              </View>
-              <TouchableOpacity
-                style={[styles.block__button, { borderColor: "#F456FE" }]}
-              >
-                <Text style={styles.text__button}>Все билеты</Text>
-              </TouchableOpacity>
-            </View>
-          </LinearGradient>
+      {textValue ? (
+        <View style={styles.ticket__container}>
+          <HeaderComponent text={textValue} secondary={true} />
+          <TicketsComponent
+            buttonTitle={"Активировать"}
+            ticketsTitle={"Неактивированные билеты"}
+            onButtonPress={() =>
+              router.push({ pathname: "/secondary/allRaffles" })
+            }
+            widthButton={142}
+            height={35}
+          />
+          <View style={styles.activated__ticket}>
+            <LinearGradient
+              colors={elemGradientColors}
+              style={styles.activated__ticket_inner}
+            >
+              <Text style={styles.activated__title}>Активированные билеты</Text>
+              {renderActivatedTickets()}
+            </LinearGradient>
+          </View>
+          <View style={styles.button}>
+            <NewButtonComponent
+              title={"Магазин билетов"}
+              filled={true}
+              height={54}
+              fontSize={18}
+            />
+          </View>
         </View>
-      </View>
-      <View style={styles.button}>
-        <NewButtonComponent
-          title={"Магазин билетов"}
-          filled={true}
-          height={54}
-          fontSize={18}
-        />
-      </View>
+      ) : null}
     </ScrollView>
   );
 };
@@ -188,9 +139,13 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   activated__ticket_inner: {
-    height: 'auto',
+    height: "auto",
     paddingHorizontal: 15,
     borderRadius: 8,
+    borderWidth: 1,
+    borderColor: elemBackgroundColor3,
+    borderStyle: "solid",
+    borderRadius: 10,
   },
   activated__title: {
     fontFamily: FONTS.medium,
@@ -199,9 +154,6 @@ const styles = StyleSheet.create({
     marginVertical: 6,
   },
   activated__tickets_block: {
-    // height: 134,
-    width: 300,
-    // backgroundColor: elemBackgroundColor,
     marginBottom: 15,
   },
   block__text: {
@@ -227,11 +179,11 @@ const styles = StyleSheet.create({
     color: textPrimaryColor,
   },
   block__button: {
-    justifyContent: "center",
-    alignItems: "center",
+    // justifyContent: "center",
+    // alignItems: "center",
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: "#50FF9A",
+    // borderColor: "#50FF9A",
     borderStyle: "solid",
     alignSelf: "center",
   },
@@ -243,9 +195,9 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   button: {
-    width: WIDTH.width,
+    width: WIDTH.width - 30,
     marginVertical: 15,
-    paddingHorizontal: 15,
+    // paddingHorizontal: 15,
   },
   // tickets: {
   //   paddingTop: 10,

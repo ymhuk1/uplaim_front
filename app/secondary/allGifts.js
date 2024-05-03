@@ -1,4 +1,5 @@
 import {
+  Modal,
   ScrollView,
   StyleSheet,
   Text,
@@ -14,9 +15,16 @@ import {
 } from "../../components/ColorsComponent";
 import GiftNow from "../../components/GiftsNowComponent";
 import HeaderComponent from "../../components/HeaderComponent";
+import ModalComponent from "../../components/ModalComponent";
+import UniversalModal from "../../components/ModalWindowComponent";
 
 export default function AllGifts() {
   const [textValue, setTextValue] = useState("Все призы");
+  const [isTooltipVisible, setTooltipVisible] = useState(false);
+
+  const toggleTooltip = () => {
+    setTooltipVisible(!isTooltipVisible);
+  };
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -66,7 +74,7 @@ export default function AllGifts() {
               gap: 15,
             }}
           >
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => toggleTooltip()}>
               <GiftNow
                 sourceImg={require("../../assets/gifts/iphones.jpg")}
                 sourceTicket={require("../../assets/ticket-green.svg")}
@@ -133,6 +141,26 @@ export default function AllGifts() {
               />
             </TouchableOpacity>
           </View>
+          {isTooltipVisible && (
+            <Modal
+              visible={isTooltipVisible}
+              animationType="slide"
+              transparent={true}
+              // onRequestClose={onClose}
+            >
+              <UniversalModal
+                onClose={toggleTooltip}
+                title={"Apple IPhone 14"}
+                title2={"У вас подходящих билетов"}
+                balance={10}
+                content={
+                  "Тонкий и легкий смартфон из новой линейки Apple iPhone 14 с высоким разрешением OLED-экрана, хорошим объемом памяти и запасом автономности во влагостойком корпусе. Продвинутые камеры позволят снимать фото и видео в отличном качестве даже при слабом освещении."
+                }
+                sourceImg={require("../../assets/gifts/iphones.jpg")}
+              />
+            </Modal>
+          )}
+          {/* <ModalComponent /> */}
         </View>
       </ImageBackground>
     </ScrollView>
