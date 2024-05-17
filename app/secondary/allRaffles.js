@@ -1,12 +1,18 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 import { FONTS, HEIGHT } from "../../constants/theme";
 import { elemBackgroundColor, textColor4, textPrimaryColor } from "../../components/ColorsComponent";
 import HeaderComponent from "../../components/HeaderComponent";
 import { Image } from "expo-image";
+import ActivatesModalComponent from "../../components/ActivatesModalComponent";
 
 export default function AllRaffles() {
   const [textValue, setTextValue] = useState("Все розыгрыши");
+    const [isModalVisible, setModalVisible] = useState(false);
+
+    const toggleModal = () => {
+      setModalVisible(!isModalVisible);
+    };
 
   return (
     <ScrollView style={styles.container}>
@@ -68,7 +74,7 @@ export default function AllRaffles() {
                 </View>
               </View>
               <View style={styles.currentGifts__button}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => toggleModal()}>
                   <Text
                     style={[
                       styles.currentGifts__button_text,
@@ -85,6 +91,15 @@ export default function AllRaffles() {
             </View>
           ))}
         </View>
+        {isModalVisible && (
+          <Modal
+            visible={isModalVisible}
+            animationType="slide"
+            transparent={true}
+          >
+            <ActivatesModalComponent onClose={toggleModal} />
+          </Modal>
+        )}
       </View>
     </ScrollView>
   );

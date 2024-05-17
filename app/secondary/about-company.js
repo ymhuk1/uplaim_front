@@ -195,8 +195,7 @@ export default function AboutCompany() {
               </Text>
             </View>
           </View>
-        </ImageBackground>
-      </ScrollView>
+        
       {isTooltipVisible && (
         <Modal
           isVisible={isTooltipVisible}
@@ -228,7 +227,7 @@ export default function AboutCompany() {
         >
           <FeedbackComponent
             onClose={toggleFeedback}
-            height={530}
+            // height={530}
             headerPopup1={"Поставьте оценку"}
             headerPopup2={"Опишите плюсы и минусы"}
             textPopup1={"Приемущества"}
@@ -237,6 +236,8 @@ export default function AboutCompany() {
           />
         </Modal>
       )}
+    </ImageBackground>
+      </ScrollView>
     </View>
   );
 }
@@ -244,7 +245,7 @@ export default function AboutCompany() {
 const styles = StyleSheet.create({
   container: {},
   containerViewImg: {
-    minHeight: HEIGHT.height,
+    height: HEIGHT.height,
   },
   containerView: {
     marginHorizontal: 15,

@@ -1,176 +1,213 @@
-import {RefreshControl, ScrollView, StyleSheet, View, Text, TouchableOpacity} from "react-native";
-import React, {useEffect, useState} from "react";
-import {Image, ImageBackground} from "expo-image";
-import {textPrimaryColor} from "../../components/ColorsComponent";
-import Constants from 'expo-constants';
+import {
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+} from "react-native";
+import React, { useEffect, useState } from "react";
+import { Image, ImageBackground } from "expo-image";
+import { textPrimaryColor } from "../../components/ColorsComponent";
+import Constants from "expo-constants";
 import HeaderComponent from "../../components/HeaderComponent";
 import { FONTS, HEIGHT } from "../../constants/theme";
+import { BlurView } from "expo-blur";
+import { StatusBar } from "expo-status-bar";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
-
 export default function CouponsList() {
-    const [refreshing, setRefreshing] = useState(false);
-    const [textValue, setTextValue] = useState('Купоны и промокоды');
-    const [categories, setCategories] = useState([]);
-    const [coupons, setCoupons] = useState([]);
-    const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+  const [refreshing, setRefreshing] = useState(false);
+  const [textValue, setTextValue] = useState("Купоны и промокоды");
+  const [categories, setCategories] = useState([]);
+  const [coupons, setCoupons] = useState([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
 
-    const formatDate = (rawDate) => {
-        const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-        const formattedDate = new Date(rawDate).toLocaleDateString('en-US', options).replace(/\//g, '.');
-        return formattedDate;
-    };
+  const formatDate = (rawDate) => {
+    const options = { day: "2-digit", month: "2-digit", year: "numeric" };
+    const formattedDate = new Date(rawDate)
+      .toLocaleDateString("en-US", options)
+      .replace(/\//g, ".");
+    return formattedDate;
+  };
 
-    const fetchData = async () => {
+  const fetchData = async () => {
+    try {
+      // Fetch categories and companies data
+      const [categoriesResponse, couponsResponse] = await Promise.all([
+        fetch(`${apiBaseUrl}/api/categories`),
+        fetch(`${apiBaseUrl}/api/coupon`),
+      ]);
 
+      if (!categoriesResponse.ok) {
+        throw new Error(
+          `Failed to fetch categories. Status: ${categoriesResponse.status}`
+        );
+      }
 
-        try {
-            // Fetch categories and companies data
-            const [categoriesResponse, couponsResponse] = await Promise.all([
-                fetch(`${apiBaseUrl}/api/categories`),
-                fetch(`${apiBaseUrl}/api/coupon`),
-            ]);
+      if (!couponsResponse.ok) {
+        throw new Error(
+          `Failed to fetch coupon. Status: ${couponsResponse.status}`
+        );
+      }
 
-            if (!categoriesResponse.ok) {
-                throw new Error(`Failed to fetch categories. Status: ${categoriesResponse.status}`);
-            }
+      const [categoriesData, couponsData] = await Promise.all([
+        categoriesResponse.json(),
+        couponsResponse.json(),
+      ]);
 
-            if (!couponsResponse.ok) {
-                throw new Error(`Failed to fetch coupon. Status: ${couponsResponse.status}`);
-            }
+      const allCategories = [
+        {
+          id: null,
+          name: "Все",
+          icon: "/static/img/category/2/photo/category2.png",
+        },
+        ...categoriesData.categories,
+      ];
 
-            const [categoriesData, couponsData] = await Promise.all([
-                categoriesResponse.json(),
-                couponsResponse.json(),
-            ]);
+      // Set categories and companies data
+      setCategories(allCategories);
+      setCoupons(couponsData.coupons);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
-            const allCategories = [
-                { id: null, name: 'Все', icon: '/static/img/category/2/photo/category2.png' },
-                ...categoriesData.categories,
-            ];
+  const onRefresh = () => {
+    setRefreshing(true);
+    fetchData();
+  };
 
-            // Set categories and companies data
-            setCategories(allCategories);
-            setCoupons(couponsData.coupons);
+  useEffect(() => {
+    setRefreshing(true);
+    fetchData();
+  }, []);
 
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        } finally {
-            setRefreshing(false);
-        }
-    };
+  const handleCategoryClick = (id) => {
+    setSelectedCategoryId(id);
+  };
 
-
-    const onRefresh = () => {
-        setRefreshing(true);
-        fetchData();
-    };
-
-    useEffect(() => {
-        setRefreshing(true);
-        fetchData();
-    }, []);
-
-    const handleCategoryClick = (id) => {
-        setSelectedCategoryId(id);
-    };
-
-
-
-    console.log('coupons: ' + coupons)
-    console.log('selectedCategoryId: ' + selectedCategoryId)
-    return (
-        <ScrollView
-            refreshControl={
-                <RefreshControl
-                    refreshing={refreshing}
-                    onRefresh={onRefresh}
-                />
-            }
-            style={styles.container} showsVerticalScrollIndicator={false}>
-            <ImageBackground
-                source={require('../../assets/background.png')}
-                contentFit={"cover"}
-                style={styles.containerImg}
-                >
-                <View style={styles.containerView}>
-                    <HeaderComponent text={textValue} secondary={true}/>
-                    <View style={styles.storyContainer}>
-                        <ScrollView
-                            style={styles.storiesContainer}
-                            horizontal
-                            showsHorizontalScrollIndicator={false}
-                        >
-                            {categories.map((item, index) => {
-                                return (
-                                    <TouchableOpacity
-                                        key={item.id}
-                                        onPress={() => handleCategoryClick(item.id)}
-                                        activeOpacity={0.7}
-                                    >
-                                        <View style={[
-                                            styles.story,
-                                            selectedCategoryId === item.id && styles.selectedCategory,
-                                        ]}>
-                                            <Image
-                                                contentFit="contain"
-                                                contentPosition="center"
-                                                transition={0}
-                                                source={{ uri: apiBaseUrl + item.icon }}
-                                                width={46}
-                                                height={46}
-                                                style={styles.iconStories}
-                                            />
-                                            <View style={styles.textContainer}>
-                                                <Text style={styles.textStories}>{item.name}</Text>
-                                            </View>
-                                        </View>
-                                    </TouchableOpacity>
-                                );
-                            })}
-                        </ScrollView>
+  console.log("coupons: " + coupons);
+  console.log("selectedCategoryId: " + selectedCategoryId);
+  return (
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+      style={styles.container}
+      showsVerticalScrollIndicator={false}
+    >
+      <ImageBackground
+        source={require("../../assets/background.png")}
+        contentFit={"cover"}
+        style={styles.containerImg}
+      >
+        <View style={styles.containerView}>
+          <HeaderComponent text={textValue} secondary={true} />
+          <View style={styles.storyContainer}>
+            <ScrollView
+              style={styles.storiesContainer}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+            >
+              {categories.map((item, index) => {
+                return (
+                  <TouchableOpacity
+                    key={item.id}
+                    onPress={() => handleCategoryClick(item.id)}
+                    activeOpacity={0.7}
+                  >
+                    <View
+                      style={[
+                        styles.story,
+                        selectedCategoryId === item.id &&
+                          styles.selectedCategory,
+                      ]}
+                    >
+                      <Image
+                        contentFit="contain"
+                        contentPosition="center"
+                        transition={0}
+                        source={{ uri: apiBaseUrl + item.icon }}
+                        width={46}
+                        height={46}
+                        style={styles.iconStories}
+                      />
+                      <View style={styles.textContainer}>
+                        <Text style={styles.textStories}>{item.name}</Text>
+                      </View>
                     </View>
-                    <View style={styles.couponsContainer}>
-
-                        {coupons
-                            .filter((item) => selectedCategoryId === null || (item.company.category_id && item.company.category_id === selectedCategoryId))
-                            .map((item, index) => (
-                                <View key={item.id} style={styles.view}
-                                >
-                                    <View style={styles.itemActivity}>
-                                        <View style={[styles.backActivity, {backgroundColor: `${item.company.color}20`} ]}>
-                                            <Text style={[styles.activity, {color: item.company.color}]}>{item.company.category}</Text>
-                                        </View>
-                                    </View>
-                                    <View>
-                                        <View style={styles.logoContainer}>
-                                            <Image
-                                                contentFit="contain"
-                                                contentPosition={"center"}
-                                                source={item.company.photo ? apiBaseUrl + item.company.photo : require('../../assets/no-photo-coupon.png')}
-                                                width={80}
-                                                height={80}
-                                                style={styles.logo}
-                                            />
-                                        </View>
-                                        <View style={styles.couponContainer}>
-                                            <Text style={styles.nameCoupon}>{item.company.name}</Text>
-                                            <Text style={styles.deskCoupon}>{item.description}</Text>
-                                            <Text style={styles.dateCoupon}>{formatDate(item.date)}</Text>
-                                        </View>
-                                    </View>
-                                </View>
-                            ))}
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
+          </View>
+          <View style={styles.couponsContainer}>
+            {coupons
+              .filter(
+                (item) =>
+                  selectedCategoryId === null ||
+                  (item.company.category_id &&
+                    item.company.category_id === selectedCategoryId)
+              )
+              .map((item, index) => (
+                <View key={item.id} style={styles.view}>
+                  <View style={styles.itemActivity}>
+                    <View
+                      style={[
+                        styles.backActivity,
+                        { backgroundColor: `${item.company.color}20` },
+                      ]}
+                    >
+                      <Text
+                        style={[styles.activity, { color: item.company.color }]}
+                      >
+                        {item.company.category}
+                      </Text>
                     </View>
+                  </View>
+                  <View>
+                    <View style={styles.logoContainer}>
+                      <Image
+                        contentFit="contain"
+                        contentPosition={"center"}
+                        source={
+                          item.company.photo
+                            ? apiBaseUrl + item.company.photo
+                            : require("../../assets/no-photo-coupon.png")
+                        }
+                        width={80}
+                        height={80}
+                        style={styles.logo}
+                      />
+                    </View>
+                    <View style={styles.couponContainer}>
+                      <Text style={styles.nameCoupon}>{item.company.name}</Text>
+                      <Text style={styles.deskCoupon}>{item.description}</Text>
+                      <Text style={styles.dateCoupon}>
+                        {formatDate(item.date)}
+                      </Text>
+                    </View>
+                  </View>
                 </View>
-            </ImageBackground>
-        </ScrollView>
-    )
+              ))}
+          </View>
+        </View>
+      </ImageBackground>
+    </ScrollView>
+  );
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    // flex: 1,
+    // backgroundColor: "rgba(0, 0, 0, 0.3)",
+    // alignItems: "center",
+    // justifyContent: "center",
+  },
   containerImg: {
     minHeight: HEIGHT.height,
   },

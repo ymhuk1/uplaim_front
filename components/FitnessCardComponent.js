@@ -19,6 +19,7 @@ const FitnessGift = ({
   balanceImageHeight,
   balanceImageWidth,
   statusImageSource,
+  onClose,
 }) => {
   return (
     <View style={styles.fitness__container}>
@@ -41,7 +42,7 @@ const FitnessGift = ({
           )}
           <View style={styles.fitness__button}>
             {count && maxCount ? (
-              <TouchableOpacity>
+              <TouchableOpacity onPress={onClose}>
                 <Text style={styles.fitness__button_text}>
                   {count}/{maxCount}
                 </Text>

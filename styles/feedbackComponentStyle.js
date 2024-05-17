@@ -2,29 +2,35 @@ import { StyleSheet } from "react-native";
 import { COLORS, SIZES, HEIGHT, WIDTH } from "../constants/theme";
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    // width: WIDTH.width-40,
+    // marginHorizontal: 10,
+    minHeight: HEIGHT.height,
+    justifyContent: "flex-end",
+    alignItems: "center",
+    marginBottom: 25,
+  },
   popupContainer: {
-    position: "absolute",
+    height: 550,
     paddingTop: 50,
-    bottom: -20,
-    // top: 20,
     backgroundColor: "#24224A",
     borderTopRightRadius: 12,
     borderTopLeftRadius: 12,
-    minWidth: WIDTH.width,
-    zIndex: 999,
+    // width: WIDTH.width - 20,
+    // marginHorizontal: 0,
     alignItems: "center",
-    // padding: 20,
+    justifyContent: "center",
+    // marginBottom: 10,
   },
   headerPopup: {
     fontSize: 24,
     fontWeight: "bold",
     color: "white",
-    // marginBottom: 20,
   },
   rating: {
     marginTop: 18,
-    // marginBottom: 2,
-    marginHorizontal: "auto",
+    // marginHorizontal: "auto",
   },
   textPopupContainer: {
     paddingTop: 20,

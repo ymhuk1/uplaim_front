@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  Modal,
 } from "react-native";
 import {
   buttonGradientColors,
@@ -20,9 +21,15 @@ import TicketsComponent from "../../components/TicketsComponent";
 import HeaderComponent from "../../components/HeaderComponent";
 import NewButtonComponent from "../../components/NewButtonComponent";
 import { router } from "expo-router";
+import TicketsModalComponent from "../../components/TicketsModalComponent";
 
 const Tickets = () => {
   const [textValue, setTextValue] = useState("Ваши билеты");
+   const [isTooltipVisible, setTooltipVisible] = useState(false);
+
+   const toggleTooltip = () => {
+     setTooltipVisible(!isTooltipVisible);
+   };
 
   const renderActivatedTickets = () => {
     const colors = ["#2FA44E", "#F2994A", "#F456FE"];
@@ -53,14 +60,14 @@ const Tickets = () => {
         <View style={styles.block__numbers}>
           <View style={styles.block__number_left}>
             {numbers.slice(0, 3).map((number) => (
-              <Text key={number} style={[styles.text__numbers]}>
+              <Text style={[styles.text__numbers]}>
                 {number}
               </Text>
             ))}
           </View>
           <View style={styles.block__number_right}>
             {numbers.slice(3).map((number) => (
-              <Text key={number} style={[styles.text__numbers]}>
+              <Text style={[styles.text__numbers]}>
                 {number}
               </Text>
             ))}
@@ -79,7 +86,6 @@ const Tickets = () => {
     <ScrollView
       style={styles.container}
       showsVerticalScrollIndicator={false}
-      scrollEnabled={true}
     >
       {textValue ? (
         <View style={styles.ticket__container}>
@@ -108,10 +114,20 @@ const Tickets = () => {
               filled={true}
               height={54}
               fontSize={18}
+              onPress={() => toggleTooltip()}
             />
           </View>
         </View>
       ) : null}
+      {isTooltipVisible && (
+        <Modal
+          visible={isTooltipVisible}
+          animationType="slide"
+          transparent={true}
+        >
+          <TicketsModalComponent onClose={toggleTooltip} />
+        </Modal>
+      )}
     </ScrollView>
   );
 };
@@ -122,9 +138,6 @@ const styles = StyleSheet.create({
     height: HEIGHT.height,
   },
   ticket__container: {
-    // flex: 1,
-    // paddingTop: 55,
-    // backgroundColor: elemBackgroundColor,
     minHeight: HEIGHT.height,
     borderRadius: 8,
     paddingHorizontal: 15,
@@ -179,11 +192,8 @@ const styles = StyleSheet.create({
     color: textPrimaryColor,
   },
   block__button: {
-    // justifyContent: "center",
-    // alignItems: "center",
     borderRadius: 16,
     borderWidth: 1,
-    // borderColor: "#50FF9A",
     borderStyle: "solid",
     alignSelf: "center",
   },
@@ -197,40 +207,7 @@ const styles = StyleSheet.create({
   button: {
     width: WIDTH.width - 30,
     marginVertical: 15,
-    // paddingHorizontal: 15,
   },
-  // tickets: {
-  //   paddingTop: 10,
-  //   height: 111,
-  //   width: WIDTH.width - 30,
-  //   justifyContent: "center",
-  //   borderWidth: 1,
-  //   borderColor: elemBackgroundColor3,
-  //   borderStyle: "solid",
-  //   borderRadius: 10,
-  // },
-  // ticket__inner: {
-  //   paddingHorizontal: 120,
-  //   flexDirection: "row",
-  //   alignItems: "center",
-  //   columnGap: 8,
-  // },
-  // ticket__text: {
-  //   fontFamily: FONTS.regular,
-  //   fontSize: 14,
-  //   color: textPrimaryColor,
-  // },
-  // ticket__button: {
-  //   justifyContent: "center",
-  //   alignItems: "center",
-  //   width: 142,
-  //   height: 34,
-  // },
-  // ticket__button_text: {
-  //   fontFamily: FONTS.regular,
-  //   fontSize: 12,
-  //   color: textPrimaryColor,
-  // },
 });
 
 export default Tickets;

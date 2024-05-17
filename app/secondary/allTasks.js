@@ -1,13 +1,22 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
-import { Image, ImageBackground } from 'expo-image'
-import HeaderComponent from '../../components/HeaderComponent';
-import { FONTS, HEIGHT, WIDTH } from '../../constants/theme';
-import { elemBackgroundColor, textPrimaryColor } from '../../components/ColorsComponent';
-import FitnessGift from '../../components/FitnessCardComponent';
+import { Modal, ScrollView, StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import { Image, ImageBackground } from "expo-image";
+import HeaderComponent from "../../components/HeaderComponent";
+import { FONTS, HEIGHT, WIDTH } from "../../constants/theme";
+import {
+  elemBackgroundColor,
+  textPrimaryColor,
+} from "../../components/ColorsComponent";
+import FitnessGift from "../../components/FitnessCardComponent";
+import UniversalModal from "../../components/ModalWindowComponent";
 
 export default function AllTasks() {
   const [textValue, setTextValue] = useState("Все задания");
+  const [isTooltipVisible, setTooltipVisible] = useState(false);
+
+  const toggleTooltip = () => {
+    setTooltipVisible(!isTooltipVisible);
+  };
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -47,7 +56,7 @@ export default function AllTasks() {
           <View style={styles.tickets__wrapper_image}>
             <Image
               source={require("../../assets/up.svg")}
-              height={21}
+              height={18}
               width={28}
             />
           </View>
@@ -66,8 +75,9 @@ export default function AllTasks() {
             maxCount={5}
             endDate={"до 1 января 2024 года"}
             balance={10}
-            balanceImageHeight={17}
+            balanceImageHeight={14}
             balanceImageWidth={22}
+            onClose={toggleTooltip}
           />
           <FitnessGift
             imageSource={require("../../assets/gifts/fitness.svg")}
@@ -83,6 +93,7 @@ export default function AllTasks() {
             balance={10}
             balanceImageHeight={12}
             balanceImageWidth={33}
+            onClose={toggleTooltip}
           />
         </View>
         <Text style={styles.title__text}>Разовые задания</Text>
@@ -99,8 +110,9 @@ export default function AllTasks() {
             maxCount={5}
             endDate={"выполнено"}
             balance={10}
-            balanceImageHeight={17}
+            balanceImageHeight={14}
             balanceImageWidth={22}
+            onClose={toggleTooltip}
           />
           <FitnessGift
             imageSource={require("../../assets/gifts/fitness.svg")}
@@ -116,8 +128,32 @@ export default function AllTasks() {
             balance={5}
             balanceImageHeight={12}
             balanceImageWidth={33}
+            onClose={toggleTooltip}
           />
         </View>
+        {isTooltipVisible && (
+          <Modal
+            visible={isTooltipVisible}
+            animationType="slide"
+            transparent={true}
+          >
+            <UniversalModal
+              onClose={toggleTooltip}
+              title={"Покупайте в категории Авто"}
+              title2={"Получаете"}
+              buttonTitle={"К покупкам"}
+              balance={10}
+              balanceUp={10}
+              content={
+                "Приобретите что то у нас и мы сделаем скидку 15% для вас скидку 15% для васПриобретите что то у нас и мы сделаем скидку 15% для вас"
+              }
+              sourceImg={require("../../assets/gifts/car.png")}
+              dateText={
+                "Приобретите что то у нас и мы сделаем скидку 15% для вас скидку 15% для вас"
+              }
+            />
+          </Modal>
+        )}
       </ImageBackground>
     </ScrollView>
   );

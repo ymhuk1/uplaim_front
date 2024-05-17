@@ -29,6 +29,7 @@ const WIDTH = {
 
 const COLORS = {
   primary: "#181629",
+  secondary: "#121123",
   iconBack: "#24224A",
   iconBack2: "#3F3761",
   text: "#FFFFFF",

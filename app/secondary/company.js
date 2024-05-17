@@ -272,7 +272,7 @@ export default function Company() {
                   ratingBackgroundColor="#9A95B2"
                   startingValue={
                     company.reviews_rating === null ? 0 : company.reviews_rating
-                  } // значение получаем с сервера
+                  }
                 />
                 <Text style={styles.ratingText}>
                   {Math.floor(company.reviews_rating * 10) / 10}
@@ -295,7 +295,7 @@ export default function Company() {
                 filled={true}
                 height={48}
                 fontSize={18}
-                onPress={() => {}}
+                onPress={() => {router.push({ pathname: "/secondary/recommendations" })}}
               />
             ) : (
               <NewButtonComponent

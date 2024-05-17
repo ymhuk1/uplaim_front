@@ -22,6 +22,21 @@ export default function AllGifts() {
   const [textValue, setTextValue] = useState("Все призы");
   const [isTooltipVisible, setTooltipVisible] = useState(false);
 
+  const images = [
+    {
+      // id: 1,
+      image1: require("../../assets/gifts/sauna.jpg"),
+    },
+    {
+      // id: 2,
+      image2: require("../../assets/gifts/bicycle.jpg"),
+    },
+    {
+      // id: 3,
+      image3: require("../../assets/gifts/iphones.jpg"),
+    },
+  ];
+
   const toggleTooltip = () => {
     setTooltipVisible(!isTooltipVisible);
   };
@@ -85,7 +100,7 @@ export default function AllGifts() {
                 width={giftsWidthImg}
               />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => toggleTooltip()}>
               <GiftNow
                 sourceImg={require("../../assets/gifts/iphones.jpg")}
                 sourceTicket={require("../../assets/ticket-orange.svg")}
@@ -96,7 +111,7 @@ export default function AllGifts() {
                 width={giftsWidthImg}
               />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => toggleTooltip()}>
               <GiftNow
                 sourceImg={require("../../assets/gifts/sauna.jpg")}
                 sourceTicket={require("../../assets/ticket-fuksia.svg")}
@@ -107,7 +122,7 @@ export default function AllGifts() {
                 width={giftsWidthImg}
               />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => toggleTooltip()}>
               <GiftNow
                 sourceImg={require("../../assets/gifts/bicycle.jpg")}
                 sourceTicket={require("../../assets/ticket-orange.svg")}
@@ -118,7 +133,7 @@ export default function AllGifts() {
                 width={giftsWidthImg}
               />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => toggleTooltip()}>
               <GiftNow
                 sourceImg={require("../../assets/gifts/iphones.jpg")}
                 sourceTicket={require("../../assets/ticket-green.svg")}
@@ -129,9 +144,9 @@ export default function AllGifts() {
                 width={giftsWidthImg}
               />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => toggleTooltip()}>
               <GiftNow
-                sourceImg={require("../../assets/gifts/iphones.jpg")}
+                sourceImg={images[2].image3}
                 sourceTicket={require("../../assets/ticket-fuksia.svg")}
                 title={"Apple iPhone 14"}
                 text={"Новый смартфон от компании Apple"}
@@ -152,11 +167,13 @@ export default function AllGifts() {
                 onClose={toggleTooltip}
                 title={"Apple IPhone 14"}
                 title2={"У вас подходящих билетов"}
+                buttonTitle={"Хорошо"}
                 balance={10}
                 content={
                   "Тонкий и легкий смартфон из новой линейки Apple iPhone 14 с высоким разрешением OLED-экрана, хорошим объемом памяти и запасом автономности во влагостойком корпусе. Продвинутые камеры позволят снимать фото и видео в отличном качестве даже при слабом освещении."
                 }
                 sourceImg={require("../../assets/gifts/iphones.jpg")}
+                dateText={"Розыгрыш будет произведён 12.08.2024 в 20:00 МСК "}
               />
             </Modal>
           )}

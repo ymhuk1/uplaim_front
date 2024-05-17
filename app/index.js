@@ -15,12 +15,15 @@ export default function Index() {
       automaticallyAdjustKeyboardInsets={true}
       contentContainerStyle={styles.container}
     >
+      <StatusBar
+        backgroundColor="transparent"
+        barStyle="light-content"
+      />
       <ImageBackground
         source={require("../assets/background.png")}
         contentFit={"cover"}
       >
         <View style={styles.containerView}></View>
-        <StatusBar backgroundColor="transparent" barStyle="light-content" />
       </ImageBackground>
     </ScrollView>
   );

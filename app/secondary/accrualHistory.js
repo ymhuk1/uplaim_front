@@ -79,7 +79,7 @@ export default function AccrualHistory() {
               "Приобретите что то у нас и мы сделаем скидку 15% для вас"
             }
             balance={10}
-            balanceImageHeight={17}
+            balanceImageHeight={14}
             balanceImageWidth={22}
           />
           <Text style={styles.ticket__text}>8 октября</Text>

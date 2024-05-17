@@ -6,11 +6,17 @@ import {
   Button,
   StyleSheet,
   TouchableOpacity,
+  StatusBar,
 } from "react-native";
 import { FONTS, HEIGHT, WIDTH } from "../constants/theme";
 import NewButtonComponent from "./NewButtonComponent";
-import { Image } from "expo-image";
-import { textColor4, textPrimaryColor } from "./ColorsComponent";
+import { Image, ImageBackground } from "expo-image";
+import {
+  elemBackgroundColor3,
+  textColor4,
+  textPrimaryColor,
+} from "./ColorsComponent";
+import { BlurView } from "expo-blur";
 
 const UniversalModal = ({
   isVisible,
@@ -21,76 +27,125 @@ const UniversalModal = ({
   sourceImg,
   title2,
   balance,
+  buttonTitle,
+  dateText,
+  balanceUp,
 }) => {
   return (
-    <View style={styles.container}>
-      <View style={styles.modalView}>
-        <View style={styles.header}>
-          <TouchableOpacity onPress={onClose} style={styles.closePopup}>
-            <Image
-              contentFit="contain"
-              contentPosition={"center"}
-              transition={1000}
-              source={require("../assets/close.svg")}
-              width={36}
-              height={36}
-            />
-          </TouchableOpacity>
-          <Text style={styles.text__title}>{title}</Text>
-        </View>
+    <BlurView
+      tint="dark"
+      intensity={40}
+      blurReductionFactor={10}
+      experimentalBlurMethod={"dimezisBlurView"}
+      style={styles.container}
+    >
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor={"#121123"}
+        translucent={true}
+      />
+      <ImageBackground style={styles.container} blurRadius={10}>
+        <View style={styles.modalView}>
+          <View style={styles.header}>
+            <TouchableOpacity onPress={onClose} style={styles.closePopup}>
+              <Image
+                contentFit="contain"
+                contentPosition={"center"}
+                transition={1000}
+                source={require("../assets/close.svg")}
+                width={36}
+                height={36}
+              />
+            </TouchableOpacity>
+            <Text style={styles.text__title}>{title}</Text>
+          </View>
 
-        <View style={{ paddingHorizontal: 15, rowGap: 10, marginBottom: 10 }}>
-          <Image
-            contentFit="cover"
-            contentPosition={"top"}
-            height={200}
-            width={width}
-            source={sourceImg}
-            borderRadius={10}
-          />
-          <Text style={styles.text__content}>{content}</Text>
-          <View style={{ flexDirection: "row", alignItems: "baseline" }}>
-            <Text
-              style={[
-                styles.text__title,
-                {
-                  fontFamily: FONTS.regular,
-                  fontSize: 16,
-                  marginRight: "auto",
-                },
-              ]}
-            >
-              {title2}
-            </Text>
-            <Text
-              style={[styles.text__title, { fontSize: 20, marginRight: 5 }]}
-            >
-              {balance}
-            </Text>
+          <View style={{ paddingHorizontal: 15, rowGap: 10, marginBottom: 10 }}>
             <Image
               contentFit="cover"
               contentPosition={"top"}
-              height={12}
-              width={33}
-              source={require("../assets/ticket-green.svg")}
+              height={240}
+              width={width}
+              source={sourceImg}
+              borderRadius={10}
+            />
+            <Text style={styles.text__content}>{content}</Text>
+            <View style={{}}>
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Text
+                  style={[
+                    styles.text__title,
+                    {
+                      fontFamily: FONTS.regular,
+                      fontSize: 16,
+                      marginRight: "auto",
+                    },
+                  ]}
+                >
+                  {title2}
+                </Text>
+                <Text
+                  style={[styles.text__title, { fontSize: 20, marginRight: 5 }]}
+                >
+                  {balance}
+                </Text>
+                <Image
+                  contentFit="cover"
+                  contentPosition={"top"}
+                  height={12}
+                  width={33}
+                  source={require("../assets/ticket-green.svg")}
+                />
+              </View>
+              {balanceUp ? (
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Text
+                    style={[
+                      styles.text__title,
+                      {
+                        fontFamily: FONTS.regular,
+                        fontSize: 16,
+                        marginRight: "auto",
+                      },
+                    ]}
+                  >
+                    {title2}
+                  </Text>
+                  <Text
+                    style={[
+                      styles.text__title,
+                      { fontSize: 20, marginRight: 5 },
+                    ]}
+                  >
+                    {balanceUp}
+                  </Text>
+                  <Image
+                    contentFit="cover"
+                    contentPosition={"top"}
+                    height={14}
+                    width={22}
+                    source={require("../assets/up.svg")}
+                  />
+                </View>
+              ) : null}
+            </View>
+            <Text style={[styles.text__content, { marginLeft: 4 }]}>
+              {dateText}
+            </Text>
+          </View>
+
+          <View style={styles.button}>
+            <NewButtonComponent
+              title={buttonTitle}
+              // onPress={onClose}
+              filled={true}
+              height={54}
+              fontSize={18}
             />
           </View>
-          <Text style={[styles.text__content, { marginLeft: 4 }]}>
-            Розыгрыш будет произведён 12.08.2024 в 20:00 МСК
-          </Text>
         </View>
-
-        <View style={styles.button}>
-          <NewButtonComponent
-            title="Хорошо"
-            // onPress={onClose}
-            filled={true}
-            height={54}
-            fontSize={18}
-          />
-        </View>
-      </View>
-    </View>
+      </ImageBackground>
+    </BlurView>
   );
 };
 
@@ -100,14 +155,13 @@ const styles = StyleSheet.create({
     // minHeight: HEIGHT.height,
     justifyContent: "flex-end",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
   },
   modalView: {
     backgroundColor: "#121123",
-    // padding: 20,
-    // paddingHorizontal: 15,
-    borderRadius: 12,
-    width: WIDTH.width - 30,
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+    width: WIDTH.width,
   },
   header: {
     // margin: 20,
