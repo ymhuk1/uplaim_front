@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     maxWidth: 185,
     fontSize: SIZES.xLarge,
-    fontWeight: "bold",
     color: COLORS.text,
   },
   smsButton: {

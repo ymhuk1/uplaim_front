@@ -324,6 +324,7 @@ const styles = StyleSheet.create({
   text2: {
     fontFamily: FONTS.medium,
     fontSize: SIZES.xLarge,
+    lineHeight: 24,
     color: textPrimaryColor,
   },
 

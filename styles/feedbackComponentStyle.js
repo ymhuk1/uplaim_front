@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { COLORS, SIZES, HEIGHT, WIDTH } from "../constants/theme";
+import { COLORS, SIZES, HEIGHT, WIDTH, FONTS } from "../constants/theme";
 
 const styles = StyleSheet.create({
   container: {
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   },
   headerPopup: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     color: "white",
   },
   rating: {

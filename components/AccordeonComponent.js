@@ -30,8 +30,10 @@ const Accordion = ({ title, content, width }) => {
             style={{
               fontFamily: FONTS.regular,
               fontSize: 16,
+              lineHeight: 20,
               color: textPrimaryColor,
               marginRight: "auto",
+              marginBottom: 10,
             }}
             width={width}
           >
@@ -61,6 +63,7 @@ const Accordion = ({ title, content, width }) => {
             fontFamily: FONTS.regular,
             color: textColor4,
             fontSize: 12,
+            lineHeight: 14,
           }}
         >
           {content}

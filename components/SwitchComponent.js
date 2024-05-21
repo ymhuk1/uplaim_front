@@ -3,6 +3,7 @@ import {useState} from "react";
 import ToggleSwitch from 'toggle-switch-react-native'
 import {Image} from "expo-image";
 import {textColor4, textPrimaryColor} from "./ColorsComponent";
+import { FONTS } from "../constants/theme";
 
 export default function SwitchComponent({ isEnabled, onToggle }) {
     return (
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
     text: {
         color: textColor4,
         fontSize: 24,
-        fontWeight: "bold",
+        fontFamily: FONTS.medium,
         marginRight: 10,
     },
     icon: {

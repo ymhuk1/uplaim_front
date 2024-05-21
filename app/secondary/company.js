@@ -30,6 +30,7 @@ import {
 } from "../../components/ColorsComponent";
 import NewButtonComponent from "../../components/NewButtonComponent";
 import { Rating } from "react-native-ratings";
+import { FONTS } from "../../constants/theme";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
@@ -553,7 +554,7 @@ const styles = StyleSheet.create({
     height: 74,
   },
   textTop: {
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     fontSize: 24,
     color: "white",
     marginBottom: -5,
@@ -561,7 +562,7 @@ const styles = StyleSheet.create({
   },
   ratingText: {
     color: "white",
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     fontSize: 14,
   },
   description: {
@@ -643,20 +644,20 @@ const styles = StyleSheet.create({
   },
   tariffBallsText: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     color: textPrimaryColor,
     marginLeft: 10,
   },
   tariffColumnTextUp: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     color: textPrimaryColor,
     marginBottom: 5,
     textAlign: "center",
   },
   tariffColumnTextDown: {
     fontSize: 12,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     color: textPrimaryColor,
     textAlign: "center",
   },
@@ -672,7 +673,7 @@ const styles = StyleSheet.create({
   },
   text2: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     color: "white",
     marginLeft: 7,
   },
@@ -707,7 +708,7 @@ const styles = StyleSheet.create({
   bannerSaveSum: {
     fontSize: 20,
     color: textPrimaryColor,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
   },
   bannerSaveText: {
     fontSize: 16,
@@ -742,7 +743,7 @@ const styles = StyleSheet.create({
   },
   countFriendsTextRight: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     color: textPrimaryColor,
   },
   wrapper: {

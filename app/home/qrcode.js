@@ -12,6 +12,7 @@ import QRCodeComponent from "../../components/QRCodeComponent";
 import SliderComponent from "../../components/SliderComponent";
 import * as SecureStore from "expo-secure-store";
 import { textPrimaryColor } from "../../components/ColorsComponent";
+import { FONTS } from "../../constants/theme";
 
 export default function Qrcode() {
   const [refreshing, setRefreshing] = useState(false);
@@ -155,7 +156,8 @@ const styles = StyleSheet.create({
   },
   textHead: {
     fontSize: 24,
-    fontWeight: "bold",
+    lineHeight: 24,
+    fontFamily: FONTS.medium,
     color: textPrimaryColor,
     marginLeft: 7,
   },
@@ -182,7 +184,8 @@ const styles = StyleSheet.create({
   },
   text2: {
     fontSize: 24,
-    fontWeight: "bold",
+    lineHeight: 24,
+    fontFamily: FONTS.medium,
     color: "white",
     marginLeft: 7,
   },

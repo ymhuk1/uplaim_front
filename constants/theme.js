@@ -8,6 +8,7 @@ const loadFonts = async () => {
       "Rubik-Medium": require("../assets/fonts/Rubik-Medium.ttf"),
       "Rubik-Regular": require("../assets/fonts/Rubik-Regular.ttf"),
       "Rubik-Bold": require("../assets/fonts/Rubik-Bold.ttf"),
+      "Rubik-SemiBold": require("../assets/fonts/Rubik-SemiBold.ttf"),
     };
     await Font.loadAsync(fonts);
   } catch (error) {
@@ -39,6 +40,7 @@ const FONTS = {
   light: "Rubik-Light",
   medium: "Rubik-Medium",
   regular: "Rubik-Regular",
+  semibold: "Rubik-SemiBold",
   bold: "Rubik-Bold",
 };
 

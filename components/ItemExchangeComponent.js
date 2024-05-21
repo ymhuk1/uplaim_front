@@ -7,6 +7,7 @@ import InfoModalComponent from "./InfoModalComponent";
 import {router} from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import ErrorModalComponent from "./ErrorModalComponent";
+import { FONTS } from '../constants/theme';
 
 function getBallsText(clientBalls) {
     const lastTwoDigits = clientBalls % 100;
@@ -511,7 +512,7 @@ const styles = StyleSheet.create({
     },
     holderExchangeOffer: {
         fontSize: 18,
-        fontWeight: "bold",
+        fontFamily: FONTS.medium,
         color: textPrimaryColor,
         marginRight: 5,
     },

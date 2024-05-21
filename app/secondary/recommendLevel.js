@@ -22,6 +22,7 @@ import * as SecureStore from "expo-secure-store";
 import Constants from "expo-constants";
 import { getBallsText } from "../../components/utils/utils";
 import NewButtonComponent from "../../components/NewButtonComponent";
+import { FONTS } from "../../constants/theme";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
@@ -453,20 +454,20 @@ const styles = StyleSheet.create({
   },
   tariffBallsText: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     color: textPrimaryColor,
     marginLeft: 10,
   },
   tariffColumnTextUp: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     color: textPrimaryColor,
     marginBottom: 5,
     textAlign: "center",
   },
   tariffColumnTextDown: {
     fontSize: 12,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     color: textPrimaryColor,
     textAlign: "center",
   },
@@ -509,7 +510,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     color: "white",
     marginBottom: 2,
   },

@@ -106,7 +106,6 @@ const styles = StyleSheet.create({
     },
     textStories: {
         fontFamily: FONTS.medium,
-        // fontWeight: "bold",
         fontSize: 16,
         color: textPrimaryColor,
         marginLeft: 10,

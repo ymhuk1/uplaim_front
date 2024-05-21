@@ -18,6 +18,7 @@ import ButtonComponent from "./ButtonComponent";
 import { elemBackgroundColor, textDisabledColor } from "./ColorsComponent";
 import NewButtonComponent from "./NewButtonComponent";
 import { LinearGradient } from "expo-linear-gradient";
+import { FONTS } from "../constants/theme";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
@@ -210,7 +211,7 @@ const styles = StyleSheet.create({
   textStories: {
     fontSize: 12,
     color: "white",
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
   },
   fullScreenContainer: {
     justifyContent: "center",
@@ -269,7 +270,7 @@ const styles = StyleSheet.create({
   infoName: {
     fontSize: 24,
     color: "white",
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     marginBottom: 5,
   },
   infoDescription: {

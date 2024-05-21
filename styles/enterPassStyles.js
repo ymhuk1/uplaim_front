@@ -30,12 +30,12 @@ const styles = StyleSheet.create({
   },
   textContainer: {},
   text: {
-    fontFamily: FONTS.medium,
+    fontFamily: FONTS.medium, 
     paddingBottom: 20,
     textAlign: "center",
     // maxWidth: 185,
     fontSize: SIZES.xLarge,
-    fontWeight: "bold",
+    lineHeight: 24,
     color: COLORS.text,
   },
   smsButton: {
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.regular,
     fontSize: SIZES.medium,
     color: COLORS.text,
-    marginLeft: 8,
+    // marginLeft: 8,
     textAlign: "center",
   },
 });

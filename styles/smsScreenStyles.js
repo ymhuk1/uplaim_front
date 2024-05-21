@@ -39,13 +39,14 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: FONTS.medium,
     fontSize: SIZES.xLarge,
-    fontWeight: "bold",
+    lineHeight: 24,
     color: "white",
   },
   text2: {
     fontFamily: FONTS.regular,
     width: 250,
     fontSize: SIZES.medium,
+    lineHeight: 20,
     color: COLORS.text,
     textAlign: "center",
   },
@@ -53,6 +54,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.regular,
     width: 280,
     fontSize: SIZES.medium,
+    lineHeight: 20,
     color: "white",
     textAlign: "center",
   },
@@ -72,7 +74,9 @@ const styles = StyleSheet.create({
   },
   smsRepeat: {
     width: 280,
+    fontFamily: FONTS.regular,
     fontSize: SIZES.medium,
+    lineHeight: 20,
     color: "#3D4ABA",
     textAlign: "center",
     textDecorationLine: "underline",

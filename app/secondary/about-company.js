@@ -14,7 +14,7 @@ import Modal from "react-native-modal";
 import { Link, useGlobalSearchParams } from "expo-router";
 import Constants from "expo-constants";
 import { Image, ImageBackground } from "expo-image";
-import { HEIGHT } from "../../constants/theme";
+import { FONTS, HEIGHT } from "../../constants/theme";
 import FeedbackComponent from "../../components/feedbackComponent";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
     height: 74,
   },
   textTop: {
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     fontSize: 24,
     color: "white",
     marginBottom: -5,

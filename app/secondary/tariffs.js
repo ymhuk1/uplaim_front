@@ -459,7 +459,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.medium,
     marginTop: 30,
     fontSize: 36,
-    // fontWeight: "bold",
+    // fontFamily: FONTS.medium,
     color: "white",
     textAlign: "center",
   },
@@ -560,7 +560,7 @@ const styles = StyleSheet.create({
   subscribeHeaderText: {
     color: textPrimaryColor,
     fontSize: 24,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     marginTop: 40,
     marginBottom: 20,
     textAlign: "center",
@@ -587,7 +587,7 @@ const styles = StyleSheet.create({
   containerItemPrice: {
     color: textPrimaryColor,
     fontSize: 24,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
   },
   containerSelectItemPrice: {
     fontSize: 26,

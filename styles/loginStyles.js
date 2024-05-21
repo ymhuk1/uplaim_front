@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: FONTS.regular,
     fontSize: SIZES.medium,
+    lineHeight: 20,
     color: COLORS.text,
   },
   input: {

@@ -5,6 +5,7 @@ import HeaderComponent from "../../components/HeaderComponent";
 import {Image, ImageBackground} from "expo-image";
 import {elemBackgroundColor, textPrimaryColor} from "../../components/ColorsComponent";
 import * as SecureStore from "expo-secure-store";
+import { FONTS } from "../../constants/theme";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
@@ -240,7 +241,7 @@ const styles = StyleSheet.create({
         marginTop: 3,
         color: textPrimaryColor,
         fontSize: 24,
-        fontWeight: "bold",
+        fontFamily: FONTS.medium,
     },
     tariffFreeContainer: {
         backgroundColor: elemBackgroundColor,
@@ -251,7 +252,7 @@ const styles = StyleSheet.create({
     tariffFreeHeader: {
         color: textPrimaryColor,
         fontSize: 18,
-        fontWeight: "bold",
+        fontFamily: FONTS.medium,
         textAlign: "center",
         marginBottom: 15,
     },
@@ -269,7 +270,7 @@ const styles = StyleSheet.create({
     tariffFreeName: {
         color: textPrimaryColor,
         fontSize: 12,
-        fontWeight: "bold",
+        fontFamily: FONTS.medium,
         marginBottom: 10,
         borderRadius: 8,
         paddingVertical: 2,
@@ -313,7 +314,7 @@ const styles = StyleSheet.create({
     levelLeftNameText: {
         color: textPrimaryColor,
         fontSize: 24,
-        fontWeight: "bold",
+        fontFamily: FONTS.medium,
     },
     levelLeftPeopleText: {
         color: textPrimaryColor,
@@ -325,7 +326,7 @@ const styles = StyleSheet.create({
     levelLeftDiscountText: {
         color: textPrimaryColor,
         fontSize: 24,
-        fontWeight: "bold",
+        fontFamily: FONTS.medium,
     },
     levelLeftDopText: {
         color: textPrimaryColor,
@@ -370,7 +371,7 @@ const styles = StyleSheet.create({
     peopleName: {
         color: textPrimaryColor,
         fontSize: 14,
-        fontWeight: "bold",
+        fontFamily: FONTS.medium,
         marginBottom: 5,
     },
     peopleTariffContainer: {

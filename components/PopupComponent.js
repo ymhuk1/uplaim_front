@@ -55,8 +55,8 @@ const PopupComponent = ({
 
 const styles = {
   popupContainer: {
-    minHeight: 250,
-    // paddingTop: 50,
+    // minHeight: 250,
+    paddingTop: 30,
     backgroundColor: "#181629",
     borderTopRightRadius: 12,
     borderTopLeftRadius: 12,
@@ -76,13 +76,13 @@ const styles = {
     marginBottom: 25,
   },
   iconPopup: {
-    marginBottom: 15,
+    // marginBottom: 15,
   },
   headerPopup: {
     fontSize: 24,
     fontFamily: FONTS.medium,
     color: "white",
-    marginBottom: 20,
+    // marginBottom: 20,
   },
   textPopup: {
     fontSize: 16,

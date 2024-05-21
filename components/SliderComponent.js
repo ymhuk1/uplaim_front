@@ -45,8 +45,7 @@ const SliderComponent = ({
 
 const styles = StyleSheet.create({
   wrapper: {
-    height: 600,
-    marginBottom: 30,
+    marginBottom: 20,
   },
   slide1: {},
   text: {},

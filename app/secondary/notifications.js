@@ -23,6 +23,7 @@ import * as SecureStore from "expo-secure-store";
 import { format, isToday } from "date-fns";
 import { ru } from "date-fns/locale";
 import { UTCDate } from "@date-fns/utc";
+import { FONTS } from "../../constants/theme";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
@@ -313,7 +314,7 @@ const styles = StyleSheet.create({
   },
   dateText: {
     color: textPrimaryColor,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     fontSize: 16,
     marginVertical: 10,
   },
@@ -343,7 +344,7 @@ const styles = StyleSheet.create({
   },
   groupNotifyLeftText: {
     color: textPrimaryColor,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     fontSize: 16,
   },
   containerGroupNotifyRight: {
@@ -361,7 +362,7 @@ const styles = StyleSheet.create({
   },
   groupNotifyCount: {
     fontSize: 10,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     color: textPrimaryColor,
   },
   centeredView: {
@@ -382,7 +383,7 @@ const styles = StyleSheet.create({
   modalHeader: {
     color: textPrimaryColor,
     fontSize: 24,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     marginBottom: 10,
   },
   modalItem: {
@@ -398,7 +399,7 @@ const styles = StyleSheet.create({
   modalTextHeader: {
     color: textPrimaryColor,
     fontSize: 14,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     width: "70%",
   },
   modalTextDop: {

@@ -247,11 +247,12 @@ const styles = StyleSheet.create({
     textContainerHead: {
         flexDirection: "row",
         alignItems: "center",
-        marginBottom: 10,
+        marginBottom: 30,
     },
     textHead: {
         fontFamily: FONTS.medium,
         fontSize: 24,
+        lineHeight: 24,
         color: textPrimaryColor,
         marginLeft: 7,
     },
@@ -272,6 +273,7 @@ const styles = StyleSheet.create({
     text: {
         fontFamily: FONTS.medium,
         fontSize: SIZES.xLarge,
+        lineHeight: 24,
         color: 'white',
     },
     minText: {

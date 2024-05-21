@@ -26,7 +26,7 @@ import NewButtonComponent from "./NewButtonComponent";
 import TagComponent from "./TagComponent";
 import QRCodeComponent from "./QRCodeComponent";
 import { BlurView } from "expo-blur";
-import { HEIGHT } from "../constants/theme";
+import { FONTS, HEIGHT } from "../constants/theme";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
@@ -217,7 +217,9 @@ const GridComponent = ({
                 </View>
                 <View style={styles.couponContainer}>
                   <Text style={styles.nameCoupon}>{item.company.name}</Text>
-                  <Text style={styles.deskCoupon}>{item.description}</Text>
+                  <Text style={styles.deskCoupon} numberOfLines={2}>
+                    {item.description}
+                  </Text>
                   <Text style={styles.dateCoupon}>{formatDate(item.date)}</Text>
                 </View>
               </View>
@@ -529,7 +531,7 @@ const styles = StyleSheet.create({
   nameCompany: {
     color: textPrimaryColor,
     fontSize: 16,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
   },
   ballsContainer: {
     flexDirection: "row",
@@ -558,7 +560,7 @@ const styles = StyleSheet.create({
   },
   textPartners: {
     fontSize: 16,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     color: "white",
   },
   couponContainer: {
@@ -567,7 +569,7 @@ const styles = StyleSheet.create({
   nameCoupon: {
     color: "white",
     fontSize: 16,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
   },
   deskCoupon: {
     marginVertical: 7,
@@ -643,7 +645,7 @@ const styles = StyleSheet.create({
     height: 74,
   },
   textTop: {
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     fontSize: 24,
     color: "white",
     marginBottom: -5,
@@ -651,7 +653,7 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     color: "white",
     marginVertical: 15,
   },
@@ -668,7 +670,7 @@ const styles = StyleSheet.create({
   textNameCompany: {
     color: textPrimaryColor,
     fontSize: 16,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
   },
   ballsContainerQR: {
     backgroundColor: textColor3,

@@ -5,6 +5,7 @@ import {ImageBackground, Image} from "expo-image";
 import {elemBackgroundColor, textPrimaryColor} from "../../components/ColorsComponent";
 import {useGlobalSearchParams} from "expo-router";
 import Constants from "expo-constants";
+import { FONTS } from "../../constants/theme";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
@@ -116,7 +117,7 @@ const styles = StyleSheet.create({
     nameTextNews: {
         color: textPrimaryColor,
         fontSize: 24,
-        fontWeight: "bold",
+        fontFamily: FONTS.medium,
     },
     imageNews: {
         marginVertical: 15,
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
     headerNews: {
         color: textPrimaryColor,
         fontSize: 18,
-        fontWeight: "bold",
+        fontFamily: FONTS.medium,
     },
     descriptionNews: {
         color: textPrimaryColor,

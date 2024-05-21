@@ -79,7 +79,6 @@ const HeaderComponent = ({ text, secondary, home, main, notify, skeleton }) => {
 const styles = StyleSheet.create({
   container: {
     // height: 90,
-
     // backgroundColor: "red",
   },
   headerContainer: {

@@ -15,27 +15,11 @@ import {
 } from "../../components/ColorsComponent";
 import GiftNow from "../../components/GiftsNowComponent";
 import HeaderComponent from "../../components/HeaderComponent";
-import ModalComponent from "../../components/ModalComponent";
 import UniversalModal from "../../components/ModalWindowComponent";
 
 export default function AllGifts() {
   const [textValue, setTextValue] = useState("Все призы");
   const [isTooltipVisible, setTooltipVisible] = useState(false);
-
-  const images = [
-    {
-      // id: 1,
-      image1: require("../../assets/gifts/sauna.jpg"),
-    },
-    {
-      // id: 2,
-      image2: require("../../assets/gifts/bicycle.jpg"),
-    },
-    {
-      // id: 3,
-      image3: require("../../assets/gifts/iphones.jpg"),
-    },
-  ];
 
   const toggleTooltip = () => {
     setTooltipVisible(!isTooltipVisible);
@@ -177,7 +161,6 @@ export default function AllGifts() {
               />
             </Modal>
           )}
-          {/* <ModalComponent /> */}
         </View>
       </ImageBackground>
     </ScrollView>
@@ -189,7 +172,6 @@ let giftsWidthImg = (WIDTH.width - 45) / 2;
 let emptySpace = HEIGHT.height - 668;
 let giftsHeightWrapper = (HEIGHT.height - emptySpace) / 3;
 let heightImage = (HEIGHT.height - (emptySpace + giftsHeightWrapper + 30)) / 3;
-console.log(giftsHeightWrapper);
 
 const styles = StyleSheet.create({
   container: {

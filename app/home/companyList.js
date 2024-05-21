@@ -17,7 +17,7 @@ import SearchComponent from "../../components/SearchComponent";
 import Constants from "expo-constants";
 import { Link, useLocalSearchParams } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
-import { HEIGHT } from "../../constants/theme";
+import { FONTS, HEIGHT } from "../../constants/theme";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
@@ -247,11 +247,12 @@ const styles = StyleSheet.create({
   textContainer2: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
+    marginBottom: 15,
   },
   text2: {
     fontSize: 24,
-    fontWeight: "bold",
+    lineHeight: 24,
+    fontFamily: FONTS.medium,
     color: textPrimaryColor,
     marginLeft: 7,
   },
@@ -286,8 +287,9 @@ const styles = StyleSheet.create({
   },
   textStories: {
     fontSize: 14,
+    lineHeight: 16,
     color: "white",
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
   },
   companiesContainer: {
     flexDirection: "row",
@@ -313,6 +315,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   activity: {
+    fontFamily: FONTS.regular,
     fontSize: 12,
     lineHeight: 14,
     padding: 5,
@@ -336,7 +339,7 @@ const styles = StyleSheet.create({
   nameCompany: {
     color: textPrimaryColor,
     fontSize: 16,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
   },
   selectedCategory: {
     borderWidth: 4,
@@ -353,11 +356,14 @@ const styles = StyleSheet.create({
     marginLeft: 5,
     color: textPrimaryColor,
     fontSize: 16,
-    fontWeight: "bold",
+    lineHeight: 20,
+    fontFamily: FONTS.regular,
   },
   dopInfoWelcomeText: {
+    fontFamily: FONTS.regular,
     color: textPrimaryColor,
     fontSize: 12,
+    lineHeight: 14,
   },
   dopInfoCashbackContainer: {
     marginTop: 5,
@@ -366,7 +372,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   dopInfoCashbackText: {
+    fontFamily: FONTS.regular,
     color: textPrimaryColor,
-    fontSize: 12,
+    lineHeight: 14,
+    fontSize: 10,
   },
 });

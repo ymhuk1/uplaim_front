@@ -710,7 +710,7 @@ const styles = StyleSheet.create({
   },
   ballsGiveText: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     color: textPrimaryColor,
   },
   ballsIcon: {

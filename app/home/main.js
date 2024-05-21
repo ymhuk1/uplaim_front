@@ -26,7 +26,6 @@ import { Link, useRouter } from "expo-router";
 import { Skeleton } from "moti/skeleton";
 import { FONTS, SIZES, SKELETON } from "../../constants/theme";
 
-
 export default function MainScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [stories, setStories] = useState([]);
@@ -212,20 +211,18 @@ export default function MainScreen() {
             <HeaderComponent home={true} main={true} notify={notify} />
             <View style={styles.topContainer}>
               <View style={styles.leftContainer}>
-                <View style={styles.textContainer}>
-                  <Skeleton height={35} width={"80%"} {...SKELETON}>
-                    <Text style={styles.text}>
-                      Привет, {clientData.name || "Гость"}!
-                    </Text>
-                  </Skeleton>
-                </View>
-
                 <Skeleton
-                  height={35}
-                  width={252}
+                  // height={75}
+                  // width={252}
                   colorMode="dark"
                   {...SKELETON}
                 >
+                  <View style={styles.textContainer}>
+                    <Text style={styles.text}>
+                      Привет, {clientData.name || "Гость"}!
+                    </Text>
+                  </View>
+
                   <View style={styles.bottomContainer}>
                     <View style={styles.background}>
                       <Image
@@ -247,7 +244,13 @@ export default function MainScreen() {
                         {clientData.balance} ₽
                       </Text>
                     </View>
-                    <TouchableOpacity onPress={() => router.push({ pathname: "/secondary/gifts" })}>
+                    <TouchableOpacity
+                      onPress={() =>
+                        router.push({
+                          pathname: "/secondary/gifts",
+                        })
+                      }
+                    >
                       <Image
                         contentFit="contain"
                         contentPosition={"center"}
@@ -261,10 +264,16 @@ export default function MainScreen() {
                 </Skeleton>
               </View>
               <View>
-                <Skeleton height={65} width={65} {...SKELETON}>
+                <Skeleton
+                  // height={65}
+                  // width={65}
+                  {...SKELETON}
+                >
                   <TouchableOpacity
                     onPress={() =>
-                      router.push({ pathname: "/secondary/tariffs" })
+                      router.push({
+                        pathname: "/secondary/tariffs",
+                      })
                     }
                     style={styles.rightContainer}
                   >
@@ -274,19 +283,34 @@ export default function MainScreen() {
                 </Skeleton>
               </View>
             </View>
-            <Skeleton height={112} width={300} {...SKELETON}>
+            <Skeleton
+              // height={112}
+              // width={300}
+              {...SKELETON}
+            >
+              {/* <View style={{ marginBottom: 30 }}> */}
               <StoryComponent
                 data={stories}
                 style={styles.story}
                 stories={true}
               />
+              {/* </View> */}
             </Skeleton>
             <TouchableOpacity
               onPress={() => router.push({ pathname: "/home/qrcode" })}
               style={styles.textContainer2}
             >
-              <Skeleton height={35} width={220} {...SKELETON}>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Skeleton
+                // height={35}
+                // width={220}
+                {...SKELETON}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
                   <Image
                     contentFit="contain"
                     contentPosition={"center"}
@@ -294,7 +318,10 @@ export default function MainScreen() {
                     source={require("../../assets/briefcase.svg")}
                     width={24}
                     height={24}
-                    style={{ marginBottom: 2, marginRight: 3 }}
+                    style={{
+                      marginBottom: 2,
+                      marginRight: 3,
+                    }}
                   />
                   <Text style={styles.text2}>Мои компании</Text>
                 </View>
@@ -302,7 +329,11 @@ export default function MainScreen() {
             </TouchableOpacity>
 
             {myCompanies.length === 0 ? (
-              <Skeleton height={180} width={"100%"} {...SKELETON}>
+              <Skeleton
+                // height={180}
+                // width={"100%"}
+                {...SKELETON}
+              >
                 <Link
                   href={"/secondary/categories"}
                   style={[
@@ -319,14 +350,21 @@ export default function MainScreen() {
                       source={require("../../assets/plus-company.svg")}
                       width={72}
                       height={72}
-                      style={{ marginBottom: 2, marginRight: 3 }}
+                      style={{
+                        marginBottom: 2,
+                        marginRight: 3,
+                      }}
                     />
                     <Text style={styles.textAddCompany}>Добавить компанию</Text>
                   </View>
                 </Link>
               </Skeleton>
             ) : (
-              <Skeleton height={375} width={"100%"} {...SKELETON}>
+              <Skeleton
+                // height={180}
+                // width={"100%"}
+                {...SKELETON}
+              >
                 <SliderComponent
                   myCompany={true}
                   data={groupedData1}
@@ -338,11 +376,28 @@ export default function MainScreen() {
               </Skeleton>
             )}
             <TouchableOpacity
-              onPress={() => router.push({ pathname: "/secondary/categories" })}
-              style={styles.textContainer2}
+              onPress={() =>
+                router.push({
+                  pathname: "/secondary/categories",
+                })
+              }
+              style={
+                skeleton
+                  ? styles.textContainer2
+                  : [styles.textContainer2, { marginTop: 0 }]
+              }
             >
-              <Skeleton height={35} width={180} {...SKELETON}>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Skeleton
+                // height={35}
+                // width={180}
+                {...SKELETON}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
                   <Image
                     contentFit="contain"
                     contentPosition={"center"}
@@ -350,13 +405,20 @@ export default function MainScreen() {
                     source={require("../../assets/bags-shopping.svg")}
                     width={24}
                     height={24}
-                    style={{ marginBottom: 2, marginRight: 3 }}
+                    style={{
+                      marginBottom: 2,
+                      marginRight: 3,
+                    }}
                   />
                   <Text style={styles.text2}>Партнеры</Text>
                 </View>
               </Skeleton>
             </TouchableOpacity>
-            <Skeleton height={320} width={"100%"} {...SKELETON}>
+            <Skeleton
+              // height={320}
+              // width={"100%"}
+              {...SKELETON}
+            >
               <SliderComponent
                 partners={true}
                 data={groupedData2}
@@ -365,9 +427,17 @@ export default function MainScreen() {
                 slideHeight={slideHeight2}
               />
             </Skeleton>
-            <Skeleton height={115} width={"100%"} {...SKELETON}>
+            <Skeleton
+              // height={115}
+              // width={"100%"}
+              {...SKELETON}
+            >
               <TouchableOpacity
-                onPress={() => router.push({ pathname: "/secondary/referral" })}
+                onPress={() =>
+                  router.push({
+                    pathname: "/secondary/referral",
+                  })
+                }
                 style={styles.referral}
               >
                 <Text style={styles.referralHeader}>Реферальная программа</Text>
@@ -419,12 +489,23 @@ export default function MainScreen() {
             </Skeleton>
             <TouchableOpacity
               onPress={() =>
-                router.push({ pathname: "/secondary/couponsList" })
+                router.push({
+                  pathname: "/secondary/couponsList",
+                })
               }
               style={styles.textContainer2}
             >
-              <Skeleton height={35} width={"100%"} {...SKELETON}>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Skeleton
+                // height={35}
+                // width={"100%"}
+                {...SKELETON}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
                   <Image
                     contentFit="contain"
                     contentPosition={"center"}
@@ -432,7 +513,10 @@ export default function MainScreen() {
                     source={require("../../assets/reciept.svg")}
                     width={24}
                     height={24}
-                    style={{ marginBottom: 2, marginRight: 3 }}
+                    style={{
+                      marginBottom: 2,
+                      marginRight: 3,
+                    }}
                   />
                   <Text style={styles.text2}>Купоны и промокоды</Text>
                 </View>
@@ -441,7 +525,11 @@ export default function MainScreen() {
             {coupons.length === 0 ? (
               <Text style={styles.textCouponsEmpty}>Пока нет купонов</Text>
             ) : (
-              <Skeleton height={250} width={"100%"} {...SKELETON}>
+              <Skeleton
+                // height={250}
+                //  width={"100%"}
+                {...SKELETON}
+              >
                 <SliderComponent
                   coupon={true}
                   data={groupedData3}
@@ -468,7 +556,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 30,
-    marginTop: 20,
+    marginTop: 30,
+    // backgroundColor: "green",
   },
   leftContainer: {
     height: 64,
@@ -504,7 +593,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginRight: 10,
   },
-  textContainer: {},
+  textContainer: {
+    // backgroundColor: "red",
+  },
   textContainer2: {
     fontFamily: FONTS.medium,
     marginTop: 30,
@@ -515,24 +606,26 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: FONTS.medium,
     fontSize: SIZES.xLarge,
+    lineHeight: 24,
     color: textPrimaryColor,
-    marginBottom: 10,
+    marginBottom: 15,
   },
   text2: {
     fontFamily: FONTS.medium,
     fontSize: 24,
+    lineHeight: 24,
     color: textPrimaryColor,
     marginLeft: 7,
   },
   upBalance: {
-    fontFamily: FONTS.medium,
+    fontFamily: FONTS.semibold,
     fontSize: 16,
     color: textPrimaryColor,
   },
   balance: {
     fontSize: 20,
     color: textPrimaryColor,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     justifyContent: "center",
     alignItems: "center",
     alignContent: "center",
@@ -566,6 +659,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   textCouponsEmpty: {
+    fontFamily: FONTS.medium,
     fontSize: 24,
     textAlign: "center",
     color: textPrimaryColor,
@@ -575,7 +669,6 @@ const styles = StyleSheet.create({
     height: 115,
     backgroundColor: elemBackgroundColor,
     borderRadius: 12,
-    marginBottom: 30,
     width: "100%",
   },
   referralHeader: {
@@ -600,6 +693,7 @@ const styles = StyleSheet.create({
   },
   referralTopText: {
     color: textPrimaryColor,
+    fontFamily: FONTS.regular,
     fontSize: 12,
     marginLeft: 5,
   },
@@ -610,6 +704,8 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.medium,
     color: textPrimaryColor,
     fontSize: SIZES.xLarge,
+    lineHeight: 24,
     marginHorizontal: 15,
+    marginTop: 2,
   },
 });

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import Modal from "react-native-modal";
 import React, { useState } from "react";
 import { Image, ImageBackground } from "expo-image";
 import { COLORS, FONTS, HEIGHT, WIDTH } from "../../constants/theme";
@@ -18,9 +19,25 @@ import {
 } from "../../components/ColorsComponent";
 import { LinearGradient } from "expo-linear-gradient";
 import QRCodeComponent from "../../components/QRCodeComponent";
+import PopupComponent from "../../components/PopupComponent";
+import ModalComponent from "../../components/ModalComponent";
 
 export default function Recommendations() {
   const [textValue, setTextValue] = useState("Рекомендации");
+  const [isTooltipVisible, setTooltipVisible] = useState(false);
+  const [isTooltipVisible2, setTooltipVisible2] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const toggleTooltip = () => {
+    setTooltipVisible(!isTooltipVisible);
+  };
+
+  const toggleTooltip2 = () => {
+    setTooltipVisible2(!isTooltipVisible2);
+  };
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
 
   return (
     <ScrollView
@@ -55,10 +72,10 @@ export default function Recommendations() {
             <Text style={styles.title2}>и получай</Text>
           </View>
           <View style={styles.friends__container}>
-            <View style={styles.friends__inner}>
+            <View style={[styles.friends__inner, { paddingLeft: 10 }]}>
               <View style={styles.friends__inner_container}>
                 <Image
-                  style={styles.friends__img}
+                  style={[styles.friends__img, { alignItems: "center" }]}
                   contentFit="contain"
                   contentPosition={"center"}
                   transition={1000}
@@ -78,7 +95,9 @@ export default function Recommendations() {
                   height={15}
                 />
               </View>
-              <View style={styles.friends__inner_container}>
+              <View
+                style={[styles.friends__inner_container, { marginLeft: 2 }]}
+              >
                 <Image
                   contentFit="contain"
                   contentPosition={"center"}
@@ -151,7 +170,11 @@ export default function Recommendations() {
                   Ссылка на{"\n"}персональные скидки
                 </Text>
               </View>
-              <TouchableOpacity style={styles.linkQRC__info_url}>
+
+              <TouchableOpacity
+                style={styles.linkQRC__info_url}
+                onPress={toggleTooltip2}
+              >
                 <Text
                   style={[styles.linkQRC__text, { fontSize: 14 }]}
                   numberOfLines={1}
@@ -162,10 +185,8 @@ export default function Recommendations() {
               <Text style={styles.linkQRC__text}>Скопировать ссылку</Text>
             </View>
             <TouchableOpacity
-              style={[
-                styles.linkQRC__inner,
-                { flex: 2 },
-              ]}
+              style={[styles.linkQRC__inner, { flex: 100 }]}
+              onPress={toggleModal}
             >
               <View style={styles.linkQRC__inner_qrc}>
                 <Image
@@ -208,13 +229,19 @@ export default function Recommendations() {
                 эффективных рекомендаций
               </Text>
             </View>
-            <Image
-              contentFit="contain"
-              contentPosition={"center"}
-              transition={1000}
-              source={require("../../assets/tooltip.svg")}
+
+            <TouchableOpacity
               style={styles.recommend__img}
-            />
+              onPress={toggleTooltip}
+            >
+              <Image
+                contentFit="contain"
+                contentPosition={"center"}
+                transition={1000}
+                source={require("../../assets/tooltip.svg")}
+                style={styles.recommend__img}
+              />
+            </TouchableOpacity>
             <View style={styles.recommend__inner}>
               <Text
                 style={[styles.recommend__balls_text, { marginRight: "auto" }]}
@@ -228,6 +255,50 @@ export default function Recommendations() {
             </View>
           </View>
         </View>
+        {isTooltipVisible && (
+          <Modal
+            isVisible={isTooltipVisible}
+            onBackdropPress={toggleTooltip}
+            // style={styles.modal}
+          >
+            <PopupComponent
+              onClose={toggleTooltip}
+              height={220}
+              textPopup1={"за эффективные рекомендации"}
+            />
+          </Modal>
+        )}
+        {isTooltipVisible2 && (
+          <Modal
+            isVisible={isTooltipVisible2}
+            onBackdropPress={toggleTooltip2}
+            // style={styles.modal}
+          >
+            <ModalComponent
+              onClose={toggleTooltip2}
+              title={"Это ваша персональная ссылка"}
+              description={
+                "Отправьте ее друзьям, пусть они сами выберут, что оформить, а Вы получите бонус 300 баллов."
+              }
+            />
+          </Modal>
+        )}
+        {isModalVisible && (
+          <Modal
+            isVisible={isModalVisible}
+            onBackdropPress={toggleModal}
+            // style={styles.modal}
+          >
+            <ModalComponent
+              onClose={toggleModal}
+              title={"Покажите QR-код друзьям"}
+              description={
+                "Нужно отсканировать и выбрать что оформить, а Вы получите бонус 300 баллов."
+              }
+              qrCode={true}
+            />
+          </Modal>
+        )}
       </ImageBackground>
     </ScrollView>
   );
@@ -279,21 +350,29 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   friends__inner: {
-    width: (WIDTH.width - 45) / 2,
+    // width: (WIDTH.width - 45) / 2,
+    flex: 1,
     borderRadius: 12,
     backgroundColor: elemBackgroundColor,
-    padding: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
     rowGap: 10,
-    justifyContent: "center",
+    // justifyContent: "center",
+    // alignItems: "center",
+    // backgroundColor: "green",
   },
   friends__img: {
     height: 24,
     width: 24,
+    // backgroundColor: "blue",
   },
   friends__inner_container: {
+    flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    columnGap: 5,
+    columnGap: 6,
+    justifyContent: "flex-start",
+    // backgroundColor: "red",
   },
   friends__text: {
     fontFamily: FONTS.medium,
@@ -306,7 +385,7 @@ const styles = StyleSheet.create({
     columnGap: 13,
     alignItems: "center",
     borderRadius: 16,
-    paddingHorizontal: 57,
+    // paddingHorizontal: 57,
     paddingVertical: 16,
     justifyContent: "center",
     marginBottom: 15,
@@ -321,9 +400,8 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   linkQRC__inner: {
-    flex: 3,
-    // width: linkContainerWidth,
-    paddingHorizontal: 12,
+    flex: 210,
+    // paddingHorizontal: 12,
     paddingVertical: 12,
     borderRadius: 12,
     backgroundColor: elemBackgroundColor,
@@ -343,7 +421,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   linkQRC__info_url: {
-    width: "100%",
+    // flex: 1,
+    // width: "100%",
     paddingHorizontal: 15,
     paddingVertical: 12,
     borderRadius: 100,
@@ -386,12 +465,11 @@ const styles = StyleSheet.create({
     position: "relative",
     flexDirection: "row",
     alignItems: "baseline",
-    // backgroundColor: "green",
   },
   recommend__img: {
     position: "absolute",
-    top: 18,
-    right: 8,
+    top: 9,
+    right: 4,
     height: 8,
     width: 8,
   },

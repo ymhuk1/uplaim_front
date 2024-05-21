@@ -137,7 +137,7 @@ export default function CouponsList() {
                         style={styles.iconStories}
                       />
                       <View style={styles.textContainer}>
-                        <Text style={styles.textStories}>{item.name}</Text>
+                        <Text style={styles.textStories} numberOfLines={2}>{item.name}</Text>
                       </View>
                     </View>
                   </TouchableOpacity>
@@ -186,7 +186,7 @@ export default function CouponsList() {
                     </View>
                     <View style={styles.couponContainer}>
                       <Text style={styles.nameCoupon}>{item.company.name}</Text>
-                      <Text style={styles.deskCoupon}>{item.description}</Text>
+                      <Text style={styles.deskCoupon} numberOfLines={2}>{item.description}</Text>
                       <Text style={styles.dateCoupon}>
                         {formatDate(item.date)}
                       </Text>
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
   },
   text2: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     color: textPrimaryColor,
     marginLeft: 7,
   },
@@ -258,7 +258,7 @@ const styles = StyleSheet.create({
   textStories: {
     fontSize: 14,
     color: "white",
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
   },
   couponsContainer: {
     flexDirection: "row",
@@ -301,7 +301,7 @@ const styles = StyleSheet.create({
   nameCompany: {
     color: textPrimaryColor,
     fontSize: 16,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
   },
   selectedCategory: {
     borderWidth: 4,
@@ -314,13 +314,14 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.medium,
     color: "white",
     fontSize: 16,
-    fontWeight: "bold",
+    lineHeight: 20,
   },
   deskCoupon: {
     fontFamily: FONTS.light,
+    lineHeight: 14,
+    fontSize: 14,
     marginVertical: 7,
     color: "white",
-    fontSize: 14,
     fontWeight: "300",
     width: 120,
     textAlign: "center",
@@ -328,6 +329,7 @@ const styles = StyleSheet.create({
   dateCoupon: {
     fontFamily: FONTS.light,
     fontSize: 12,
+    lineHeight: 20,
     fontWeight: "300",
     color: "#9A95B2",
   },
