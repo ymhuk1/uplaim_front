@@ -4,24 +4,17 @@ import { COLORS, SIZES, HEIGHT, WIDTH, FONTS } from "../constants/theme";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // width: WIDTH.width-40,
-    // marginHorizontal: 10,
-    minHeight: HEIGHT.height,
+    height: HEIGHT.height,
     justifyContent: "flex-end",
     alignItems: "center",
-    marginBottom: 25,
   },
   popupContainer: {
-    height: 550,
     paddingTop: 50,
     backgroundColor: "#24224A",
     borderTopRightRadius: 12,
     borderTopLeftRadius: 12,
-    // width: WIDTH.width - 20,
-    // marginHorizontal: 0,
     alignItems: "center",
     justifyContent: "center",
-    // marginBottom: 10,
   },
   headerPopup: {
     fontSize: 24,
@@ -30,7 +23,6 @@ const styles = StyleSheet.create({
   },
   rating: {
     marginTop: 18,
-    // marginHorizontal: "auto",
   },
   textPopupContainer: {
     paddingTop: 20,

@@ -86,14 +86,18 @@ export default function Recommendations() {
                 >
                   тебе
                 </Text>
-                <Image
-                  contentFit="contain"
-                  contentPosition={"center"}
-                  transition={1000}
-                  source={require("../../assets/tooltip.svg")}
-                  width={15}
-                  height={15}
-                />
+                <TouchableOpacity
+                  onPress={toggleTooltip}
+                >
+                  <Image
+                    contentFit="contain"
+                    contentPosition={"center"}
+                    transition={1000}
+                    source={require("../../assets/tooltip.svg")}
+                    width={15}
+                    height={15}
+                  />
+                </TouchableOpacity>
               </View>
               <View
                 style={[styles.friends__inner_container, { marginLeft: 2 }]}
@@ -263,7 +267,7 @@ export default function Recommendations() {
           >
             <PopupComponent
               onClose={toggleTooltip}
-              height={220}
+              // height={220}
               textPopup1={"за эффективные рекомендации"}
             />
           </Modal>

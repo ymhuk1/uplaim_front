@@ -1,4 +1,5 @@
 import {
+  Modal,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -6,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Image, ImageBackground } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import {
@@ -19,132 +20,140 @@ import {
 import { FONTS, WIDTH } from "../constants/theme";
 import { BlurView } from "expo-blur";
 
-export default function ActivatesModalComponent({ onClose, disabled }) {
+export default function ActivatesModalComponent({ onClose, disabled, modal }) {
+  const [modalVisible, setModalVisible] = useState(modal);
+
+  useEffect(() => {
+    setModalVisible(modal);
+  });
+
   return (
-    <BlurView
-      tint="dark"
-      intensity={40}
-      blurReductionFactor={10}
-      experimentalBlurMethod={"dimezisBlurView"}
-      style={styles.container}
-    >
-      <StatusBar
-        barStyle="light-content"
-        backgroundColor={elemBackgroundColor3}
-        translucent={true}
-      />
-      <ScrollView
-        contentContainerStyle={styles.container}
-        showsVerticalScrollIndicator={false}
+    <Modal animationType="fade" transparent={true} visible={modalVisible}>
+      <BlurView
+        tint="dark"
+        intensity={40}
+        blurReductionFactor={10}
+        experimentalBlurMethod={"dimezisBlurView"}
+        style={styles.container}
       >
-        <LinearGradient
-          colors={elemGradientColors}
-          style={styles.containerView}
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor={elemBackgroundColor3}
+          translucent={true}
+        />
+        <ScrollView
+          contentContainerStyle={styles.container}
+          showsVerticalScrollIndicator={false}
         >
-          <TouchableOpacity onPress={onClose} style={styles.closePopup}>
-            <Image
-              contentFit="contain"
-              contentPosition={"center"}
-              transition={1000}
-              source={require("../assets/close.svg")}
-              width={36}
-              height={36}
-            />
-          </TouchableOpacity>
-          <View style={styles.header}>
-            <Text style={styles.header__title}>Магазин билетов</Text>
-          </View>
-          <View style={styles.container__inner}>
-            <View style={{ alignItems: "center" }}>
-              <Image
-                source={require("../assets/ticket-green.svg")}
-                height={23}
-                width={66}
-              />
-            </View>
-            <View style={styles.ticket__image}>
-              <Image
-                source={require("../assets/gifts/multiple.svg")}
-                height={24}
-                width={24}
-                style={{ marginTop: 8 }}
-              />
-              <Text style={styles.balance__text}>10</Text>
-            </View>
-            <View style={{ rowGap: 6 }}>
-              <TouchableOpacity>
-                <Text style={styles.text__plus}>+</Text>
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <Text style={styles.text__minus}>-</Text>
-              </TouchableOpacity>
-            </View>
-            <TouchableOpacity style={styles.button}>
-              <LinearGradient
-                location={[0.5, 0.5]}
-                start={[0.4, -0.9]}
-                colors={
-                  disabled ? ["#7c7f86", "#5F5F65"] : ["#7434b7", "#7730e5"]
-                }
-                style={{ marginLeft: "auto", borderRadius: 8 }}
-              >
-                <Text style={styles.text__button}>Активировать</Text>
-              </LinearGradient>
-            </TouchableOpacity>
-          </View>
-          <Text style={[styles.accsess__text]}>10 шт. доступно</Text>
           <LinearGradient
-            location={[0.5, 0.5]}
-            start={[0.4, -0.9]}
-            // colors={disabled ? ["#7c7f86", "#5F5F65"] : ["#7434b7", "#7730e5"]}
             colors={elemGradientColors}
-            style={{
-              borderRadius: 10,
-              borderWidth: 1,
-              borderColor: elemBackgroundColor3,
-              borderStyle: "solid",
-            }}
+            style={styles.containerView}
           >
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <View
-                style={{
-                  alignItems: "center",
-                  padding: 6,
-                  backgroundColor: "rgba(154, 149, 178, 0.2)",
-                  borderRadius: 10,
-                  marginLeft: 10,
-                }}
-              >
+            <TouchableOpacity onPress={onClose} style={styles.closePopup}>
+              <Image
+                contentFit="contain"
+                contentPosition={"center"}
+                transition={1000}
+                source={require("../assets/close.svg")}
+                width={36}
+                height={36}
+              />
+            </TouchableOpacity>
+            <View style={styles.header}>
+              <Text style={styles.header__title}>Магазин билетов</Text>
+            </View>
+            <View style={styles.container__inner}>
+              <View style={{ alignItems: "center" }}>
                 <Image
-                  contentFit="contain"
-                  contentPosition={"center"}
-                  transition={1000}
-                  source={require("../assets/tooltip.svg")}
-                  width={18}
-                  height={18}
+                  source={require("../assets/ticket-green.svg")}
+                  height={23}
+                  width={66}
                 />
               </View>
-              <Text
-                style={{
-                  paddingHorizontal: 10,
-                  paddingVertical: 10,
-                  width: WIDTH.width - 83,
-                  textAlign: "justify",
-                  fontFamily: FONTS.regular,
-                  fontSize: 12,
-                  color: textPrimaryColor,
-                }}
-              >
-                Вы можете не активировать сразу все билеты. Их можно будет
-                использовать и в розыгрышах в будущем. Но не забывайте, что чем
-                больше билетов активировано для розыгрыша, тем больше шансов на
-                выигрыш.
-              </Text>
+              <View style={styles.ticket__image}>
+                <Image
+                  source={require("../assets/gifts/multiple.svg")}
+                  height={24}
+                  width={24}
+                  style={{ marginTop: 8 }}
+                />
+                <Text style={styles.balance__text}>10</Text>
+              </View>
+              <View style={{ rowGap: 6 }}>
+                <TouchableOpacity>
+                  <Text style={styles.text__plus}>+</Text>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                  <Text style={styles.text__minus}>-</Text>
+                </TouchableOpacity>
+              </View>
+              <TouchableOpacity style={styles.button}>
+                <LinearGradient
+                  location={[0.5, 0.5]}
+                  start={[0.4, -0.9]}
+                  colors={
+                    disabled ? ["#7c7f86", "#5F5F65"] : ["#7434b7", "#7730e5"]
+                  }
+                  style={{ marginLeft: "auto", borderRadius: 8 }}
+                >
+                  <Text style={styles.text__button}>Активировать</Text>
+                </LinearGradient>
+              </TouchableOpacity>
             </View>
+            <Text style={[styles.accsess__text]}>10 шт. доступно</Text>
+            <LinearGradient
+              location={[0.5, 0.5]}
+              start={[0.4, -0.9]}
+              // colors={disabled ? ["#7c7f86", "#5F5F65"] : ["#7434b7", "#7730e5"]}
+              colors={elemGradientColors}
+              style={{
+                borderRadius: 10,
+                borderWidth: 1,
+                borderColor: elemBackgroundColor3,
+                borderStyle: "solid",
+              }}
+            >
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <View
+                  style={{
+                    alignItems: "center",
+                    padding: 6,
+                    backgroundColor: "rgba(154, 149, 178, 0.2)",
+                    borderRadius: 10,
+                    marginLeft: 10,
+                  }}
+                >
+                  <Image
+                    contentFit="contain"
+                    contentPosition={"center"}
+                    transition={1000}
+                    source={require("../assets/tooltip.svg")}
+                    width={18}
+                    height={18}
+                  />
+                </View>
+                <Text
+                  style={{
+                    paddingHorizontal: 10,
+                    paddingVertical: 10,
+                    width: WIDTH.width - 83,
+                    textAlign: "justify",
+                    fontFamily: FONTS.regular,
+                    fontSize: 12,
+                    color: textPrimaryColor,
+                  }}
+                >
+                  Вы можете не активировать сразу все билеты. Их можно будет
+                  использовать и в розыгрышах в будущем. Но не забывайте, что
+                  чем больше билетов активировано для розыгрыша, тем больше
+                  шансов на выигрыш.
+                </Text>
+              </View>
+            </LinearGradient>
           </LinearGradient>
-        </LinearGradient>
-      </ScrollView>
-    </BlurView>
+        </ScrollView>
+      </BlurView>
+    </Modal>
   );
 }
 

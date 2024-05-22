@@ -130,7 +130,7 @@ export default function AllGifts() {
             </TouchableOpacity>
             <TouchableOpacity onPress={() => toggleTooltip()}>
               <GiftNow
-                sourceImg={images[2].image3}
+                sourceImg={require("../../assets/gifts/iphones.jpg")}
                 sourceTicket={require("../../assets/ticket-fuksia.svg")}
                 title={"Apple iPhone 14"}
                 text={"Новый смартфон от компании Apple"}

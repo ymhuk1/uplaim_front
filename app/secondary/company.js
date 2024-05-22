@@ -294,9 +294,11 @@ export default function Company() {
               <NewButtonComponent
                 title={"Рекомендовать"}
                 filled={true}
-                height={48}
+                height={54}
                 fontSize={18}
-                onPress={() => {router.push({ pathname: "/secondary/recommendations" })}}
+                onPress={() => {
+                  router.push({ pathname: "/secondary/recommendations" });
+                }}
               />
             ) : (
               <NewButtonComponent
@@ -538,6 +540,7 @@ const styles = StyleSheet.create({
   },
   topContainer: {
     flexDirection: "row",
+    alignItems: "center",
     marginVertical: 12,
   },
   infoTopContainer: {
@@ -546,10 +549,10 @@ const styles = StyleSheet.create({
   textTopContainer: {
     flexDirection: "row",
     alignItems: "flex-end",
-    marginBottom: 15,
+    // marginBottom: 15,
   },
   logo: {
-    borderRadius: 12,
+    borderRadius: 100,
     width: 74,
     height: 74,
   },
@@ -573,7 +576,8 @@ const styles = StyleSheet.create({
   slider: {},
   buttonContainer: {
     alignItems: "center",
-    marginBottom: 30,
+    marginTop: -10,
+    marginBottom: 20,
   },
   tariffContainer: {
     height: 240,
@@ -665,7 +669,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
-  sliderContainer: {},
+  sliderContainer: {
+  },
   textContainer2: {
     flexDirection: "row",
     alignItems: "center",

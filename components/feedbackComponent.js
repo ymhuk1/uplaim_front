@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, StatusBar } from "react-native";
+import { View, Text, TouchableOpacity, StatusBar, Modal } from "react-native";
 import { Image } from "expo-image";
 import NewButtonComponent from "./NewButtonComponent";
 import styles from "../styles/feedbackComponentStyle";
@@ -13,7 +13,13 @@ import { elemBackgroundColor3 } from "./ColorsComponent";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
-const FeedbackComponent = ({ onClose, height, headerPopup1, headerPopup2 }) => {
+const FeedbackComponent = ({
+  onClose,
+  height,
+  headerPopup1,
+  headerPopup2,
+  modal,
+}) => {
   const { id } = useGlobalSearchParams();
 
   const [rating, setRating] = useState(0);
@@ -23,6 +29,7 @@ const FeedbackComponent = ({ onClose, height, headerPopup1, headerPopup2 }) => {
   const [clientData, setClientData] = useState({});
   const [company, setCompany] = useState({});
   const [error, setError] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
 
   const companyId = id;
 
@@ -117,90 +124,93 @@ const FeedbackComponent = ({ onClose, height, headerPopup1, headerPopup2 }) => {
 
   useEffect(() => {
     fetchData();
+    setModalVisible(modal);
   }, []);
 
   return (
-    <BlurView
-      tint="dark"
-      intensity={40}
-      blurReductionFactor={10}
-      experimentalBlurMethod={"dimezisBlurView"}
-      style={styles.container}
-    >
-      <StatusBar
-        barStyle="light-content"
-        backgroundColor={elemBackgroundColor3}
-        translucent={true}
-      />
-      <View style={styles.popupContainer}>
-        <Text style={styles.headerPopup}>{headerPopup1}</Text>
-        <View style={styles.rating}>
-          <AirbnbRating
-            showRating={false}
-            rating={rating}
-            setRating={setRating}
-            defaultRating={0}
-            selectedColor="#F456FE"
-            unSelectedColor="#9A95B2"
-            size={27.5}
-            onFinishRating={(rating) => setRating(rating)}
-            error={error}
-          />
-          <Text
-            style={{
-              color: "red",
-              fontSize: 12,
-            }}
-          >
-            {error}
-          </Text>
-        </View>
-        <Text style={styles.headerPopup}>{headerPopup2}</Text>
+    <Modal animationType="fade" transparent={true} visible={modalVisible}>
+      <BlurView
+        tint="dark"
+        intensity={40}
+        blurReductionFactor={10}
+        experimentalBlurMethod={"dimezisBlurView"}
+        style={styles.container}
+      >
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor={elemBackgroundColor3}
+          translucent={true}
+        />
+        <View style={styles.popupContainer}>
+          <Text style={styles.headerPopup}>{headerPopup1}</Text>
+          <View style={styles.rating}>
+            <AirbnbRating
+              showRating={false}
+              rating={rating}
+              setRating={setRating}
+              defaultRating={0}
+              selectedColor="#F456FE"
+              unSelectedColor="#9A95B2"
+              size={27.5}
+              onFinishRating={(rating) => setRating(rating)}
+              error={error}
+            />
+            <Text
+              style={{
+                color: "red",
+                fontSize: 12,
+              }}
+            >
+              {error}
+            </Text>
+          </View>
+          <Text style={styles.headerPopup}>{headerPopup2}</Text>
 
-        <View style={styles.textPopupContainer}>
-          <View style={styles.textPopup}>
-            <FeedbackInput
-              placeholder="Приемущества"
-              value={advantages}
-              onChangeText={setAdvantages}
-            />
+          <View style={styles.textPopupContainer}>
+            <View style={styles.textPopup}>
+              <FeedbackInput
+                placeholder="Приемущества"
+                value={advantages}
+                onChangeText={setAdvantages}
+              />
+            </View>
+            <View style={styles.textPopup}>
+              <FeedbackInput
+                placeholder="Недостатки"
+                value={disadvantages}
+                onChangeText={setDisadvantages}
+              />
+            </View>
+            <View style={styles.textPopup2}>
+              <FeedbackInput
+                placeholder="Комментарий"
+                value={comment}
+                onChangeText={setComment}
+              />
+            </View>
           </View>
-          <View style={styles.textPopup}>
-            <FeedbackInput
-              placeholder="Недостатки"
-              value={disadvantages}
-              onChangeText={setDisadvantages}
+          <TouchableOpacity onPress={onClose} style={styles.closePopup}>
+            <Image
+              contentFit="contain"
+              contentPosition={"center"}
+              transition={1000}
+              source={require("../assets/close.svg")}
+              width={36}
+              height={36}
             />
-          </View>
-          <View style={styles.textPopup2}>
-            <FeedbackInput
-              placeholder="Комментарий"
-              value={comment}
-              onChangeText={setComment}
+          </TouchableOpacity>
+          <View style={styles.button}>
+            <NewButtonComponent
+              title={"Оставить отзыв"}
+              filled={true}
+              height={54}
+              fontSize={24}
+              onPress={postReview}
             />
           </View>
         </View>
-        <TouchableOpacity onPress={onClose} style={styles.closePopup}>
-          <Image
-            contentFit="contain"
-            contentPosition={"center"}
-            transition={1000}
-            source={require("../assets/close.svg")}
-            width={36}
-            height={36}
-          />
-        </TouchableOpacity>
-        <View style={styles.button}>
-          <NewButtonComponent
-            title={"Оставить отзыв"}
-            filled={true}
-            height={54}
-            fontSize={24}
-            onPress={postReview}
-          />
-        </View>
-      </View>
-    </BlurView>
+      </BlurView>
+    </Modal>
   );
 };
 

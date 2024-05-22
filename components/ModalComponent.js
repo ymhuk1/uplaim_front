@@ -6,10 +6,12 @@ import {
   Modal,
   Pressable,
   TouchableOpacity,
+  StatusBar,
 } from "react-native";
 import { Link, useLocalSearchParams } from "expo-router";
 import {
   elemBackgroundColor,
+  elemBackgroundColor3,
   textColor3,
   textPrimaryColor,
 } from "./ColorsComponent";
@@ -44,6 +46,11 @@ export default function ModalComponent({
         experimentalBlurMethod={"dimezisBlurView"}
         style={styles.centeredView}
       >
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor={elemBackgroundColor}
+          translucent={true}
+        />
         <View style={styles.modalView}>
           <View style={styles.containerButtonClose}>
             <TouchableOpacity style={styles.buttonClose} onPress={onClose}>
@@ -57,7 +64,13 @@ export default function ModalComponent({
               />
             </TouchableOpacity>
           </View>
-          <View style={qrCode ? styles.topContainer : [styles.topContainer, { paddingBottom: 0 }]}>
+          <View
+            style={
+              qrCode
+                ? styles.topContainer
+                : [styles.topContainer, { paddingBottom: 0 }]
+            }
+          >
             <Text style={styles.textTop}>{title}</Text>
             <Text style={styles.description} numberOfLines={3}>
               {description}

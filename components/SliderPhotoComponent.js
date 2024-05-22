@@ -7,18 +7,23 @@ const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 const SliderPhotoComponent = ({ photos }) => {
 
     return (
-        <Swiper
-            style={styles.container}
-            dot={<View style={styles.dot}/>}
-            activeDot={<View style={styles.activeDot}/>}
-            loop={false}
-        >
-            { photos.map((photo, index) => (
-                <View key={index} style={styles.image}>
-                    <Image source={{ uri: apiBaseUrl + photo.filename }} style={styles.imageImage} />
-                </View>
-            ))}
-        </Swiper>
+      <Swiper
+        style={styles.container}
+        dot={<View style={styles.dot} />}
+        activeDot={<View style={styles.activeDot} />}
+        loop={false}
+      >
+        {photos.map((photo, index) => (
+          <View key={index} style={styles.image}>
+            <Image
+              source={{ uri: apiBaseUrl + photo.filename }}
+              style={styles.imageImage}
+              contentFit="contain"
+              contentPosition={"center"}
+            />
+          </View>
+        ))}
+      </Swiper>
     );
 };
 

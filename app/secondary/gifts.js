@@ -60,7 +60,6 @@ export default function Gifts() {
           source={require("../../assets/background.png")}
           contentFit={"cover"}
           style={styles.containerImg}
-          // blurRadius={100}
         >
             <View style={styles.containerView}>
               <HeaderComponent text={textValue} secondary={true} />

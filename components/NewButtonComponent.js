@@ -95,10 +95,10 @@ const NewButtonComponent = ({
 const styles = StyleSheet.create({
   containerButton: {},
   button: {
-    borderRadius: 16,
+    borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 10,
+    // marginBottom: 10,
   },
   buttonEmpty: {
     borderRadius: 8,
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontFamily: FONTS.medium,
     color: "white",
-    paddingHorizontal: 10,
+    paddingHorizontal: 25,
     marginBottom: 3,
     textAlign: "center",
   },

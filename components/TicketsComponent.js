@@ -64,7 +64,9 @@ function TicketsComponent(props) {
               key={count}
               style={[
                 styles.ticket__img,
-                !ticketsTitle ? { paddingHorizontal: (widthElement - 145)/2 } : null,
+                !ticketsTitle
+                  ? { paddingHorizontal: (widthElement - 145) / 2 }
+                  : null,
               ]}
             >
               <Image height={15} width={45} source={source} />
@@ -80,28 +82,30 @@ function TicketsComponent(props) {
             ticketsTitle ? { paddingTop: 20 } : null,
           ]}
         >
-          <LinearGradient
-            location={[0.5, 0.5]}
-            start={[0.4, -0.9]}
-            // end={[  0.1, 0.5 ]}
-            colors={disabled ? ["#7c7f86", "#5F5F65"] : ["#7434b7", "#7730e5"]}
-            style={[
-              styles.button,
-              {
-                width: widthButton,
-                height: height,
-              },
-              ticketsTitle
-                ? {
-                    marginRight: 5,
-                  }
-                : { justifyContent: "center", marginVertical: 5 },
-            ]}
-          >
-            <TouchableOpacity onPress={btnPress}>
+          <TouchableOpacity onPress={btnPress}>
+            <LinearGradient
+              location={[0.5, 0.5]}
+              start={[0.4, -0.9]}
+              // end={[  0.1, 0.5 ]}
+              colors={
+                disabled ? ["#7c7f86", "#5F5F65"] : ["#7434b7", "#7730e5"]
+              }
+              style={[
+                styles.button,
+                {
+                  width: widthButton,
+                  height: height,
+                },
+                ticketsTitle
+                  ? {
+                      marginRight: 5,
+                    }
+                  : { justifyContent: "center", marginVertical: 5 },
+              ]}
+            >
               <Text style={styles.ticket__text}>{btnTitle}</Text>
-            </TouchableOpacity>
-          </LinearGradient>
+            </LinearGradient>
+          </TouchableOpacity>
         </View>
       </LinearGradient>
     </View>
@@ -112,8 +116,7 @@ let ticketsWidth = WIDTH.width - 30;
 let giftsWidthImg = (WIDTH.width - 60) / 3;
 
 const styles = StyleSheet.create({
-  container: {
-  },
+  container: {},
   tickets: {
     height: 110,
     justifyContent: "center",

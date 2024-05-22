@@ -227,7 +227,6 @@ export default function AboutCompany() {
         >
           <FeedbackComponent
             onClose={toggleFeedback}
-            // height={530}
             headerPopup1={"Поставьте оценку"}
             headerPopup2={"Опишите плюсы и минусы"}
             textPopup1={"Приемущества"}

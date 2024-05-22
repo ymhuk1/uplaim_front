@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   View,
@@ -30,74 +30,57 @@ const UniversalModal = ({
   buttonTitle,
   dateText,
   balanceUp,
+  modal,
 }) => {
-  return (
-    <BlurView
-      tint="dark"
-      intensity={40}
-      blurReductionFactor={10}
-      experimentalBlurMethod={"dimezisBlurView"}
-      style={styles.container}
-    >
-      <StatusBar
-        barStyle="light-content"
-        backgroundColor={"#121123"}
-        translucent={true}
-      />
-      <ImageBackground style={styles.container} blurRadius={10}>
-        <View style={styles.modalView}>
-          <View style={styles.header}>
-            <TouchableOpacity onPress={onClose} style={styles.closePopup}>
-              <Image
-                contentFit="contain"
-                contentPosition={"center"}
-                transition={1000}
-                source={require("../assets/close.svg")}
-                width={36}
-                height={36}
-              />
-            </TouchableOpacity>
-            <Text style={styles.text__title}>{title}</Text>
-          </View>
+  const [modalVisible, setModalVisible] = useState(false);
 
-          <View style={{ paddingHorizontal: 15, rowGap: 10, marginBottom: 10 }}>
-            <Image
-              contentFit="cover"
-              contentPosition={"top"}
-              height={240}
-              width={width}
-              source={sourceImg}
-              borderRadius={10}
-            />
-            <Text style={styles.text__content}>{content}</Text>
-            <View style={{}}>
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Text
-                  style={[
-                    styles.text__title,
-                    {
-                      fontFamily: FONTS.regular,
-                      fontSize: 16,
-                      marginRight: "auto",
-                    },
-                  ]}
-                >
-                  {title2}
-                </Text>
-                <Text
-                  style={[styles.text__title, { fontSize: 20, marginRight: 5 }]}
-                >
-                  {balance}
-                </Text>
+  useEffect(() => {
+    setModalVisible(modal);
+  });
+
+  return (
+    <Modal animationType="fade" transparent={true} visible={modalVisible}>
+      <BlurView
+        tint="dark"
+        intensity={40}
+        blurReductionFactor={10}
+        experimentalBlurMethod={"dimezisBlurView"}
+        style={styles.container}
+      >
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor={"#121123"}
+          translucent={true}
+        />
+        <ImageBackground style={styles.container} blurRadius={10}>
+          <View style={styles.modalView}>
+            <View style={styles.header}>
+              <TouchableOpacity onPress={onClose} style={styles.closePopup}>
                 <Image
-                  contentFit="cover"
-                  contentPosition={"top"}
-                  height={12}
-                  width={33}
-                  source={require("../assets/ticket-green.svg")}
+                  contentFit="contain"
+                  contentPosition={"center"}
+                  transition={1000}
+                  source={require("../assets/close.svg")}
+                  width={36}
+                  height={36}
                 />
-              </View>
-              {balanceUp ? (
+              </TouchableOpacity>
+              <Text style={styles.text__title}>{title}</Text>
+            </View>
+
+            <View
+              style={{ paddingHorizontal: 15, rowGap: 10, marginBottom: 10 }}
+            >
+              <Image
+                contentFit="cover"
+                contentPosition={"top"}
+                height={240}
+                width={width}
+                source={sourceImg}
+                borderRadius={10}
+              />
+              <Text style={styles.text__content}>{content}</Text>
+              <View style={{}}>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <Text
                     style={[
@@ -117,35 +100,66 @@ const UniversalModal = ({
                       { fontSize: 20, marginRight: 5 },
                     ]}
                   >
-                    {balanceUp}
+                    {balance}
                   </Text>
                   <Image
                     contentFit="cover"
                     contentPosition={"top"}
-                    height={14}
-                    width={22}
-                    source={require("../assets/up.svg")}
+                    height={12}
+                    width={33}
+                    source={require("../assets/ticket-green.svg")}
                   />
                 </View>
-              ) : null}
+                {balanceUp ? (
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Text
+                      style={[
+                        styles.text__title,
+                        {
+                          fontFamily: FONTS.regular,
+                          fontSize: 16,
+                          marginRight: "auto",
+                        },
+                      ]}
+                    >
+                      {title2}
+                    </Text>
+                    <Text
+                      style={[
+                        styles.text__title,
+                        { fontSize: 20, marginRight: 5 },
+                      ]}
+                    >
+                      {balanceUp}
+                    </Text>
+                    <Image
+                      contentFit="cover"
+                      contentPosition={"top"}
+                      height={14}
+                      width={22}
+                      source={require("../assets/up.svg")}
+                    />
+                  </View>
+                ) : null}
+              </View>
+              <Text style={[styles.text__content, { marginLeft: 4 }]}>
+                {dateText}
+              </Text>
             </View>
-            <Text style={[styles.text__content, { marginLeft: 4 }]}>
-              {dateText}
-            </Text>
-          </View>
 
-          <View style={styles.button}>
-            <NewButtonComponent
-              title={buttonTitle}
-              // onPress={onClose}
-              filled={true}
-              height={54}
-              fontSize={18}
-            />
+            <View style={styles.button}>
+              <NewButtonComponent
+                title={buttonTitle}
+                // onPress={onClose}
+                filled={true}
+                height={54}
+                fontSize={18}
+              />
+            </View>
           </View>
-        </View>
-      </ImageBackground>
-    </BlurView>
+        </ImageBackground>
+      </BlurView>
+    </Modal>
   );
 };
 

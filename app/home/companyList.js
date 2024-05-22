@@ -140,7 +140,11 @@ export default function CompanyList() {
                         style={styles.iconStories}
                       />
                       <View style={styles.textContainer}>
-                        <Text style={styles.textStories}>{item.name}</Text>
+                        <Text style={styles.textStories} 
+                        numberOfLines={1}
+                        >
+                          {item.name}
+                        </Text>
                       </View>
                     </View>
                   </TouchableOpacity>
@@ -279,9 +283,12 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   textContainer: {
+    // flexDirection: "row",
     marginHorizontal: 12,
     width: 80,
     flex: 1,
+    // flexWrap: "wrap",
+    // flexShrink: 1,
     justifyContent: "flex-end",
     marginBottom: 10,
   },

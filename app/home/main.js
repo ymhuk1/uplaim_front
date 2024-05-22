@@ -212,9 +212,8 @@ export default function MainScreen() {
             <View style={styles.topContainer}>
               <View style={styles.leftContainer}>
                 <Skeleton
-                  // height={75}
-                  // width={252}
-                  colorMode="dark"
+                  height={70}
+                  // colorMode="dark"
                   {...SKELETON}
                 >
                   <View style={styles.textContainer}>
@@ -265,8 +264,6 @@ export default function MainScreen() {
               </View>
               <View>
                 <Skeleton
-                  // height={65}
-                  // width={65}
                   {...SKELETON}
                 >
                   <TouchableOpacity
@@ -284,25 +281,19 @@ export default function MainScreen() {
               </View>
             </View>
             <Skeleton
-              // height={112}
-              // width={300}
               {...SKELETON}
             >
-              {/* <View style={{ marginBottom: 30 }}> */}
               <StoryComponent
                 data={stories}
                 style={styles.story}
                 stories={true}
               />
-              {/* </View> */}
             </Skeleton>
             <TouchableOpacity
               onPress={() => router.push({ pathname: "/home/qrcode" })}
               style={styles.textContainer2}
             >
               <Skeleton
-                // height={35}
-                // width={220}
                 {...SKELETON}
               >
                 <View
@@ -330,8 +321,6 @@ export default function MainScreen() {
 
             {myCompanies.length === 0 ? (
               <Skeleton
-                // height={180}
-                // width={"100%"}
                 {...SKELETON}
               >
                 <Link
@@ -361,8 +350,6 @@ export default function MainScreen() {
               </Skeleton>
             ) : (
               <Skeleton
-                // height={180}
-                // width={"100%"}
                 {...SKELETON}
               >
                 <SliderComponent
@@ -388,14 +375,13 @@ export default function MainScreen() {
               }
             >
               <Skeleton
-                // height={35}
-                // width={180}
                 {...SKELETON}
               >
                 <View
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
+                    marginTop: -20,
                   }}
                 >
                   <Image
@@ -415,8 +401,6 @@ export default function MainScreen() {
               </Skeleton>
             </TouchableOpacity>
             <Skeleton
-              // height={320}
-              // width={"100%"}
               {...SKELETON}
             >
               <SliderComponent
@@ -428,8 +412,6 @@ export default function MainScreen() {
               />
             </Skeleton>
             <Skeleton
-              // height={115}
-              // width={"100%"}
               {...SKELETON}
             >
               <TouchableOpacity
@@ -496,8 +478,6 @@ export default function MainScreen() {
               style={styles.textContainer2}
             >
               <Skeleton
-                // height={35}
-                // width={"100%"}
                 {...SKELETON}
               >
                 <View
@@ -526,8 +506,6 @@ export default function MainScreen() {
               <Text style={styles.textCouponsEmpty}>Пока нет купонов</Text>
             ) : (
               <Skeleton
-                // height={250}
-                //  width={"100%"}
                 {...SKELETON}
               >
                 <SliderComponent

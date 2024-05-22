@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, TouchableOpacity, StatusBar } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, TouchableOpacity, StatusBar, Modal } from "react-native";
 import { Image } from "expo-image";
 import { elemBackgroundColor3 } from "./ColorsComponent";
 import { BlurView } from "expo-blur";
@@ -11,45 +11,54 @@ const PopupComponent = ({
   headerPopup,
   textPopup1,
   textPopup2,
+  modal,
 }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+
+  useEffect(() => {
+    setModalVisible(modal);
+  });
+
   return (
-    <BlurView
-      tint="dark"
-      intensity={40}
-      blurReductionFactor={10}
-      experimentalBlurMethod={"dimezisBlurView"}
-      style={styles.blur__container}
-    >
-      <View style={[styles.popupContainer, { height: height }]}>
-        <StatusBar
-          barStyle="light-content"
-          backgroundColor={"#181629"}
-          translucent={true}
-        />
-        <Image
-          contentFit="contain"
-          contentPosition={"center"}
-          transition={1000}
-          source={require("../assets/tooltip.svg")}
-          width={45}
-          height={45}
-          style={styles.iconPopup}
-        />
-        <Text style={styles.headerPopup}>{headerPopup}</Text>
-        <Text style={styles.textPopup}>{textPopup1}</Text>
-        <Text style={styles.textPopup}>{textPopup2}</Text>
-        <TouchableOpacity onPress={onClose} style={styles.closePopup}>
+    <Modal animationType="fade" transparent={true} visible={modalVisible}>
+      <BlurView
+        tint="dark"
+        intensity={40}
+        blurReductionFactor={10}
+        experimentalBlurMethod={"dimezisBlurView"}
+        style={styles.blur__container}
+      >
+        <View style={[styles.popupContainer, { height: height }]}>
+          <StatusBar
+            barStyle="light-content"
+            backgroundColor={"#181629"}
+            translucent={true}
+          />
           <Image
             contentFit="contain"
             contentPosition={"center"}
             transition={1000}
-            source={require("../assets/close.svg")}
-            width={36}
-            height={36}
+            source={require("../assets/tooltip.svg")}
+            width={45}
+            height={45}
+            style={styles.iconPopup}
           />
-        </TouchableOpacity>
-      </View>
-    </BlurView>
+          <Text style={styles.headerPopup}>{headerPopup}</Text>
+          <Text style={styles.textPopup}>{textPopup1}</Text>
+          <Text style={styles.textPopup}>{textPopup2}</Text>
+          <TouchableOpacity onPress={onClose} style={styles.closePopup}>
+            <Image
+              contentFit="contain"
+              contentPosition={"center"}
+              transition={1000}
+              source={require("../assets/close.svg")}
+              width={36}
+              height={36}
+            />
+          </TouchableOpacity>
+        </View>
+      </BlurView>
+    </Modal>
   );
 };
 
@@ -70,10 +79,10 @@ const styles = {
     flex: 1,
     // width: WIDTH.width-40,
     // marginHorizontal: 10,
-    minHeight: HEIGHT.height,
+    height: HEIGHT.height,
     justifyContent: "flex-end",
     alignItems: "center",
-    marginBottom: 25,
+    // marginBottom: 25,
   },
   iconPopup: {
     // marginBottom: 15,
