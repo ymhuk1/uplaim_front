@@ -98,7 +98,7 @@ export default function MainScreen() {
       const userDataStr = await SecureStore.getItemAsync("userData");
       if (userDataStr) {
         const userData = JSON.parse(userDataStr);
-        setToken(userData.token);
+        setToken(userData);
 
         const headers = {
           Authorization: userData.token,
@@ -106,25 +106,23 @@ export default function MainScreen() {
         };
 
         // Story
-        const storiesResponse = await fetch(
-          "https://admin.uplaim.com/api/stories",
-          { headers }
-        );
+        const storiesResponse = await fetch("https://uplaim.com/api/stories", {
+          headers,
+        });
         if (storiesResponse.ok) {
           const storiesData = await storiesResponse.json();
-          setStories(storiesData.stories);
+          setStories(storiesData);
         } else {
           console.error("Ошибка при загрузке историй");
         }
 
         // Client
-        const clientResponse = await fetch(
-          "https://admin.uplaim.com/api/client",
-          { headers }
-        );
+        const clientResponse = await fetch("https://uplaim.com/api/client", {
+          headers,
+        });
         if (clientResponse.ok) {
           const clientData = await clientResponse.json();
-          setClientData(clientData.client);
+          setClientData(clientData);
 
           const hasUnreadNotification = await clientData.client.notify.some(
             (notifications) => notifications.read === false
@@ -133,7 +131,7 @@ export default function MainScreen() {
 
           await SecureStore.setItemAsync(
             "clientData",
-            JSON.stringify(clientData.client)
+            JSON.stringify(clientData)
           );
         } else {
           console.error("Ошибка при загрузке данных клиента");
@@ -141,36 +139,35 @@ export default function MainScreen() {
 
         // My companies
         const myCompaniesResponse = await fetch(
-          "https://admin.uplaim.com/api/my_companies",
+          "https://uplaim.com/api/companies",
           { headers }
         );
         if (myCompaniesResponse.ok) {
           const myCompaniesData = await myCompaniesResponse.json();
-          setMyCompanies(myCompaniesData.my_companies);
+          setMyCompanies(myCompaniesData);
         } else {
           console.error("Ошибка при загрузке данных моих компаний");
         }
 
         // Partners / Categories
         const categoriesResponse = await fetch(
-          "https://admin.uplaim.com/api/categories",
+          "https://uplaim.com/api/categories",
           { headers }
         );
         if (categoriesResponse.ok) {
           const categoriesData = await categoriesResponse.json();
-          setCategories(categoriesData.categories);
+          setCategories(categoriesData);
         } else {
           console.error("Ошибка при загрузке данных категорий");
         }
 
         // Coupons
-        const couponsResponse = await fetch(
-          "https://admin.uplaim.com/api/coupon",
-          { headers }
-        );
+        const couponsResponse = await fetch("https://uplaim.com/api/coupon", {
+          headers,
+        });
         if (couponsResponse.ok) {
           const couponsData = await couponsResponse.json();
-          setCoupons(couponsData.coupons);
+          setCoupons(couponsData);
         } else {
           console.error("Ошибка при загрузке данных купонов");
         }
@@ -263,9 +260,7 @@ export default function MainScreen() {
                 </Skeleton>
               </View>
               <View>
-                <Skeleton
-                  {...SKELETON}
-                >
+                <Skeleton {...SKELETON}>
                   <TouchableOpacity
                     onPress={() =>
                       router.push({
@@ -280,22 +275,20 @@ export default function MainScreen() {
                 </Skeleton>
               </View>
             </View>
-            <Skeleton
-              {...SKELETON}
-            >
-              <StoryComponent
-                data={stories}
-                style={styles.story}
-                stories={true}
-              />
-            </Skeleton>
+            {stories && (
+              <Skeleton {...SKELETON}>
+                <StoryComponent
+                  data={stories}
+                  style={styles.story}
+                  stories={true}
+                />
+              </Skeleton>
+            )}
             <TouchableOpacity
               onPress={() => router.push({ pathname: "/home/qrcode" })}
               style={styles.textContainer2}
             >
-              <Skeleton
-                {...SKELETON}
-              >
+              <Skeleton {...SKELETON}>
                 <View
                   style={{
                     flexDirection: "row",
@@ -320,9 +313,7 @@ export default function MainScreen() {
             </TouchableOpacity>
 
             {myCompanies.length === 0 ? (
-              <Skeleton
-                {...SKELETON}
-              >
+              <Skeleton {...SKELETON}>
                 <Link
                   href={"/secondary/categories"}
                   style={[
@@ -349,9 +340,7 @@ export default function MainScreen() {
                 </Link>
               </Skeleton>
             ) : (
-              <Skeleton
-                {...SKELETON}
-              >
+              <Skeleton {...SKELETON}>
                 <SliderComponent
                   myCompany={true}
                   data={groupedData1}
@@ -374,14 +363,12 @@ export default function MainScreen() {
                   : [styles.textContainer2, { marginTop: 0 }]
               }
             >
-              <Skeleton
-                {...SKELETON}
-              >
+              <Skeleton {...SKELETON}>
                 <View
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
-                    marginTop: -20,
+                    // marginTop: -20,
                   }}
                 >
                   <Image
@@ -400,9 +387,7 @@ export default function MainScreen() {
                 </View>
               </Skeleton>
             </TouchableOpacity>
-            <Skeleton
-              {...SKELETON}
-            >
+            <Skeleton {...SKELETON}>
               <SliderComponent
                 partners={true}
                 data={groupedData2}
@@ -411,9 +396,7 @@ export default function MainScreen() {
                 slideHeight={slideHeight2}
               />
             </Skeleton>
-            <Skeleton
-              {...SKELETON}
-            >
+            <Skeleton {...SKELETON}>
               <TouchableOpacity
                 onPress={() =>
                   router.push({
@@ -477,9 +460,7 @@ export default function MainScreen() {
               }
               style={styles.textContainer2}
             >
-              <Skeleton
-                {...SKELETON}
-              >
+              <Skeleton {...SKELETON}>
                 <View
                   style={{
                     flexDirection: "row",
@@ -505,9 +486,7 @@ export default function MainScreen() {
             {coupons.length === 0 ? (
               <Text style={styles.textCouponsEmpty}>Пока нет купонов</Text>
             ) : (
-              <Skeleton
-                {...SKELETON}
-              >
+              <Skeleton {...SKELETON}>
                 <SliderComponent
                   coupon={true}
                   data={groupedData3}

@@ -66,11 +66,11 @@ export default function CompanyList() {
           name: "Все",
           icon: "/static/img/category/2/photo/category2.png",
         },
-        ...categoriesData.categories,
+        ...categoriesData,
       ];
 
       setCategories(allCategories);
-      setCompanies(companiesData.companies);
+      setCompanies(companiesData);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -140,10 +140,10 @@ export default function CompanyList() {
                         style={styles.iconStories}
                       />
                       <View style={styles.textContainer}>
-                        <Text style={styles.textStories} 
-                        numberOfLines={1}
-                        >
-                          {item.name}
+                        <Text style={styles.textStories}>
+                          {item.name === "Фитнес-центры"
+                            ? "Фитнес-\nцентры"
+                            : item.name}
                         </Text>
                       </View>
                     </View>
@@ -166,16 +166,16 @@ export default function CompanyList() {
                       <View
                         style={[
                           styles.backActivity,
-                          { backgroundColor: `${item.category.color}20` },
+                          { backgroundColor: `${item.color}20` },
                         ]}
                       >
                         <Text
                           style={[
                             styles.activity,
-                            { color: item.category.color },
+                            { color: item.color },
                           ]}
                         >
-                          {item.category.name}
+                          {item.name}
                         </Text>
                       </View>
                     </View>
@@ -270,7 +270,7 @@ const styles = StyleSheet.create({
   },
   story: {
     width: 120,
-    height: 112,
+    height: 115,
     borderRadius: 12,
     backgroundColor: "#24224A",
     marginRight: 10,
@@ -283,12 +283,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   textContainer: {
-    // flexDirection: "row",
     marginHorizontal: 12,
-    width: 80,
     flex: 1,
-    // flexWrap: "wrap",
-    // flexShrink: 1,
     justifyContent: "flex-end",
     marginBottom: 10,
   },

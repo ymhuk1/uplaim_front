@@ -100,12 +100,10 @@ const GridComponent = ({
                 <View
                   style={[
                     styles.backActivity,
-                    { backgroundColor: `${item.category.color}20` },
+                    { backgroundColor: `${item.color}20` },
                   ]}
                 >
-                  <Text
-                    style={[styles.activity, { color: item.category.color }]}
-                  >
+                  <Text style={[styles.activity, { color: item.color }]}>
                     {item.category.name}
                   </Text>
                 </View>
@@ -191,13 +189,11 @@ const GridComponent = ({
                 <View
                   style={[
                     styles.backActivity,
-                    { backgroundColor: `${item.company.color}20` },
+                    { backgroundColor: `${item.color}20` },
                   ]}
                 >
-                  <Text
-                    style={[styles.activity, { color: item.company.color }]}
-                  >
-                    {item.company.category}
+                  <Text style={[styles.activity, { color: item.color }]}>
+                    {item.category}
                   </Text>
                 </View>
               </View>
@@ -207,8 +203,8 @@ const GridComponent = ({
                     contentFit="contain"
                     contentPosition={"center"}
                     source={
-                      item.company.photo
-                        ? apiBaseUrl + item.company.photo
+                      item.photo
+                        ? apiBaseUrl + item.photo
                         : require("../assets/no-photo-coupon.png")
                     }
                     width={80}
@@ -218,7 +214,7 @@ const GridComponent = ({
                   />
                 </View>
                 <View style={styles.couponContainer}>
-                  <Text style={styles.nameCoupon}>{item.company.name}</Text>
+                  <Text style={styles.nameCoupon}>{item.name}</Text>
                   <Text style={styles.deskCoupon} numberOfLines={2}>
                     {item.description}
                   </Text>
@@ -266,8 +262,8 @@ const GridComponent = ({
                             contentPosition={"center"}
                             transition={1000}
                             source={
-                              item.company.photo
-                                ? apiBaseUrl + item.company.photo
+                              item.photo
+                                ? apiBaseUrl + item.photo
                                 : require("../assets/no-photo-coupon.png")
                             }
                             width={74}
@@ -277,11 +273,9 @@ const GridComponent = ({
                           />
                           <View style={styles.infoTopContainer}>
                             <View style={styles.textTopContainer}>
-                              <Text style={styles.textTop}>
-                                {item.company.name}
-                              </Text>
+                              <Text style={styles.textTop}>{item.name}</Text>
                             </View>
-                            {/*<TagComponent tags={item.company.tags}/>*/}
+                            {/* <TagComponent tags={item.company.tags}/> */}
                           </View>
                         </View>
                         <Text style={styles.description}>
@@ -353,13 +347,11 @@ const GridComponent = ({
                 <View
                   style={[
                     styles.backActivity,
-                    { backgroundColor: `${item.category.color}20` },
+                    { backgroundColor: `${item.color}20` },
                   ]}
                 >
-                  <Text
-                    style={[styles.activity, { color: item.category.color }]}
-                  >
-                    {item.category.name}
+                  <Text style={[styles.activity, { color: item.color }]}>
+                    {item.name}
                   </Text>
                 </View>
               </View>
