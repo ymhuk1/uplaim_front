@@ -122,7 +122,7 @@ export default function MainScreen() {
         });
         if (clientResponse.ok) {
           const clientData = await clientResponse.json();
-          setClientData(clientData);
+          setClientData(clientData.client);
 
           const hasUnreadNotification = await clientData.client.notify.some(
             (notifications) => notifications.read === false
