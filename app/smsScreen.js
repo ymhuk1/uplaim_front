@@ -21,6 +21,9 @@ import {
   textContainerStyles,
   smsButtonstyles,
 } from "../styles/smsScreenStyles";
+import Constants from "expo-constants";
+
+const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
 export default function SmsScreen() {
   const inputRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
@@ -70,7 +73,7 @@ export default function SmsScreen() {
       );
 
       const response = await fetch(
-        "https://admin.saveup.pro/api/verify-sms-code",
+          `${apiBaseUrl}api/verify-sms-code`,
         {
           method: "POST",
           headers: {
@@ -117,7 +120,7 @@ export default function SmsScreen() {
       );
 
       const response = await fetch(
-        "https://admin.saveup.pro/api/send_phone_number",
+          `${apiBaseUrl}api/send_phone_number`,
         {
           method: "POST",
           headers: {

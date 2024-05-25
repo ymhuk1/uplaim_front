@@ -39,8 +39,8 @@ export default function CompanyList() {
     try {
       // Fetch categories and companies data
       const [categoriesResponse, companiesResponse] = await Promise.all([
-        fetch(`${apiBaseUrl}/api/categories`),
-        fetch(`${apiBaseUrl}/api/companies`),
+        fetch(`${apiBaseUrl}api/categories`),
+        fetch(`${apiBaseUrl}api/companies`),
       ]);
 
       if (!categoriesResponse.ok) {

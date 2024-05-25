@@ -150,7 +150,7 @@ export default function NewCreateExchangeScreen() {
         };
         // categories
         const categoriesResponse = await fetch(
-          `${apiBaseUrl}/api/exchange/all_categories`,
+          `${apiBaseUrl}api/exchange/all_categories`,
           { headers }
         );
         if (categoriesResponse.ok) {
@@ -172,7 +172,7 @@ export default function NewCreateExchangeScreen() {
 
         // города
         const cityResponse = await fetch(
-          `${apiBaseUrl}/api/exchange/all_cities`
+          `${apiBaseUrl}api/exchange/all_cities`
         );
         if (!cityResponse.ok) {
           throw new Error(
@@ -197,7 +197,7 @@ export default function NewCreateExchangeScreen() {
   const fetchDataCompany = async () => {
     try {
       const companiesResponse = await fetch(
-        `${apiBaseUrl}/api/exchange/all_companies?${takerFilterExchanges}`
+        `${apiBaseUrl}api/exchange/all_companies?${takerFilterExchanges}`
       );
       if (companiesResponse.ok) {
         const companiesData = await companiesResponse.json();
@@ -229,7 +229,7 @@ export default function NewCreateExchangeScreen() {
         };
         // balls
         const ballsResponse = await fetch(
-          `${apiBaseUrl}/api/exchange/my_balls?${filterExchanges}`,
+          `${apiBaseUrl}api/exchange/my_balls?${filterExchanges}`,
           { headers }
         );
         if (ballsResponse.ok) {

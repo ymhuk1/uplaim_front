@@ -18,7 +18,7 @@ export default function NewsCompany() {
     const companyId = id
 
     const fetchData = () => {
-        fetch(`${apiBaseUrl}/api/companies/${companyId}`)
+        fetch(`${apiBaseUrl}api/companies/${companyId}`)
             .then((response) => response.json())
             .then((data) => {
                 const {company} = data;

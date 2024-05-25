@@ -88,7 +88,7 @@ export default function LoginScreen() {
 
       console.log("Sending request with data:", JSON.stringify(requestBody));
 
-      const response = await fetch(apiBaseUrl + "/api/send_phone_number", {
+      const response = await fetch(`${apiBaseUrl}api/send_phone_number`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

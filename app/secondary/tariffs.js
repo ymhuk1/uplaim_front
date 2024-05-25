@@ -47,7 +47,7 @@ export default function Tariffs() {
   // вынести данные тарифа во «Все преимущества»
 
   const fetchData = () => {
-    fetch(`${apiBaseUrl}/api/tariffs`)
+    fetch(`${apiBaseUrl}api/tariffs`)
       .then((response) => response.json())
       .then((data) => {
         const { tariffs } = data;
@@ -71,7 +71,7 @@ export default function Tariffs() {
           "Content-Type": "application/json",
         };
         const clientResponse = await fetch(
-          "https://admin.saveup.pro/api/client",
+          `${apiBaseUrl}api/client`,
           { headers }
         );
         if (clientResponse.ok) {
@@ -93,7 +93,7 @@ export default function Tariffs() {
   };
 
   const fetchSubscribe = (id) => {
-    fetch(`${apiBaseUrl}/api/subscriptions?tariff_id=${id}`)
+    fetch(`${apiBaseUrl}api/subscriptions?tariff_id=${id}`)
       .then((response) => response.json())
       .then((data) => {
         const { subscriptions } = data;
@@ -122,7 +122,7 @@ export default function Tariffs() {
 
   const associateTariff = async (tariff_id, subscribed_tariff_id) => {
     try {
-      const apiUrl = apiBaseUrl + "/api/associate_tariff";
+      const apiUrl = `${apiBaseUrl}api/associate_tariff`;
       const response = await fetch(`${apiUrl}`, {
         method: "POST",
         headers: {

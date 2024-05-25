@@ -36,8 +36,8 @@ export default function CouponsList() {
     try {
       // Fetch categories and companies data
       const [categoriesResponse, couponsResponse] = await Promise.all([
-        fetch(`${apiBaseUrl}/api/categories`),
-        fetch(`${apiBaseUrl}/api/coupon`),
+        fetch(`${apiBaseUrl}api/categories`),
+        fetch(`${apiBaseUrl}api/coupon`),
       ]);
 
       if (!categoriesResponse.ok) {

@@ -92,7 +92,7 @@ export default function ExchangeScreen() {
     try {
       // активные сделки
       const exchangesResponse = await fetch(
-        `${apiBaseUrl}/api/exchange/active_exchange`
+        `${apiBaseUrl}api/exchange/active_exchange`
       );
       if (!exchangesResponse.ok) {
         throw new Error(
@@ -108,7 +108,7 @@ export default function ExchangeScreen() {
       );
 
       // города
-      const cityResponse = await fetch(`${apiBaseUrl}/api/exchange/all_cities`);
+      const cityResponse = await fetch(`${apiBaseUrl}api/exchange/all_cities`);
       if (!cityResponse.ok) {
         throw new Error(`Failed to fetch city. Status: ${cityResponse.status}`);
       }
@@ -125,7 +125,7 @@ export default function ExchangeScreen() {
   const fetchDataFilter = async (id) => {
     try {
       const exchangesResponse = await fetch(
-        `${apiBaseUrl}/api/exchange/active_exchange?client_id=${
+        `${apiBaseUrl}api/exchange/active_exchange?client_id=${
           id ? id : clientId
         }&${filterExchanges}`
       );
@@ -138,7 +138,7 @@ export default function ExchangeScreen() {
       setExchanges(exchangesData.exchange);
 
       const availableExchangesResponse = await fetch(
-        `${apiBaseUrl}/api/exchange/active_exchange?client_id=${
+        `${apiBaseUrl}api/exchange/active_exchange?client_id=${
           id ? id : clientId
         }&available=true&${tagCity === `Все` ? "" : "city=" + tagCity}`
       );

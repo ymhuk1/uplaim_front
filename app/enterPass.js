@@ -22,6 +22,9 @@ import {
 } from "../styles/enterPassStyles";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import Constants from "expo-constants";
+
+const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
 export default function EnterPassScreen() {
   const [passCode, setPassCode] = useState(["", "", "", ""]);
@@ -68,7 +71,7 @@ export default function EnterPassScreen() {
           JSON.stringify(requestBody)
         );
 
-        const response = await fetch("https://admin.saveup.pro/api/login", {
+        const response = await fetch(`${apiBaseUrl}api/login`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -76,7 +79,9 @@ export default function EnterPassScreen() {
           body: JSON.stringify(requestBody),
         });
 
+
         const responseData = await response.json();
+        console.log(responseData)
 
         console.log("Получен ответ с сервера:", JSON.stringify(responseData));
 

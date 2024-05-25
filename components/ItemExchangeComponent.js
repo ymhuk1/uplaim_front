@@ -83,7 +83,7 @@ export default function ItemExchangeComponent({ exchanges, apiBaseUrl, clientId,
 
     const deleteExchange = async (id) => {
         try {
-            const apiUrl = apiBaseUrl + '/api/exchange/delete/';
+            const apiUrl = `${apiBaseUrl}api/exchange/delete/`;
             const response = await fetch(`${apiUrl}${id}`, {
                 method: 'DELETE',
                 headers: {
@@ -116,7 +116,7 @@ export default function ItemExchangeComponent({ exchanges, apiBaseUrl, clientId,
     const acceptExchange = async (companyId) => {
         try {
 
-            const apiUrl = apiBaseUrl + '/api/exchange/accept/';
+            const apiUrl = `${apiBaseUrl}api/exchange/accept/`;
             const response = await fetch(`${apiUrl}/${acceptId}/${takerId}`, {
                 method: 'PATCH',
                 headers: {

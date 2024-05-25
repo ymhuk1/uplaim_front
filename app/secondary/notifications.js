@@ -38,7 +38,7 @@ export default function Notifications() {
   const fetchData = (id, is_read, date, type_notify) => {
     const encodedDate = encodeURIComponent(date);
 
-    const url = `${apiBaseUrl}/api/notifications?client_id=${id}${
+    const url = `${apiBaseUrl}api/notifications?client_id=${id}${
       is_read ? `&is_read=${is_read}` : ""
     }${date ? `&date=${encodedDate}` : ""}${
       type_notify ? `&type_notify=${type_notify}` : ""

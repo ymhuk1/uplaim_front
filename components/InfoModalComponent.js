@@ -59,7 +59,7 @@ export default function InfoModalComponent({
         };
         // categories
         const categoriesResponse = await fetch(
-          `${apiBaseUrl}/api/exchange/all_categories`,
+          `${apiBaseUrl}api/exchange/all_categories`,
           { headers }
         );
         if (categoriesResponse.ok) {
@@ -70,7 +70,7 @@ export default function InfoModalComponent({
         }
         // companies
 
-        const companiesResponse = await fetch(`${apiBaseUrl}/api/companies`, {
+        const companiesResponse = await fetch(`${apiBaseUrl}api/companies`, {
           headers,
         });
         if (companiesResponse.ok) {

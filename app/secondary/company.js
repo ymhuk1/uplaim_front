@@ -114,7 +114,7 @@ export default function Company() {
 
   const associateCompany = async () => {
     try {
-      const url = apiBaseUrl + "/api/associate_company";
+      const url = `${apiBaseUrl}api/associate_company`;
 
       const userToken = await SecureStore.getItemAsync("userData");
       const token = userToken ? JSON.parse(userToken).token : null;
@@ -159,7 +159,7 @@ export default function Company() {
       }
 
       // Fetch для данных компании
-      const companyUrl = `${apiBaseUrl}/api/companies/${companyId}`;
+      const companyUrl = `${apiBaseUrl}api/companies/${companyId}`;
       const companyResponse = await fetch(companyUrl, {
         headers: {
           Authorization: token,
@@ -180,7 +180,7 @@ export default function Company() {
       }
 
       // Fetch для данных клиента
-      const clientUrl = apiBaseUrl + "/api/client";
+      const clientUrl = `${apiBaseUrl}api/client`;
       const clientResponse = await fetch(clientUrl, {
         headers: {
           Authorization: token,

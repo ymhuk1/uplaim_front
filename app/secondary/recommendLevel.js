@@ -55,7 +55,7 @@ export default function RecommendLevel() {
         return;
       }
       // Fetch для данных компании
-      const companyUrl = `${apiBaseUrl}/api/companies/${companyId}`;
+      const companyUrl = `${apiBaseUrl}api/companies/${companyId}`;
       const companyResponse = await fetch(companyUrl, {
         headers: {
           Authorization: token,
@@ -75,7 +75,7 @@ export default function RecommendLevel() {
       }
 
       // Fetch для данных клиента
-      const clientUrl = apiBaseUrl + "/api/client";
+      const clientUrl = `${apiBaseUrl}api/client`;
       const clientResponse = await fetch(clientUrl, {
         headers: {
           Authorization: token,

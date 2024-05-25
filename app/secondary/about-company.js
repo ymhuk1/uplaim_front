@@ -39,7 +39,7 @@ export default function AboutCompany() {
   };
 
   const fetchData = () => {
-    fetch(`${apiBaseUrl}/api/companies/${companyId}`)
+    fetch(`${apiBaseUrl}api/companies/${companyId}`)
       .then((response) => response.json())
       .then((data) => {
         const { company } = data;

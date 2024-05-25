@@ -29,15 +29,16 @@ const SearchComponent = ({ main, modal, company }) => {
   const router = useRouter();
 
   const fetchData = async () => {
-    fetch(`${apiBaseUrl}/api/stories/search`)
+    fetch(`${apiBaseUrl}api/stories/search`)
       .then((response) => response.json())
       .then((data) => {
-        const { stories } = data;
+        const stories = data;
         console.log("Данные успешно получены:", data);
         setStories(stories);
       })
       .catch((error) => {
         console.error("Ошибка при загрузке данных: ", error);
+        console.log(`${apiBaseUrl}api/stories/search`)
       });
   };
 
@@ -46,7 +47,7 @@ const SearchComponent = ({ main, modal, company }) => {
   }, []);
 
   const fetchDataCompany = (term) => {
-    fetch(`${apiBaseUrl}/api/company/search?term=${term}`)
+    fetch(`${apiBaseUrl}api/company/search?term=${term}`)
       .then((response) => response.json())
       .then((data) => {
         const { companies } = data;

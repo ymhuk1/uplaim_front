@@ -29,7 +29,7 @@ export default function FindCompany() {
   const router = useRouter();
 
   const fetchDataCompany = (term) => {
-    fetch(`${apiBaseUrl}/api/company/search?term=${term}`)
+    fetch(`${apiBaseUrl}api/company/search?term=${term}`)
       .then((response) => response.json())
       .then((data) => {
         const { companies } = data;

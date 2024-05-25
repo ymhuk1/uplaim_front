@@ -25,7 +25,7 @@ export default function Referral() {
                 setClientData(JSON.parse(clientInfo))
 
             // уровни и количество приглашенных
-            const referralResponse = await fetch(`${apiBaseUrl}/api/referral?client_id=${JSON.parse(clientInfo).id}`);
+            const referralResponse = await fetch(`${apiBaseUrl}api/referral?client_id=${JSON.parse(clientInfo).id}`);
 
             if (!referralResponse.ok) {
                 throw new Error(`Failed to fetch referral. Status: ${referralResponse.status}`);
@@ -35,7 +35,7 @@ export default function Referral() {
             }
 
             // reward
-            const rewardResponse = await fetch(`${apiBaseUrl}/api/my_reward?client_id=${JSON.parse(clientInfo).id}`);
+            const rewardResponse = await fetch(`${apiBaseUrl}api/my_reward?client_id=${JSON.parse(clientInfo).id}`);
 
             if (!rewardResponse.ok) {
                 throw new Error(`Failed to fetch referral. Status: ${rewardResponse.status}`);

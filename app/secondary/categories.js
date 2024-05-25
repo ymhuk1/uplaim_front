@@ -17,7 +17,7 @@ export default function LoginScreen() {
 
     const fetchData = async () => {
         try {
-            const categoriesResponse = await fetch(`${apiBaseUrl}/api/categories`);
+            const categoriesResponse = await fetch(`${apiBaseUrl}api/categories`);
             if (!categoriesResponse.ok) {
                 throw new Error(`Failed to fetch categories. Status: ${categoriesResponse.status}`);
             }

@@ -127,7 +127,7 @@ export default function CreateExchangeModalComponent({
 
   const createDeal = async () => {
     try {
-      const url = apiBaseUrl + "/api/exchange/create";
+      const url = `${apiBaseUrl}api/exchange/create`;
       const userToken = await SecureStore.getItemAsync("userData");
       const token = userToken ? JSON.parse(userToken).token : null;
 
@@ -189,7 +189,7 @@ export default function CreateExchangeModalComponent({
 
   const updateDeal = async () => {
     try {
-      const url = apiBaseUrl + `/api/exchange/update/${existExchangeId}`;
+      const url = `${apiBaseUrl}api/exchange/update/${existExchangeId}`;
 
       const response = await fetch(url, {
         method: "PATCH",

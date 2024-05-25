@@ -58,7 +58,7 @@ const FeedbackComponent = ({
         comment,
       };
 
-      const url = `${apiBaseUrl}/api/create_review`;
+      const url = `${apiBaseUrl}api/create_review`;
       const userToken = await SecureStore.getItemAsync("userData");
       const token = userToken && JSON.parse(userToken).token;
 
@@ -98,8 +98,8 @@ const FeedbackComponent = ({
         throw new Error("Не удалось получить данные: токен не найден");
 
       const urls = {
-        company: `${apiBaseUrl}/api/companies/${companyId}`,
-        client: `${apiBaseUrl}/api/client`,
+        company: `${apiBaseUrl}api/companies/${companyId}`,
+        client: `${apiBaseUrl}api/client`,
       };
 
       const responses = await Promise.all(
