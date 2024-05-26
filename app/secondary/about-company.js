@@ -42,9 +42,8 @@ export default function AboutCompany() {
     fetch(`${apiBaseUrl}api/companies/${companyId}`)
       .then((response) => response.json())
       .then((data) => {
-        const { company } = data;
         console.log("Данные успешно получены:", data);
-        setCompany(company);
+        setCompany(data);
         setRefreshing(false);
       })
       .catch((error) => {

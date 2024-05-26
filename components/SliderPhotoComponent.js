@@ -16,7 +16,7 @@ const SliderPhotoComponent = ({ photos }) => {
         {photos.map((photo, index) => (
           <View key={index} style={styles.image}>
             <Image
-              source={{ uri: apiBaseUrl + photo.filename }}
+              source={{ uri: apiBaseUrl + photo.photo }}
               style={styles.imageImage}
               contentFit="contain"
               contentPosition={"center"}

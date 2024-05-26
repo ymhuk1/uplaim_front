@@ -136,7 +136,6 @@ export default function MainScreen() {
         } else {
           console.error("Ошибка при загрузке данных клиента");
         }
-
         // My companies
         const myCompaniesResponse = await fetch(
           "https://uplaim.com/api/companies",

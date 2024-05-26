@@ -1,22 +1,13 @@
-import { Link, useGlobalSearchParams, useRouter } from "expo-router";
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  RefreshControl,
-} from "react-native";
-import { Image, ImageBackground } from "expo-image";
+import {Link, useGlobalSearchParams, useRouter} from "expo-router";
+import React, {useEffect, useState} from "react";
+import {RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
+import {Image, ImageBackground} from "expo-image";
 import Swiper from "react-native-swiper";
 import * as SecureStore from "expo-secure-store";
-import { LinearGradient } from "expo-linear-gradient";
+import {LinearGradient} from "expo-linear-gradient";
 import Constants from "expo-constants";
-import { router } from "expo-router";
 
 import HeaderComponent from "../../components/HeaderComponent";
-import ButtonComponent from "../../components/ButtonComponent";
 import SliderComponent from "../../components/SliderComponent";
 import SocialLinkComponent from "../../components/SocialLinkComponent";
 import TagComponent from "../../components/TagComponent";
@@ -29,8 +20,8 @@ import {
   textPrimaryColor,
 } from "../../components/ColorsComponent";
 import NewButtonComponent from "../../components/NewButtonComponent";
-import { Rating } from "react-native-ratings";
-import { FONTS } from "../../constants/theme";
+import {Rating} from "react-native-ratings";
+import {FONTS} from "../../constants/theme";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
@@ -61,13 +52,13 @@ export default function Company() {
   // const roundedReviewsRating = company.reviews_rating !== null ? Math.floor(company.reviews_rating * 10) / 10 : 0;
   // company.reviews_rating = roundedReviewsRating;
 
-  if (company.news && company.news.length > 0) {
+  if (company?.news && company.news.length > 0) {
     for (let i = 0; i < company.news.length; i += itemsPerSlide1) {
-      groupedData1.push(company.news.slice(i, i + itemsPerSlide1));
+      groupedData1.push(company?.news.slice(i, i + itemsPerSlide1));
     }
   }
 
-  if (company.coupons && company.coupons.length > 0) {
+  if (company?.coupons && company.coupons.length > 0) {
     if (company.coupons.length === 1 || company.coupons.length === 2) {
       slideHeight3 = itemHeight3;
     } else if (company.coupons.length === 3 || company.coupons.length === 4) {
@@ -77,13 +68,14 @@ export default function Company() {
     }
   }
 
-  if (company.coupons && company.coupons.length > 0) {
+  if (company?.coupons && company.coupons.length > 0) {
     for (let i = 0; i < company.coupons.length; i += itemsPerSlide3) {
       groupedData3.push(company.coupons.slice(i, i + itemsPerSlide3));
     }
   }
 
-  const { another_photo } = company;
+  const {another_photo} = company;
+
 
   const companyBalls = clientData.balls || [];
 
@@ -168,10 +160,8 @@ export default function Company() {
 
       if (companyResponse.ok) {
         const companyData = await companyResponse.json();
-        const { company } = companyData;
-        // console.log("Данные компании успешно получены:", company);
-
-        setCompany(company);
+        console.log("Данные компании успешно получены:", companyData);
+        setCompany(companyData);
       } else {
         console.error(
           "Ошибка при загрузке данных компании:",
@@ -190,7 +180,7 @@ export default function Company() {
       if (clientResponse.ok) {
         const clientData = await clientResponse.json();
         const { client } = clientData;
-        // console.log('Данные клиента успешно получены:', client);
+        console.log('Данные клиента успешно получены:', client);
         setClientData(client);
       } else {
         console.error(
@@ -214,7 +204,7 @@ export default function Company() {
     fetchData();
   }, []);
 
-  const main_photo = apiBaseUrl + company.main_photo;
+  const main_photo = `${apiBaseUrl}${company?.main_photo}`;
 
   return (
     <ScrollView
@@ -282,11 +272,11 @@ export default function Company() {
             </View>
           </View>
           <Text style={styles.description}>{company.description}</Text>
-          <View tyle={styles.sliderContainer}>
-            <SliderPhotoComponent
-              photos={another_photo ? another_photo : []}
-              style={styles.slider}
-            />
+          <View style={styles.sliderContainer}>
+          <SliderPhotoComponent
+          photos={another_photo ? another_photo : []}
+          style={styles.slider}
+          />
           </View>
           <View style={styles.buttonContainer}>
             {clientData.companies &&
@@ -406,7 +396,7 @@ export default function Company() {
                           style={styles.tariffConnect}
                           // onPress={() => handleConnectPremium(tariff.name)} // Здесь нужно обработать нажатие
                         >
-                          <Text style={styles.tariffConnectText}>
+                          <Text style={[styles.tariffConnectText, {color: tariff.color}]}>
                             {tariff.clients_tariff_name === "Free"
                               ? ""
                               : "Подключить " + tariff.clients_tariff_name}
@@ -580,7 +570,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   tariffContainer: {
-    height: 240,
+    height: 270,
     backgroundColor: elemBackgroundColor,
     borderRadius: 12,
     marginBottom: 30,
