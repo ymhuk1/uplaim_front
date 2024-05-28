@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, StatusBar, Modal } from "react-native";
 import { Image } from "expo-image";
 import NewButtonComponent from "./NewButtonComponent";
 import styles from "../styles/feedbackComponentStyle";
@@ -8,10 +8,18 @@ import { AirbnbRating } from "react-native-ratings";
 import Constants from "expo-constants";
 import * as SecureStore from "expo-secure-store";
 import { useGlobalSearchParams } from "expo-router";
+import { BlurView } from "expo-blur";
+import { elemBackgroundColor3 } from "./ColorsComponent";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
-const FeedbackComponent = ({ onClose, height, headerPopup1, headerPopup2,  }) => {
+const FeedbackComponent = ({
+  onClose,
+  height,
+  headerPopup1,
+  headerPopup2,
+  modal,
+}) => {
   const { id } = useGlobalSearchParams();
 
   const [rating, setRating] = useState(0);
@@ -21,6 +29,7 @@ const FeedbackComponent = ({ onClose, height, headerPopup1, headerPopup2,  }) =>
   const [clientData, setClientData] = useState({});
   const [company, setCompany] = useState({});
   const [error, setError] = useState("");
+  const [modalVisible, setModalVisible] = useState(false);
 
   const companyId = id;
 
@@ -31,7 +40,7 @@ const FeedbackComponent = ({ onClose, height, headerPopup1, headerPopup2,  }) =>
           "Отзыв не может быть добавлен: не загружены данные о клиенте или компании."
         );
         return;
-      } 
+      }
 
       if (!rating) {
         setError("Отзыв не может быть добавлен: не указана оценка.");
@@ -49,7 +58,7 @@ const FeedbackComponent = ({ onClose, height, headerPopup1, headerPopup2,  }) =>
         comment,
       };
 
-      const url = `${apiBaseUrl}/api/create_review`;
+      const url = `${apiBaseUrl}api/create_review`;
       const userToken = await SecureStore.getItemAsync("userData");
       const token = userToken && JSON.parse(userToken).token;
 
@@ -89,8 +98,8 @@ const FeedbackComponent = ({ onClose, height, headerPopup1, headerPopup2,  }) =>
         throw new Error("Не удалось получить данные: токен не найден");
 
       const urls = {
-        company: `${apiBaseUrl}/api/companies/${companyId}`,
-        client: `${apiBaseUrl}/api/client`,
+        company: `${apiBaseUrl}api/companies/${companyId}`,
+        client: `${apiBaseUrl}api/client`,
       };
 
       const responses = await Promise.all(
@@ -115,78 +124,93 @@ const FeedbackComponent = ({ onClose, height, headerPopup1, headerPopup2,  }) =>
 
   useEffect(() => {
     fetchData();
+    setModalVisible(modal);
   }, []);
 
   return (
-    <View style={[styles.popupContainer, { height: height }]}>
-      <Text style={styles.headerPopup}>{headerPopup1}</Text>
-      <View style={styles.rating}>
-        <AirbnbRating
-          showRating={false}
-          rating={rating}
-          setRating={setRating}
-          defaultRating={0}
-          selectedColor="#F456FE"
-          unSelectedColor="#9A95B2"
-          size={27.5}
-          starImage={require("../assets/rating-star.png")}
-          onFinishRating={(rating) => setRating(rating)}
-          error={error}
+    <Modal animationType="fade" transparent={true} visible={modalVisible}>
+      <BlurView
+        tint="dark"
+        intensity={40}
+        blurReductionFactor={10}
+        experimentalBlurMethod={"dimezisBlurView"}
+        style={styles.container}
+      >
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor={elemBackgroundColor3}
+          translucent={true}
         />
-        <Text
-          style={{
-            color: "red",
-            fontSize: 12,
-          }}
-        >
-          {error}
-        </Text>
-      </View>
-      <Text style={styles.headerPopup}>{headerPopup2}</Text>
+        <View style={styles.popupContainer}>
+          <Text style={styles.headerPopup}>{headerPopup1}</Text>
+          <View style={styles.rating}>
+            <AirbnbRating
+              showRating={false}
+              rating={rating}
+              setRating={setRating}
+              defaultRating={0}
+              selectedColor="#F456FE"
+              unSelectedColor="#9A95B2"
+              size={27.5}
+              onFinishRating={(rating) => setRating(rating)}
+              error={error}
+            />
+            <Text
+              style={{
+                color: "red",
+                fontSize: 12,
+              }}
+            >
+              {error}
+            </Text>
+          </View>
+          <Text style={styles.headerPopup}>{headerPopup2}</Text>
 
-      <View style={styles.textPopupContainer}>
-        <View style={styles.textPopup}>
-          <FeedbackInput
-            placeholder="Приемущества"
-            value={advantages}
-            onChangeText={setAdvantages}
-          />
+          <View style={styles.textPopupContainer}>
+            <View style={styles.textPopup}>
+              <FeedbackInput
+                placeholder="Преимущества"
+                value={advantages}
+                onChangeText={setAdvantages}
+              />
+            </View>
+            <View style={styles.textPopup}>
+              <FeedbackInput
+                placeholder="Недостатки"
+                value={disadvantages}
+                onChangeText={setDisadvantages}
+              />
+            </View>
+            <View style={styles.textPopup2}>
+              <FeedbackInput
+                placeholder="Комментарий"
+                value={comment}
+                onChangeText={setComment}
+              />
+            </View>
+          </View>
+          <TouchableOpacity onPress={onClose} style={styles.closePopup}>
+            <Image
+              contentFit="contain"
+              contentPosition={"center"}
+              transition={1000}
+              source={require("../assets/close.svg")}
+              width={36}
+              height={36}
+            />
+          </TouchableOpacity>
+          <View style={styles.button}>
+            <NewButtonComponent
+              title={"Оставить отзыв"}
+              filled={true}
+              height={54}
+              fontSize={24}
+              onPress={postReview}
+            />
+          </View>
         </View>
-        <View style={styles.textPopup}>
-          <FeedbackInput
-            placeholder="Недостатки"
-            value={disadvantages}
-            onChangeText={setDisadvantages}
-          />
-        </View>
-        <View style={styles.textPopup2}>
-          <FeedbackInput
-            placeholder="Комментарий"
-            value={comment}
-            onChangeText={setComment}
-          />
-        </View>
-      </View>
-      <TouchableOpacity onPress={onClose} style={styles.closePopup}>
-        <Image
-          contentFit="contain"
-          contentPosition={"center"}
-          transition={1000}
-          source={require("../assets/close.svg")}
-          width={33}
-          height={33}
-        />
-      </TouchableOpacity>
-      <View style={styles.button}>
-        <NewButtonComponent
-          title={"Оставить отзыв"}
-          filled={true}
-          height={54}
-          fontSize={24}
-          onPress={postReview}
-        />
-      </View>
-    </View>
+      </BlurView>
+    </Modal>
   );
 };
 

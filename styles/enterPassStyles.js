@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { COLORS, SIZES, HEIGHT } from "../constants/theme";
+import { COLORS, SIZES, HEIGHT, FONTS } from "../constants/theme";
 
 const styles = StyleSheet.create({
   container: {
@@ -30,11 +30,12 @@ const styles = StyleSheet.create({
   },
   textContainer: {},
   text: {
+    fontFamily: FONTS.medium, 
     paddingBottom: 20,
     textAlign: "center",
     // maxWidth: 185,
     fontSize: SIZES.xLarge,
-    fontWeight: "bold",
+    lineHeight: 24,
     color: COLORS.text,
   },
   smsButton: {
@@ -50,9 +51,10 @@ const styles = StyleSheet.create({
     marginBottom: 180,
   },
   textMenu: {
+    fontFamily: FONTS.regular,
     fontSize: SIZES.medium,
     color: COLORS.text,
-    marginLeft: 8,
+    // marginLeft: 8,
     textAlign: "center",
   },
 });
@@ -65,7 +67,7 @@ let buttonStyles = styles.button;
 if (HEIGHT.height < 780) {
   containerStyles = styles.containerSmall;
   buttonStyles = styles.buttonSmall;
-  console.log("Login screen is smaller than 1280");
+  // console.log("Login screen is smaller than 1280");
 }
 
 export { styles, containerStyles, buttonStyles };

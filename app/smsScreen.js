@@ -21,15 +21,19 @@ import {
   textContainerStyles,
   smsButtonstyles,
 } from "../styles/smsScreenStyles";
+import Constants from "expo-constants";
+
+const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
 export default function SmsScreen() {
   const inputRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
-  const [timer, setTimer] = useState(1); // Обратный отсчет в секундах (увеличил таймер до 30 секунд)
+  const [timer, setTimer] = useState(10); // Обратный отсчет в секундах (увеличил таймер до 30 секунд)
   const [showRetryText, setShowRetryText] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [token, setToken] = useState("");
   const [smsCode, setSmsCode] = useState(["", "", "", ""]);
   const [deviceInfo, setDeviceInfo] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     loadUserData();
@@ -69,8 +73,10 @@ export default function SmsScreen() {
         JSON.stringify(requestBody)
       );
 
+      setLoading(true);
+
       const response = await fetch(
-        "https://admin.saveup.pro/api/verify-sms-code",
+          `${apiBaseUrl}api/verify-sms-code`,
         {
           method: "POST",
           headers: {
@@ -99,6 +105,8 @@ export default function SmsScreen() {
         error
       );
       Alert.alert("Ошибка", "Произошла ошибка при отправке запроса на сервер.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -117,7 +125,7 @@ export default function SmsScreen() {
       );
 
       const response = await fetch(
-        "https://admin.saveup.pro/api/send_phone_number",
+          `${apiBaseUrl}api/send_phone_number`,
         {
           method: "POST",
           headers: {
@@ -134,7 +142,7 @@ export default function SmsScreen() {
       if (responseData.message === "SMS code sent") {
         const receivedToken = responseData.token;
         setToken(receivedToken);
-        setTimer(1);
+        setTimer(10);
         setShowRetryText(false);
       } else {
         Alert.alert("Ошибка", "Произошла ошибка при отправке SMS");
@@ -188,7 +196,7 @@ export default function SmsScreen() {
           </View>
           <View style={styles.textContainer2}>
             <Text style={styles.text2}>
-              Мы выслали СМС-код на номер +{phoneNumber}
+              Мы выслали СМС-код на номер {phoneNumber}
             </Text>
           </View>
           <View style={smsButtonstyles}>
@@ -220,6 +228,7 @@ export default function SmsScreen() {
               height={54}
               fontSize={24}
               onPress={handleVerifyCode}
+              loading={loading}
             />
           </View>
         </View>

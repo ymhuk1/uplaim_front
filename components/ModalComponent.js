@@ -1,113 +1,178 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Modal, Pressable} from 'react-native';
-import {Link, useLocalSearchParams} from "expo-router";
-import {elemBackgroundColor, textColor3} from "./ColorsComponent";
-import {Image} from "expo-image";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Modal,
+  Pressable,
+  TouchableOpacity,
+  StatusBar,
+} from "react-native";
+import { Link, useLocalSearchParams } from "expo-router";
+import {
+  elemBackgroundColor,
+  elemBackgroundColor3,
+  textColor3,
+  textPrimaryColor,
+} from "./ColorsComponent";
+import { Image } from "expo-image";
+import { COLORS, FONTS, HEIGHT, WIDTH } from "../constants/theme";
+import { BlurView } from "expo-blur";
+import NewButtonComponent from "./NewButtonComponent";
+import QRCodeComponent from "../components/QRCodeComponent";
 
-export default function ModalComponent({modal , setModalState })  {
-    const [modalVisible, setModalVisible] = useState(false);
-    const modalon = useLocalSearchParams()
+export default function ModalComponent({
+  setModalState,
+  onClose,
+  modal,
+  title,
+  description,
+  qrCode,
+}) {
+  const [textValue, setTextValue] = useState("Рекомендации");
+  const [modalVisible, setModalVisible] = useState(false);
+  // const modalon = useLocalSearchParams();
 
-    useEffect(() => {
-        setModalVisible(modal);
-    });
+  useEffect(() => {
+    setModalVisible(modal);
+  });
 
-    return (
-            <Modal
-                animationType="fade"
-                transparent={true}
-                visible={modalVisible}>
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <View style={styles.containerButtonClose}>
-                            <Pressable
-                                style={styles.buttonClose}
-                                onPress={() => setModalState(false)}>
-                                <Text style={{ textAlign: 'center', fontSize: 18, fontWeight: 'bold', color: elemBackgroundColor}}>X</Text>
-                            </Pressable>
-                        </View>
-                        <View style={styles.topContainer}>
-                            <Image
-                                contentFit="contain"
-                                contentPosition={"center"}
-                                transition={1000}
-                                // source={ company.photo }
-                                width={74}
-                                height={74}
-                                style={styles.logo}/>
-                            <View style={styles.infoTopContainer}>
-                                <View style={styles.textTopContainer}>
-                                    <Text style={styles.textTop}>{}</Text>
-                                </View>
-                            </View>
-                        </View>
-                    </View>
-                </View>
-            </Modal>
-    )
-};
+  return (
+    <Modal animationType="fade" transparent={true} visible={modalVisible}>
+      <BlurView
+        tint="dark"
+        intensity={40}
+        blurReductionFactor={10}
+        experimentalBlurMethod={"dimezisBlurView"}
+        style={styles.centeredView}
+      >
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor={elemBackgroundColor}
+          translucent={true}
+        />
+        <View style={styles.modalView}>
+          <View style={styles.containerButtonClose}>
+            <TouchableOpacity style={styles.buttonClose} onPress={onClose}>
+              <Image
+                contentFit="contain"
+                contentPosition={"center"}
+                transition={1000}
+                source={require("../assets/close.svg")}
+                width={36}
+                height={36}
+              />
+            </TouchableOpacity>
+          </View>
+          <View
+            style={
+              qrCode
+                ? styles.topContainer
+                : [styles.topContainer, { paddingBottom: 0 }]
+            }
+          >
+            <Text style={styles.textTop}>{title}</Text>
+            <Text style={styles.description} numberOfLines={3}>
+              {description}
+            </Text>
+            {!qrCode ? (
+              <View style={styles.link__container}>
+                <Text style={styles.link__text} numberOfLines={1}>
+                  www.website.com/pes..
+                </Text>
+                <Image
+                  contentFit="contain"
+                  contentPosition={"center"}
+                  transition={1000}
+                  source={require("../assets/copy-link.svg")}
+                  width={16}
+                  height={16}
+                />
+              </View>
+            ) : null}
+            {!qrCode ? (
+              <NewButtonComponent
+                title={"Поделиться ссылкой"}
+                filled={true}
+                height={54}
+                fontSize={18}
+              />
+            ) : null}
+            {qrCode ? (
+              <View style={styles.qrcode}>
+                <QRCodeComponent size={280} logoSize={88} />
+              </View>
+            ) : null}
+          </View>
+        </View>
+      </BlurView>
+    </Modal>
+  );
+}
 const styles = StyleSheet.create({
-    centeredView: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 22,
-    },
-    modalView: {
-        height: 400,
-        width: "94%",
-        backgroundColor: elemBackgroundColor,
-        borderRadius: 20,
-        padding: 10,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
-    },
-    buttonClose: {
-        width: 40,
-        borderRadius: 50,
-        paddingHorizontal: 10,
-        paddingVertical: 8,
-        elevation: 2,
-        backgroundColor: textColor3,
-    },
-    containerButtonClose: {
-        alignItems: "flex-end",
-        marginBottom: 15,
-    },
-    topContainer: {
-        flexDirection: "row",
-        marginVertical: 12,
-
-    },
-    infoTopContainer: {
-        marginLeft: 15,
-    },
-    textTopContainer: {
-        flexDirection: "row",
-        alignItems: "flex-end",
-        marginBottom: 15,
-    },
-    logo: {
-        width: 74,
-        height: 74,
-    },
-    textTop: {
-        fontWeight: "bold",
-        fontSize: 24,
-        color: "white",
-        marginBottom: -5,
-        marginRight: 5,
-    },
-    description: {
-        fontSize: 14,
-        color: "white",
-        marginBottom: 15,
-    },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalView: {
+    // height: 330,
+    // flex: 1,
+    width: WIDTH.width - 30,
+    backgroundColor: elemBackgroundColor,
+    borderRadius: 20,
+    padding: 10,
+  },
+  buttonClose: {
+    // width: 40,
+    // borderRadius: 50,
+    // paddingHorizontal: 10,
+    // paddingVertical: 8,
+    // elevation: 2,
+    // backgroundColor: textColor3,
+  },
+  containerButtonClose: {
+    alignItems: "flex-end",
+  },
+  topContainer: {
+    // flexDirection: "row",
+    paddingHorizontal: 15,
+    paddingBottom: 20,
+    // backgroundColor: "green"
+  },
+  textTop: {
+    fontFamily: FONTS.medium,
+    fontSize: 24,
+    color: textPrimaryColor,
+    lineHeight: 24,
+    marginBottom: 12,
+  },
+  description: {
+    textAlign: "justify",
+    fontFamily: FONTS.regular,
+    fontSize: 16,
+    color: textPrimaryColor,
+    marginBottom: 20,
+  },
+  link__container: {
+    flexDirection: "row",
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 100,
+    backgroundColor: COLORS.primary,
+    // alignItems: "center",
+    marginBottom: 20,
+  },
+  link__text: {
+    fontFamily: FONTS.regular,
+    fontSize: 14,
+    // lineHeight: 14,
+    color: textPrimaryColor,
+    marginRight: "auto",
+  },
+  qrcode: {
+    // flex: 1,
+    // marginBottom: 10,
+    alignItems: "center",
+  },
 });
-

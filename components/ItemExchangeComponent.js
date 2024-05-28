@@ -7,6 +7,7 @@ import InfoModalComponent from "./InfoModalComponent";
 import {router} from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import ErrorModalComponent from "./ErrorModalComponent";
+import { FONTS } from '../constants/theme';
 
 function getBallsText(clientBalls) {
     const lastTwoDigits = clientBalls % 100;
@@ -82,7 +83,7 @@ export default function ItemExchangeComponent({ exchanges, apiBaseUrl, clientId,
 
     const deleteExchange = async (id) => {
         try {
-            const apiUrl = apiBaseUrl + '/api/exchange/delete/';
+            const apiUrl = `${apiBaseUrl}api/exchange/delete/`;
             const response = await fetch(`${apiUrl}${id}`, {
                 method: 'DELETE',
                 headers: {
@@ -115,7 +116,7 @@ export default function ItemExchangeComponent({ exchanges, apiBaseUrl, clientId,
     const acceptExchange = async (companyId) => {
         try {
 
-            const apiUrl = apiBaseUrl + '/api/exchange/accept/';
+            const apiUrl = `${apiBaseUrl}api/exchange/accept/`;
             const response = await fetch(`${apiUrl}/${acceptId}/${takerId}`, {
                 method: 'PATCH',
                 headers: {
@@ -511,7 +512,7 @@ const styles = StyleSheet.create({
     },
     holderExchangeOffer: {
         fontSize: 18,
-        fontWeight: "bold",
+        fontFamily: FONTS.medium,
         color: textPrimaryColor,
         marginRight: 5,
     },

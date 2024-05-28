@@ -7,7 +7,7 @@ const FeedbackInput = ({ placeholder, value, onChangeText }) => {
     <View>
       <TextInput
         style={styles.input}
-        placeholderTextColor="white"
+        placeholderTextColor="rgba(255, 255, 255, 0.2)"
         placeholder={placeholder}
         value={value}
         onChangeText={onChangeText}

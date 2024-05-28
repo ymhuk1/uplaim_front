@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import QRCode from 'react-native-qrcode-svg';
+import { FONTS } from '../constants/theme';
 
 
 const QRCodeGenerator = ({ data, size, logoSize, style }) => {
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
     codeText:{
         marginVertical: 20,
         fontSize: 30,
-        fontWeight: "bold",
+        fontFamily: FONTS.medium,
         color: "white",
         justifyContent: "center",
         textAlign: "center",

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   StyleSheet,
@@ -15,12 +15,39 @@ import { router } from "expo-router";
 import { ImageBackground, Image } from "expo-image";
 import { handleLogout } from "../components/utils/utils";
 import NewButtonComponent from "../components/NewButtonComponent";
-import { styles, containerStyles, buttonStyles } from "../styles/enterPassStyles";
+import {
+  styles,
+  containerStyles,
+  buttonStyles,
+} from "../styles/enterPassStyles";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
+import Constants from "expo-constants";
+
+const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
 export default function EnterPassScreen() {
   const [passCode, setPassCode] = useState(["", "", "", ""]);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [token, setToken] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const [fontsLoaded, fontError] = useFonts({
+    "Rubik-Light": require("../assets/fonts/Rubik-Light.ttf"),
+    "Rubik-Medium": require("../assets/fonts/Rubik-Medium.ttf"),
+    "Rubik-Regular": require("../assets/fonts/Rubik-Regular.ttf"),
+    "Rubik-Bold": require("../assets/fonts/Rubik-Bold.ttf"),
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded || fontError) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, fontError]);
+
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
 
   const handlePassCodeChange = (newPassCode) => {
     setPassCode(newPassCode);
@@ -40,12 +67,14 @@ export default function EnterPassScreen() {
           token: userData.token,
         };
 
+        setLoading(true);
+
         console.log(
           "Отправляю запрос на вход с данными:",
           JSON.stringify(requestBody)
         );
 
-        const response = await fetch("https://admin.saveup.pro/api/login", {
+        const response = await fetch(`${apiBaseUrl}api/login`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -53,7 +82,9 @@ export default function EnterPassScreen() {
           body: JSON.stringify(requestBody),
         });
 
+
         const responseData = await response.json();
+        console.log(responseData)
 
         console.log("Получен ответ с сервера:", JSON.stringify(responseData));
 
@@ -69,6 +100,8 @@ export default function EnterPassScreen() {
     } catch (error) {
       console.error("Ошибка при отправке запроса на вход:", error);
       Alert.alert("Ошибка", "Произошла ошибка при отправке запроса на сервер.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -113,6 +146,7 @@ export default function EnterPassScreen() {
               height={54}
               fontSize={24}
               onPress={handleLogin}
+              loading={loading}
             />
           </View>
           <TouchableOpacity onPress={handleLogout}>

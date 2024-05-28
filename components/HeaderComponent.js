@@ -1,11 +1,11 @@
-import React from "react";
+import React, { memo } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import SearchComponent from "./SearchComponent";
 import { useRouter } from "expo-router";
 import { Image } from "expo-image";
 import { textErrorColor } from "./ColorsComponent";
 import { Skeleton } from "moti/skeleton";
-import { SKELETON } from "../constants/theme";
+import { FONTS, SIZES, SKELETON } from "../constants/theme";
 
 const HeaderComponent = ({ text, secondary, home, main, notify, skeleton }) => {
   const router = useRouter();
@@ -16,53 +16,41 @@ const HeaderComponent = ({ text, secondary, home, main, notify, skeleton }) => {
   const renderHeader = () => {
     if (isMainScreen) {
       return (
-        <View style={styles.headerContainer}>
-          <Skeleton show={skeleton} height={40} width={40} {...SKELETON}>
-            <TouchableOpacity
-              onPress={() =>
-                router.push({ pathname: "/secondary/recommendPage" })
-              }
-            >
-              <Image
-                contentFit="contain"
-                contentPosition={"center"}
-                transition={1000}
-                source={require("../assets/bottom-menu/qrcode_gr.svg")}
-                width={40}
-                height={40}
-                style={styles.iconContainer}
-              />
-            </TouchableOpacity>
-          </Skeleton>
-          <Skeleton
-            show={skeleton}
-            height={40}
-            width={260}
-           {...SKELETON}
-          >
-            <SearchComponent style={{ width: 250 }} main={main} />
-          </Skeleton>
-          <Skeleton
-            show={skeleton}
-            height={30}
-            width={30}
-            {...SKELETON}
-          >
-            <TouchableOpacity
-              onPress={() =>
-                router.push({ pathname: "/secondary/notifications" })
-              }
-            >
-              <Image
-                contentFit="contain"
-                contentPosition={"center"}
-                transition={1000}
-                source={require("../assets/notice.svg")}
-                width={30}
-                height={30}
-              />
-              {notify && <View style={styles.iconCountContainer}></View>}
-            </TouchableOpacity>
+        <View style={{ paddingTop: 50 }}>
+          <Skeleton show={skeleton} height={40} width={"100%"} {...SKELETON}>
+            <View style={styles.headerContainer}>
+              <TouchableOpacity
+                onPress={() =>
+                  router.push({ pathname: "/secondary/recommendPage" })
+                }
+              >
+                <Image
+                  contentFit="contain"
+                  contentPosition={"center"}
+                  transition={1000}
+                  source={require("../assets/bottom-menu/qrcode_gr.svg")}
+                  width={40}
+                  height={40}
+                  style={styles.iconContainer}
+                />
+              </TouchableOpacity>
+              <SearchComponent style={{ width: 250 }} main={main} />
+              <TouchableOpacity
+                onPress={() =>
+                  router.push({ pathname: "/secondary/notifications" })
+                }
+              >
+                <Image
+                  contentFit="contain"
+                  contentPosition={"center"}
+                  transition={1000}
+                  source={require("../assets/notice.svg")}
+                  width={30}
+                  height={30}
+                />
+                {notify && <View style={styles.iconCountContainer}></View>}
+              </TouchableOpacity>
+            </View>
           </Skeleton>
         </View>
       );
@@ -90,13 +78,13 @@ const HeaderComponent = ({ text, secondary, home, main, notify, skeleton }) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: 90,
+    // height: 90,
+    // backgroundColor: "red",
   },
   headerContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingTop: 50,
   },
   headerContainerBack: {
     flexDirection: "row",
@@ -114,11 +102,11 @@ const styles = StyleSheet.create({
     backgroundColor: textErrorColor,
   },
   headerText: {
-    fontSize: 24,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
+    fontSize: SIZES.xLarge,
     color: "white",
     marginBottom: 2,
   },
 });
 
-export default HeaderComponent;
+export default memo(HeaderComponent);

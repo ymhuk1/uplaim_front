@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { FONTS } from '../constants/theme';
 
 
 const CheckboxComponent = ({ isChecked, onToggle,  error, title }) => {
@@ -38,7 +39,7 @@ const CheckboxComponent = ({ isChecked, onToggle,  error, title }) => {
                         )}
                     </View>
                 </TouchableOpacity>
-                <Text style={{ marginLeft: 8, color: 'rgba(255, 255, 255, 0.2)' }}>
+                <Text style={{ marginLeft: 8, color: 'rgba(255, 255, 255, 0.2)', fontFamily: FONTS.regular }}>
                     {title}
                 </Text>
             </View>

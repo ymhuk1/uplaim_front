@@ -18,3 +18,5 @@ export const elemBackgroundColor3 = '#3F3761';
 export const elemGradientColors = ['#3B295D', '#2C2A51'];
 
 export const elemGradientColors2 = ['#F456FE', '#8D79F9'];
+
+export const buttonGradientColors = ["#7012CF", "#3D4ABA"];

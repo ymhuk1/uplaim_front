@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { COLORS, SIZES, HEIGHT } from "../constants/theme";
+import { COLORS, SIZES, HEIGHT, FONTS } from "../constants/theme";
 
 const styles = StyleSheet.create({
   container: {
@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
     height: 40,
   },
   textContainer: {
+    fontFamily: FONTS.regular,
     paddingTop: 80,
     paddingBottom: 30,
   },
@@ -36,23 +37,29 @@ const styles = StyleSheet.create({
   textContainer3: {},
   textContainer4: {},
   text: {
+    fontFamily: FONTS.medium,
     fontSize: SIZES.xLarge,
-    fontWeight: "bold",
+    lineHeight: 24,
     color: "white",
   },
   text2: {
+    fontFamily: FONTS.regular,
     width: 250,
     fontSize: SIZES.medium,
+    lineHeight: 20,
     color: COLORS.text,
     textAlign: "center",
   },
   text3: {
+    fontFamily: FONTS.regular,
     width: 280,
     fontSize: SIZES.medium,
+    lineHeight: 20,
     color: "white",
     textAlign: "center",
   },
   text4: {
+    fontFamily: FONTS.regular,
     fontSize: SIZES.medium,
     color: COLORS.text,
   },
@@ -67,7 +74,9 @@ const styles = StyleSheet.create({
   },
   smsRepeat: {
     width: 280,
+    fontFamily: FONTS.regular,
     fontSize: SIZES.medium,
+    lineHeight: 20,
     color: "#3D4ABA",
     textAlign: "center",
     textDecorationLine: "underline",

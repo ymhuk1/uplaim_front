@@ -17,11 +17,15 @@ import { ImageBackground, Image } from "expo-image";
 import { handleLogout } from "../components/utils/utils";
 import NewButtonComponent from "../components/NewButtonComponent";
 import { styles } from "../styles/passwordScreenStyles";
+import Constants from "expo-constants";
+
+const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
 export default function PasswordScreen() {
   const [passCode, setPassCode] = useState(["", "", "", ""]);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [token, setToken] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handlePassCodeChange = (newPassCode) => {
     setPassCode(newPassCode);
@@ -57,6 +61,8 @@ export default function PasswordScreen() {
         return;
       }
 
+      setLoading(true);
+
       const requestBody = {
         phone: phoneNumber,
         password: joinedPassCode,
@@ -69,7 +75,7 @@ export default function PasswordScreen() {
       );
 
       const response = await fetch(
-        "https://admin.saveup.pro/api/create-password",
+          `${apiBaseUrl}api/create-password`,
         {
           method: "POST",
           headers: {
@@ -95,6 +101,8 @@ export default function PasswordScreen() {
     } catch (error) {
       console.error("Ошибка при отправке запроса на создание пароля:", error);
       Alert.alert("Ошибка", "Произошла ошибка при отправке запроса на сервер.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -139,6 +147,7 @@ export default function PasswordScreen() {
               height={54}
               fontSize={24}
               onPress={handleCreatePassword}
+              loading={loading}
             />
           </View>
           <TouchableOpacity onPress={handleLogout}>

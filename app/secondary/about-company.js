@@ -14,7 +14,7 @@ import Modal from "react-native-modal";
 import { Link, useGlobalSearchParams } from "expo-router";
 import Constants from "expo-constants";
 import { Image, ImageBackground } from "expo-image";
-import { HEIGHT } from "../../constants/theme";
+import { FONTS, HEIGHT } from "../../constants/theme";
 import FeedbackComponent from "../../components/feedbackComponent";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
@@ -39,12 +39,11 @@ export default function AboutCompany() {
   };
 
   const fetchData = () => {
-    fetch(`${apiBaseUrl}/api/companies/${companyId}`)
+    fetch(`${apiBaseUrl}api/companies/${companyId}`)
       .then((response) => response.json())
       .then((data) => {
-        const { company } = data;
-        // console.log("Данные успешно получены:", data);
-        setCompany(company);
+        console.log("Данные успешно получены:", data);
+        setCompany(data);
         setRefreshing(false);
       })
       .catch((error) => {
@@ -83,14 +82,14 @@ export default function AboutCompany() {
                 contentFit="contain"
                 contentPosition={"center"}
                 transition={1000}
-                source={apiBaseUrl + company.main_photo}
+                source={apiBaseUrl + company?.main_photo}
                 width={74}
                 height={74}
                 style={styles.logoCompany}
               />
               <View style={styles.infoTopContainer}>
                 <View style={styles.textTopContainer}>
-                  <Text style={styles.textTop}>{company.name}</Text>
+                  <Text style={styles.textTop}>{company?.name}</Text>
                   <Image
                     contentFit="contain"
                     contentPosition={"center"}
@@ -100,7 +99,7 @@ export default function AboutCompany() {
                     height={24}
                   />
                 </View>
-                <TagComponent tags={company.tags} />
+                <TagComponent tags={company?.tags} />
               </View>
             </View>
             <View style={styles.addressContainer}>
@@ -113,7 +112,7 @@ export default function AboutCompany() {
                   width={24}
                   height={24}
                 />
-                <Text style={styles.textWhite}>{company.address}</Text>
+                <Text style={styles.textWhite}>{company?.address}</Text>
               </View>
               <View style={styles.textContainer}>
                 <Text style={styles.textPurple}>Другие филиалы</Text>
@@ -132,7 +131,7 @@ export default function AboutCompany() {
                   height={24}
                 />
                 <Text style={styles.textWhite}>
-                  {company.schedule !== undefined
+                  {company?.schedule !== undefined
                     ? company.schedule
                     : "Не указано"}
                 </Text>
@@ -191,12 +190,10 @@ export default function AboutCompany() {
             </View>
             <View style={styles.descriptionContainer}>
               <Text style={styles.descriptionText}>
-                {company.full_description}
+                {company?.full_description}
               </Text>
             </View>
           </View>
-        </ImageBackground>
-      </ScrollView>
       {isTooltipVisible && (
         <Modal
           isVisible={isTooltipVisible}
@@ -208,12 +205,12 @@ export default function AboutCompany() {
             height={220}
             headerPopup={"Режим работы:"}
             textPopup1={
-              company.working_hours !== undefined
+              company?.working_hours !== undefined
                 ? company.working_hours
                 : "Не указано"
             }
             textPopup2={
-              company.working_hours_weekend !== undefined
+              company?.working_hours_weekend !== undefined
                 ? company.working_hours_weekend
                 : "Не указано"
             }
@@ -228,7 +225,6 @@ export default function AboutCompany() {
         >
           <FeedbackComponent
             onClose={toggleFeedback}
-            height={525}
             headerPopup1={"Поставьте оценку"}
             headerPopup2={"Опишите плюсы и минусы"}
             textPopup1={"Приемущества"}
@@ -237,6 +233,8 @@ export default function AboutCompany() {
           />
         </Modal>
       )}
+    </ImageBackground>
+      </ScrollView>
     </View>
   );
 }
@@ -244,7 +242,7 @@ export default function AboutCompany() {
 const styles = StyleSheet.create({
   container: {},
   containerViewImg: {
-    minHeight: HEIGHT.height,
+    height: HEIGHT.height,
   },
   containerView: {
     marginHorizontal: 15,
@@ -271,7 +269,7 @@ const styles = StyleSheet.create({
     height: 74,
   },
   textTop: {
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     fontSize: 24,
     color: "white",
     marginBottom: -5,

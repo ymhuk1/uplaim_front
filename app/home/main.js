@@ -24,7 +24,7 @@ import * as SecureStore from "expo-secure-store";
 import { ImageBackground, Image } from "expo-image";
 import { Link, useRouter } from "expo-router";
 import { Skeleton } from "moti/skeleton";
-import { SKELETON } from "../../constants/theme";
+import { FONTS, SIZES, SKELETON } from "../../constants/theme";
 
 export default function MainScreen() {
   const [refreshing, setRefreshing] = useState(false);
@@ -98,7 +98,7 @@ export default function MainScreen() {
       const userDataStr = await SecureStore.getItemAsync("userData");
       if (userDataStr) {
         const userData = JSON.parse(userDataStr);
-        setToken(userData.token);
+        setToken(userData);
 
         const headers = {
           Authorization: userData.token,
@@ -106,22 +106,20 @@ export default function MainScreen() {
         };
 
         // Story
-        const storiesResponse = await fetch(
-          "https://admin.uplaim.com/api/stories",
-          { headers }
-        );
+        const storiesResponse = await fetch("https://uplaim.com/api/stories", {
+          headers,
+        });
         if (storiesResponse.ok) {
           const storiesData = await storiesResponse.json();
-          setStories(storiesData.stories);
+          setStories(storiesData);
         } else {
           console.error("Ошибка при загрузке историй");
         }
 
         // Client
-        const clientResponse = await fetch(
-          "https://admin.uplaim.com/api/client",
-          { headers }
-        );
+        const clientResponse = await fetch("https://uplaim.com/api/client", {
+          headers,
+        });
         if (clientResponse.ok) {
           const clientData = await clientResponse.json();
           setClientData(clientData.client);
@@ -133,44 +131,44 @@ export default function MainScreen() {
 
           await SecureStore.setItemAsync(
             "clientData",
-            JSON.stringify(clientData.client)
+            JSON.stringify(clientData)
           );
         } else {
           console.error("Ошибка при загрузке данных клиента");
         }
-
         // My companies
         const myCompaniesResponse = await fetch(
-          "https://admin.uplaim.com/api/my_companies",
+          "https://uplaim.com/api/my_companies",
           { headers }
         );
         if (myCompaniesResponse.ok) {
           const myCompaniesData = await myCompaniesResponse.json();
-          setMyCompanies(myCompaniesData.my_companies);
+          setMyCompanies(myCompaniesData);
+        } else if (myCompaniesResponse.status === 404) {
+          setMyCompanies([])
         } else {
           console.error("Ошибка при загрузке данных моих компаний");
         }
 
         // Partners / Categories
         const categoriesResponse = await fetch(
-          "https://admin.uplaim.com/api/categories",
+          "https://uplaim.com/api/categories",
           { headers }
         );
         if (categoriesResponse.ok) {
           const categoriesData = await categoriesResponse.json();
-          setCategories(categoriesData.categories);
+          setCategories(categoriesData);
         } else {
           console.error("Ошибка при загрузке данных категорий");
         }
 
         // Coupons
-        const couponsResponse = await fetch(
-          "https://admin.uplaim.com/api/coupon",
-          { headers }
-        );
+        const couponsResponse = await fetch("https://uplaim.com/api/coupon", {
+          headers,
+        });
         if (couponsResponse.ok) {
           const couponsData = await couponsResponse.json();
-          setCoupons(couponsData.coupons);
+          setCoupons(couponsData);
         } else {
           console.error("Ошибка при загрузке данных купонов");
         }
@@ -211,20 +209,17 @@ export default function MainScreen() {
             <HeaderComponent home={true} main={true} notify={notify} />
             <View style={styles.topContainer}>
               <View style={styles.leftContainer}>
-                <View style={styles.textContainer}>
-                  <Skeleton height={35} width={"80%"} {...SKELETON}>
+                <Skeleton
+                  height={70}
+                  // colorMode="dark"
+                  {...SKELETON}
+                >
+                  <View style={styles.textContainer}>
                     <Text style={styles.text}>
                       Привет, {clientData.name || "Гость"}!
                     </Text>
-                  </Skeleton>
-                </View>
+                  </View>
 
-                <Skeleton
-                  height={35}
-                  width={"65%"}
-                  colorMode="dark"
-                  {...SKELETON}
-                >
                   <View style={styles.bottomContainer}>
                     <View style={styles.background}>
                       <Image
@@ -233,8 +228,8 @@ export default function MainScreen() {
                         transition={1000}
                         source={require("../../assets/up.svg")}
                         width={21}
-                        height={16}
-                        style={{ marginBottom: 2, marginRight: 3 }}
+                        height={15}
+                        style={{ marginRight: 3 }}
                       />
                       <Text style={styles.upBalance}>
                         {clientData.up_balance}
@@ -246,7 +241,13 @@ export default function MainScreen() {
                         {clientData.balance} ₽
                       </Text>
                     </View>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() =>
+                        router.push({
+                          pathname: "/secondary/gifts",
+                        })
+                      }
+                    >
                       <Image
                         contentFit="contain"
                         contentPosition={"center"}
@@ -254,17 +255,18 @@ export default function MainScreen() {
                         source={require("../../assets/gift.svg")}
                         width={24}
                         height={24}
-                        style={{ marginBottom: 2, marginRight: 3 }}
                       />
                     </TouchableOpacity>
                   </View>
                 </Skeleton>
               </View>
               <View>
-                <Skeleton height={65} width={65} {...SKELETON}>
+                <Skeleton {...SKELETON}>
                   <TouchableOpacity
                     onPress={() =>
-                      router.push({ pathname: "/secondary/tariffs" })
+                      router.push({
+                        pathname: "/secondary/tariffs",
+                      })
                     }
                     style={styles.rightContainer}
                   >
@@ -274,35 +276,45 @@ export default function MainScreen() {
                 </Skeleton>
               </View>
             </View>
-            <Skeleton height={112} width={300} {...SKELETON}>
-              <StoryComponent
-                data={stories}
-                style={styles.story}
-                stories={true}
-              />
-            </Skeleton>
+            {stories && (
+              <Skeleton {...SKELETON}>
+                <StoryComponent
+                  data={stories}
+                  style={styles.story}
+                  stories={true}
+                />
+              </Skeleton>
+            )}
             <TouchableOpacity
               onPress={() => router.push({ pathname: "/home/qrcode" })}
               style={styles.textContainer2}
             >
-              <Skeleton height={27} width={22} {...SKELETON}>
-                <Image
-                  contentFit="contain"
-                  contentPosition={"center"}
-                  transition={1000}
-                  source={require("../../assets/briefcase.svg")}
-                  width={24}
-                  height={24}
-                  style={{ marginBottom: 2, marginRight: 3 }}
-                />
-              </Skeleton>
-              <Skeleton height={27} width={220} {...SKELETON}>
-                <Text style={styles.text2}>Мои компании</Text>
+              <Skeleton {...SKELETON}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <Image
+                    contentFit="contain"
+                    contentPosition={"center"}
+                    transition={1000}
+                    source={require("../../assets/briefcase.svg")}
+                    width={24}
+                    height={24}
+                    style={{
+                      marginBottom: 2,
+                      marginRight: 3,
+                    }}
+                  />
+                  <Text style={styles.text2}>Мои компании</Text>
+                </View>
               </Skeleton>
             </TouchableOpacity>
 
             {myCompanies.length === 0 ? (
-              <Skeleton height={180} width={"100%"} {...SKELETON}>
+              <Skeleton {...SKELETON}>
                 <Link
                   href={"/secondary/categories"}
                   style={[
@@ -319,14 +331,17 @@ export default function MainScreen() {
                       source={require("../../assets/plus-company.svg")}
                       width={72}
                       height={72}
-                      style={{ marginBottom: 2, marginRight: 3 }}
+                      style={{
+                        marginBottom: 2,
+                        marginRight: 3,
+                      }}
                     />
                     <Text style={styles.textAddCompany}>Добавить компанию</Text>
                   </View>
                 </Link>
               </Skeleton>
             ) : (
-              <Skeleton height={375} width={"100%"} {...SKELETON}>
+              <Skeleton {...SKELETON}>
                 <SliderComponent
                   myCompany={true}
                   data={groupedData1}
@@ -338,26 +353,42 @@ export default function MainScreen() {
               </Skeleton>
             )}
             <TouchableOpacity
-              onPress={() => router.push({ pathname: "/secondary/categories" })}
-              style={styles.textContainer2}
+              onPress={() =>
+                router.push({
+                  pathname: "/secondary/categories",
+                })
+              }
+              style={
+                skeleton
+                  ? styles.textContainer2
+                  : [styles.textContainer2, { marginTop: 0 }]
+              }
             >
-              <Skeleton height={25} width={25} {...SKELETON}>
-                <Image
-                  contentFit="contain"
-                  contentPosition={"center"}
-                  transition={1000}
-                  source={require("../../assets/bags-shopping.svg")}
-                  width={24}
-                  height={24}
-                  style={{ marginBottom: 2, marginRight: 3 }}
-                />
-              </Skeleton>
-
-              <Skeleton height={35} width={180} {...SKELETON}>
-                <Text style={styles.text2}>Партнеры</Text>
+              <Skeleton {...SKELETON}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    // marginTop: -20,
+                  }}
+                >
+                  <Image
+                    contentFit="contain"
+                    contentPosition={"center"}
+                    transition={1000}
+                    source={require("../../assets/bags-shopping.svg")}
+                    width={24}
+                    height={24}
+                    style={{
+                      marginBottom: 2,
+                      marginRight: 3,
+                    }}
+                  />
+                  <Text style={styles.text2}>Партнеры</Text>
+                </View>
               </Skeleton>
             </TouchableOpacity>
-            <Skeleton height={320} width={"100%"} {...SKELETON}>
+            <Skeleton {...SKELETON}>
               <SliderComponent
                 partners={true}
                 data={groupedData2}
@@ -366,9 +397,13 @@ export default function MainScreen() {
                 slideHeight={slideHeight2}
               />
             </Skeleton>
-            <Skeleton height={115} width={"100%"} {...SKELETON}>
+            <Skeleton {...SKELETON}>
               <TouchableOpacity
-                onPress={() => router.push({ pathname: "/secondary/referral" })}
+                onPress={() =>
+                  router.push({
+                    pathname: "/secondary/referral",
+                  })
+                }
                 style={styles.referral}
               >
                 <Text style={styles.referralHeader}>Реферальная программа</Text>
@@ -420,30 +455,39 @@ export default function MainScreen() {
             </Skeleton>
             <TouchableOpacity
               onPress={() =>
-                router.push({ pathname: "/secondary/couponsList" })
+                router.push({
+                  pathname: "/secondary/couponsList",
+                })
               }
               style={styles.textContainer2}
             >
-              <Skeleton height={24} width={24} {...SKELETON}>
-                <Image
-                  contentFit="contain"
-                  contentPosition={"center"}
-                  transition={1000}
-                  source={require("../../assets/reciept.svg")}
-                  width={24}
-                  height={24}
-                  style={{ marginBottom: 2, marginRight: 3 }}
-                />
-              </Skeleton>
-
-              <Skeleton height={32} width={"90%"} {...SKELETON}>
-                <Text style={styles.text2}>Купоны и промокоды</Text>
+              <Skeleton {...SKELETON}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
+                  <Image
+                    contentFit="contain"
+                    contentPosition={"center"}
+                    transition={1000}
+                    source={require("../../assets/reciept.svg")}
+                    width={24}
+                    height={24}
+                    style={{
+                      marginBottom: 2,
+                      marginRight: 3,
+                    }}
+                  />
+                  <Text style={styles.text2}>Купоны и промокоды</Text>
+                </View>
               </Skeleton>
             </TouchableOpacity>
             {coupons.length === 0 ? (
               <Text style={styles.textCouponsEmpty}>Пока нет купонов</Text>
             ) : (
-              <Skeleton height={250} width={"100%"} {...SKELETON}>
+              <Skeleton {...SKELETON}>
                 <SliderComponent
                   coupon={true}
                   data={groupedData3}
@@ -470,7 +514,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 30,
-    marginTop: 20,
+    marginTop: 30,
+    // backgroundColor: "green",
   },
   leftContainer: {
     height: 64,
@@ -487,7 +532,7 @@ const styles = StyleSheet.create({
     alignContent: "center",
   },
   bottomContainer: {
-    alignItems: "flex-start",
+    alignItems: "flex-end",
     flexDirection: "row",
   },
   background: {
@@ -495,7 +540,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     borderRadius: 8,
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "baseline",
     marginRight: 10,
   },
   background2: {
@@ -506,34 +551,39 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginRight: 10,
   },
-  textContainer: {},
+  textContainer: {
+    // backgroundColor: "red",
+  },
   textContainer2: {
+    fontFamily: FONTS.medium,
     marginTop: 30,
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 20,
   },
   text: {
-    fontSize: 24,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
+    fontSize: SIZES.xLarge,
+    lineHeight: 24,
     color: textPrimaryColor,
-    marginBottom: 10,
+    marginBottom: 15,
   },
   text2: {
+    fontFamily: FONTS.medium,
     fontSize: 24,
-    fontWeight: "bold",
+    lineHeight: 24,
     color: textPrimaryColor,
     marginLeft: 7,
   },
   upBalance: {
+    fontFamily: FONTS.semibold,
     fontSize: 16,
-    fontWeight: "bold",
     color: textPrimaryColor,
   },
   balance: {
     fontSize: 20,
     color: textPrimaryColor,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     justifyContent: "center",
     alignItems: "center",
     alignContent: "center",
@@ -561,11 +611,13 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   textAddCompany: {
+    fontFamily: FONTS.regular,
     color: textColor3,
     marginTop: 30,
     fontSize: 12,
   },
   textCouponsEmpty: {
+    fontFamily: FONTS.medium,
     fontSize: 24,
     textAlign: "center",
     color: textPrimaryColor,
@@ -575,12 +627,11 @@ const styles = StyleSheet.create({
     height: 115,
     backgroundColor: elemBackgroundColor,
     borderRadius: 12,
-    marginBottom: 30,
     width: "100%",
   },
   referralHeader: {
+    fontFamily: FONTS.medium,
     marginVertical: 10,
-    fontWeight: "bold",
     fontSize: 18,
     textAlign: "center",
     color: textPrimaryColor,
@@ -600,6 +651,7 @@ const styles = StyleSheet.create({
   },
   referralTopText: {
     color: textPrimaryColor,
+    fontFamily: FONTS.regular,
     fontSize: 12,
     marginLeft: 5,
   },
@@ -607,9 +659,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   referralBottomText: {
+    fontFamily: FONTS.medium,
     color: textPrimaryColor,
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: SIZES.xLarge,
+    lineHeight: 24,
     marginHorizontal: 15,
+    marginTop: 2,
   },
 });

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { FONTS } from '../constants/theme';
 
 const GradientButton = ({ title, onPress, width }) => {
     return (
@@ -38,6 +39,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     buttonText: {
+        fontFamily: FONTS.medium,
         color: 'white',
         fontSize: 24,
         paddingHorizontal: 30,

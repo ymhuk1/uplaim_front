@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { COLORS, SIZES, HEIGHT } from "../constants/theme";
+import  { COLORS, SIZES, HEIGHT, FONTS, WIDTH } from "../constants/theme";
 
 const styles = StyleSheet.create({
   container: {
@@ -58,7 +58,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
+    fontFamily: FONTS.regular,
     fontSize: SIZES.medium,
+    lineHeight: 20,
     color: COLORS.text,
   },
   input: {
@@ -85,7 +87,7 @@ const styles = StyleSheet.create({
   },
 });
 
-// console.log("Login screen height:", HEIGHT.height);
+console.log("Login screen width:", WIDTH.width);
 
 let containerStyles = styles.container;
 let inputStyles = styles.input;
@@ -96,7 +98,7 @@ let checkboxStyles = styles.checkbox;
 let buttonStyles = styles.button;
 let containerViewIMGStyles = styles.containerViewIMG;
 
-if (HEIGHT.height < 800) {
+if (HEIGHT.height < 780 || WIDTH.width < 450) {
   containerStyles = styles.containerSmall;
   inputStyles = styles.inputSmall;
   textContainerStyles = styles.textContainerSmall;
@@ -105,7 +107,7 @@ if (HEIGHT.height < 800) {
   checkboxStyles = styles.checkboxSmall;
   buttonStyles = styles.buttonSmall;
   containerViewIMGStyles = styles.containerViewIMGSmall;
-  console.log("Login screen is smaller than 900");
+  // console.log("Login screen is smaller than 900");
 }
 
 export {

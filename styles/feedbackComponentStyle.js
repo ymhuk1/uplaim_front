@@ -1,30 +1,28 @@
 import { StyleSheet } from "react-native";
-import { COLORS, SIZES, HEIGHT, WIDTH } from "../constants/theme";
+import { COLORS, SIZES, HEIGHT, WIDTH, FONTS } from "../constants/theme";
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    height: HEIGHT.height,
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
   popupContainer: {
-    position: "absolute",
     paddingTop: 50,
-    bottom: -20,
-    // top: 20,
     backgroundColor: "#24224A",
     borderTopRightRadius: 12,
     borderTopLeftRadius: 12,
-    minWidth: WIDTH.width,
-    zIndex: 999,
     alignItems: "center",
-    // padding: 20,
+    justifyContent: "center",
   },
   headerPopup: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     color: "white",
-    // marginBottom: 20,
   },
   rating: {
-    marginTop: 10,
-    marginBottom: 20,
-    marginHorizontal: "auto",
+    marginTop: 18,
   },
   textPopupContainer: {
     paddingTop: 20,
@@ -37,7 +35,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     height: 47,
     fontSize: 16,
-    color: "white",
     borderRadius: 25,
   },
   textPopup2: {
@@ -46,7 +43,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     height: 100,
     fontSize: 16,
-    color: "white",
     borderRadius: 25,
     marginBottom: 20,
   },

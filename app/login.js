@@ -7,6 +7,7 @@ import {
   Dimensions,
   TouchableOpacity,
   StatusBar,
+  ActivityIndicator,
 } from "react-native";
 import { Image, ImageBackground } from "expo-image";
 import Constants from "expo-constants";
@@ -42,8 +43,6 @@ export default function LoginScreen() {
   const [token, setToken] = useState(null);
   const deviceInfo = Constants.deviceName;
 
-  // console.log("height: ", Dimensions.get("window").height)
-
   useEffect(() => {
     loadToken();
   }, []);
@@ -71,6 +70,9 @@ export default function LoginScreen() {
       if (!phoneNumber) {
         setError("Заполните поле номера");
         return;
+      } else if (phoneNumber.length < 11) {
+        setError("Номер должен содержать 11 цифр");
+        return;
       }
 
       setError("");
@@ -88,7 +90,7 @@ export default function LoginScreen() {
 
       console.log("Sending request with data:", JSON.stringify(requestBody));
 
-      const response = await fetch(apiBaseUrl + "/api/send_phone_number", {
+      const response = await fetch(`${apiBaseUrl}api/send_phone_number`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -225,6 +227,7 @@ export default function LoginScreen() {
               height={54}
               fontSize={24}
               onPress={handleLogin}
+              loading={loading}
             />
           </View>
         </View>

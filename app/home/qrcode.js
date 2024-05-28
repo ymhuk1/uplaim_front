@@ -12,6 +12,10 @@ import QRCodeComponent from "../../components/QRCodeComponent";
 import SliderComponent from "../../components/SliderComponent";
 import * as SecureStore from "expo-secure-store";
 import { textPrimaryColor } from "../../components/ColorsComponent";
+import { FONTS } from "../../constants/theme";
+import Constants from "expo-constants";
+
+const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
 export default function Qrcode() {
   const [refreshing, setRefreshing] = useState(false);
@@ -49,12 +53,12 @@ export default function Qrcode() {
 
         // My companies
         const myCompaniesResponse = await fetch(
-          "https://admin.uplaim.com/api/my_companies",
+            `${apiBaseUrl}api/my_companies`,
           { headers }
         );
         if (myCompaniesResponse.ok) {
           const myCompaniesData = await myCompaniesResponse.json();
-          setMyCompanies(myCompaniesData.my_companies);
+          setMyCompanies(myCompaniesData);
         } else {
           console.error("Ошибка при загрузке данных моих компаний");
         }
@@ -155,7 +159,8 @@ const styles = StyleSheet.create({
   },
   textHead: {
     fontSize: 24,
-    fontWeight: "bold",
+    lineHeight: 24,
+    fontFamily: FONTS.medium,
     color: textPrimaryColor,
     marginLeft: 7,
   },
@@ -182,7 +187,8 @@ const styles = StyleSheet.create({
   },
   text2: {
     fontSize: 24,
-    fontWeight: "bold",
+    lineHeight: 24,
+    fontFamily: FONTS.medium,
     color: "white",
     marginLeft: 7,
   },

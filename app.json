@@ -33,8 +33,8 @@
       "expo-router"
     ],
     "extra": {
-      "API_PROD": "https://admin.uplaim.com",
-      "API_STAGE": "http://127.0.0.1:5000",
+      "API_PROD": "https://uplaim.com/",
+      "API_STAGE": "http://127.0.0.1:5000/",
       "router": {
         "origin": false
       },

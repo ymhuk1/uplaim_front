@@ -1,22 +1,13 @@
-import { Link, useGlobalSearchParams, useRouter } from "expo-router";
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  RefreshControl,
-} from "react-native";
-import { Image, ImageBackground } from "expo-image";
+import {Link, useGlobalSearchParams, useRouter} from "expo-router";
+import React, {useEffect, useState} from "react";
+import {RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
+import {Image, ImageBackground} from "expo-image";
 import Swiper from "react-native-swiper";
 import * as SecureStore from "expo-secure-store";
-import { LinearGradient } from "expo-linear-gradient";
+import {LinearGradient} from "expo-linear-gradient";
 import Constants from "expo-constants";
-import { router } from "expo-router";
 
 import HeaderComponent from "../../components/HeaderComponent";
-import ButtonComponent from "../../components/ButtonComponent";
 import SliderComponent from "../../components/SliderComponent";
 import SocialLinkComponent from "../../components/SocialLinkComponent";
 import TagComponent from "../../components/TagComponent";
@@ -29,7 +20,8 @@ import {
   textPrimaryColor,
 } from "../../components/ColorsComponent";
 import NewButtonComponent from "../../components/NewButtonComponent";
-import { Rating } from "react-native-ratings";
+import {Rating} from "react-native-ratings";
+import {FONTS} from "../../constants/theme";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
@@ -60,13 +52,13 @@ export default function Company() {
   // const roundedReviewsRating = company.reviews_rating !== null ? Math.floor(company.reviews_rating * 10) / 10 : 0;
   // company.reviews_rating = roundedReviewsRating;
 
-  if (company.news && company.news.length > 0) {
+  if (company?.news && company.news.length > 0) {
     for (let i = 0; i < company.news.length; i += itemsPerSlide1) {
-      groupedData1.push(company.news.slice(i, i + itemsPerSlide1));
+      groupedData1.push(company?.news.slice(i, i + itemsPerSlide1));
     }
   }
 
-  if (company.coupons && company.coupons.length > 0) {
+  if (company?.coupons && company.coupons.length > 0) {
     if (company.coupons.length === 1 || company.coupons.length === 2) {
       slideHeight3 = itemHeight3;
     } else if (company.coupons.length === 3 || company.coupons.length === 4) {
@@ -76,13 +68,14 @@ export default function Company() {
     }
   }
 
-  if (company.coupons && company.coupons.length > 0) {
+  if (company?.coupons && company.coupons.length > 0) {
     for (let i = 0; i < company.coupons.length; i += itemsPerSlide3) {
       groupedData3.push(company.coupons.slice(i, i + itemsPerSlide3));
     }
   }
 
-  const { another_photo } = company;
+  const {another_photo} = company;
+
 
   const companyBalls = clientData.balls || [];
 
@@ -113,7 +106,7 @@ export default function Company() {
 
   const associateCompany = async () => {
     try {
-      const url = apiBaseUrl + "/api/associate_company";
+      const url = `${apiBaseUrl}api/associate_company`;
 
       const userToken = await SecureStore.getItemAsync("userData");
       const token = userToken ? JSON.parse(userToken).token : null;
@@ -158,7 +151,8 @@ export default function Company() {
       }
 
       // Fetch для данных компании
-      const companyUrl = `${apiBaseUrl}/api/companies/${companyId}`;
+      const companyUrl = `${apiBaseUrl}api/companies/${companyId}`;
+
       const companyResponse = await fetch(companyUrl, {
         headers: {
           Authorization: token,
@@ -167,10 +161,9 @@ export default function Company() {
 
       if (companyResponse.ok) {
         const companyData = await companyResponse.json();
-        const { company } = companyData;
-        // console.log("Данные компании успешно получены:", company);
+        console.log("Данные компании успешно получены:", companyData);
+        setCompany(companyData);
 
-        setCompany(company);
       } else {
         console.error(
           "Ошибка при загрузке данных компании:",
@@ -179,7 +172,8 @@ export default function Company() {
       }
 
       // Fetch для данных клиента
-      const clientUrl = apiBaseUrl + "/api/client";
+      const clientUrl = `${apiBaseUrl}api/client`;
+
       const clientResponse = await fetch(clientUrl, {
         headers: {
           Authorization: token,
@@ -189,7 +183,8 @@ export default function Company() {
       if (clientResponse.ok) {
         const clientData = await clientResponse.json();
         const { client } = clientData;
-        // console.log('Данные клиента успешно получены:', client);
+        console.log('Данные клиента успешно получены:', client);
+
         setClientData(client);
       } else {
         console.error(
@@ -213,7 +208,7 @@ export default function Company() {
     fetchData();
   }, []);
 
-  const main_photo = apiBaseUrl + company.main_photo;
+  const main_photo = `${apiBaseUrl}${company?.main_photo}`;
 
   return (
     <ScrollView
@@ -272,7 +267,7 @@ export default function Company() {
                   ratingBackgroundColor="#9A95B2"
                   startingValue={
                     company.reviews_rating === null ? 0 : company.reviews_rating
-                  } // значение получаем с сервера
+                  }
                 />
                 <Text style={styles.ratingText}>
                   {Math.floor(company.reviews_rating * 10) / 10}
@@ -281,11 +276,11 @@ export default function Company() {
             </View>
           </View>
           <Text style={styles.description}>{company.description}</Text>
-          <View tyle={styles.sliderContainer}>
-            <SliderPhotoComponent
-              photos={another_photo ? another_photo : []}
-              style={styles.slider}
-            />
+          <View style={styles.sliderContainer}>
+          <SliderPhotoComponent
+          photos={another_photo ? another_photo : []}
+          style={styles.slider}
+          />
           </View>
           <View style={styles.buttonContainer}>
             {clientData.companies &&
@@ -293,9 +288,11 @@ export default function Company() {
               <NewButtonComponent
                 title={"Рекомендовать"}
                 filled={true}
-                height={48}
+                height={54}
                 fontSize={18}
-                onPress={() => {}}
+                onPress={() => {
+                  router.push({ pathname: "/secondary/recommendations" });
+                }}
               />
             ) : (
               <NewButtonComponent
@@ -403,7 +400,7 @@ export default function Company() {
                           style={styles.tariffConnect}
                           // onPress={() => handleConnectPremium(tariff.name)} // Здесь нужно обработать нажатие
                         >
-                          <Text style={styles.tariffConnectText}>
+                          <Text style={[styles.tariffConnectText, {color: tariff.color}]}>
                             {tariff.clients_tariff_name === "Free"
                               ? ""
                               : "Подключить " + tariff.clients_tariff_name}
@@ -537,6 +534,7 @@ const styles = StyleSheet.create({
   },
   topContainer: {
     flexDirection: "row",
+    alignItems: "center",
     marginVertical: 12,
   },
   infoTopContainer: {
@@ -545,15 +543,15 @@ const styles = StyleSheet.create({
   textTopContainer: {
     flexDirection: "row",
     alignItems: "flex-end",
-    marginBottom: 15,
+    // marginBottom: 15,
   },
   logo: {
-    borderRadius: 12,
+    borderRadius: 100,
     width: 74,
     height: 74,
   },
   textTop: {
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     fontSize: 24,
     color: "white",
     marginBottom: -5,
@@ -561,7 +559,7 @@ const styles = StyleSheet.create({
   },
   ratingText: {
     color: "white",
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     fontSize: 14,
   },
   description: {
@@ -572,10 +570,11 @@ const styles = StyleSheet.create({
   slider: {},
   buttonContainer: {
     alignItems: "center",
-    marginBottom: 30,
+    marginTop: -10,
+    marginBottom: 20,
   },
   tariffContainer: {
-    height: 240,
+    height: 270,
     backgroundColor: elemBackgroundColor,
     borderRadius: 12,
     marginBottom: 30,
@@ -643,20 +642,20 @@ const styles = StyleSheet.create({
   },
   tariffBallsText: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     color: textPrimaryColor,
     marginLeft: 10,
   },
   tariffColumnTextUp: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     color: textPrimaryColor,
     marginBottom: 5,
     textAlign: "center",
   },
   tariffColumnTextDown: {
     fontSize: 12,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     color: textPrimaryColor,
     textAlign: "center",
   },
@@ -664,7 +663,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
-  sliderContainer: {},
+  sliderContainer: {
+  },
   textContainer2: {
     flexDirection: "row",
     alignItems: "center",
@@ -672,7 +672,7 @@ const styles = StyleSheet.create({
   },
   text2: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     color: "white",
     marginLeft: 7,
   },
@@ -707,7 +707,7 @@ const styles = StyleSheet.create({
   bannerSaveSum: {
     fontSize: 20,
     color: textPrimaryColor,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
   },
   bannerSaveText: {
     fontSize: 16,
@@ -742,7 +742,7 @@ const styles = StyleSheet.create({
   },
   countFriendsTextRight: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontFamily: FONTS.medium,
     color: textPrimaryColor,
   },
   wrapper: {

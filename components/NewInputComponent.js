@@ -1,5 +1,6 @@
 import {TextInput, View, StyleSheet} from "react-native";
 import {textColor3, textPrimaryColor} from "./ColorsComponent";
+import { FONTS } from "../constants/theme";
 
 
 export default function NewInputComponent({value, onChangeText, maxLength, placeholder}) {
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         textAlign: "center",
         fontSize: 30,
-        fontWeight: "bold",
+        fontFamily: FONTS.medium,
         color: textPrimaryColor,
         marginVertical: 10,
     }
