@@ -138,7 +138,7 @@ export default function MainScreen() {
         }
         // My companies
         const myCompaniesResponse = await fetch(
-          "https://uplaim.com/api/companies",
+          "https://uplaim.com/api/my_companies",
           { headers }
         );
         if (myCompaniesResponse.ok) {

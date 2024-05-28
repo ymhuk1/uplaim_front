@@ -228,7 +228,7 @@ export default function AboutCompany() {
             onClose={toggleFeedback}
             headerPopup1={"Поставьте оценку"}
             headerPopup2={"Опишите плюсы и минусы"}
-            textPopup1={"Приемущества"}
+            textPopup1={"Преимущества"}
             textPopup2={"Недостатки"}
             textPopup3={"Комментарий"}
           />

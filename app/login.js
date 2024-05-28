@@ -70,7 +70,7 @@ export default function LoginScreen() {
       if (!phoneNumber) {
         setError("Заполните поле номера");
         return;
-      } else if (phoneNumber.length < 11) {
+      } else if (phoneNumber.replace(/[^0-9]/g, "").length < 11) {
         setError("Номер должен содержать 11 цифр");
         return;
       }
@@ -81,7 +81,7 @@ export default function LoginScreen() {
 
       // Request
       const requestBody = {
-        phone: phoneNumber,
+        phone: phoneNumber.replace(/[^0-9]/g, ""),
         referral_code: referralCode,
         device: {
           device: deviceInfo,
