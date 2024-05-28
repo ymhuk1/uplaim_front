@@ -169,7 +169,7 @@ const FeedbackComponent = ({
           <View style={styles.textPopupContainer}>
             <View style={styles.textPopup}>
               <FeedbackInput
-                placeholder="Приемущества"
+                placeholder="Преимущества"
                 value={advantages}
                 onChangeText={setAdvantages}
               />

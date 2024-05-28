@@ -24,7 +24,7 @@ const InputComponent = ({
       <TextMask
         style={styles.input}
         type={"custom"}
-        options={{ mask: "+7 (999) 999-99-99" }}
+        options={{ mask: "+7 999 999-99-99", getRawValue: (value) => setPhoneNumber(value) }}
         placeholderTextColor="rgba(255, 255, 255, 0.2)"
         placeholder={placeholder}
         keyboardType={keyboardType}

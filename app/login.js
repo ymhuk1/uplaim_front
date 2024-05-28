@@ -43,8 +43,6 @@ export default function LoginScreen() {
   const [token, setToken] = useState(null);
   const deviceInfo = Constants.deviceName;
 
-  // console.log("height: ", Dimensions.get("window").height)
-
   useEffect(() => {
     loadToken();
   }, []);
@@ -71,6 +69,9 @@ export default function LoginScreen() {
 
       if (!phoneNumber) {
         setError("Заполните поле номера");
+        return;
+      } else if (phoneNumber.length < 11) {
+        setError("Номер должен содержать 11 цифр");
         return;
       }
 
@@ -228,7 +229,6 @@ export default function LoginScreen() {
               onPress={handleLogin}
               loading={loading}
             />
-            {/* <ActivityIndicator visible={loading} size={"large"} color={"#7434b7"}/> */}
           </View>
         </View>
         <StatusBar backgroundColor="transparent" barStyle="light-content" />
