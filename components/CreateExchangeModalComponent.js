@@ -85,9 +85,9 @@ export default function CreateExchangeModalComponent({
 
   function findMatchingBall(ballsData, companyId) {
     if (deal === "edit" || deal === "offer") {
-      return ballsData.find((item) => item.company_id === companyId);
+      return ballsData?.find((item) => item.company_id === companyId);
     } else {
-      return ballsData.find((item) => item.company_id === companyId);
+      return ballsData?.find((item) => item.company_id === companyId);
     }
   }
 
@@ -319,12 +319,12 @@ export default function CreateExchangeModalComponent({
                                   {deal === "edit" || deal === "offer" ? (
                                     <TouchableOpacity onPress={onRequestClose}>
                                       <Text style={styles.modalCompanyName}>
-                                        {selectedCompany.name}
+                                        {selectedCompany?.name}
                                       </Text>
                                     </TouchableOpacity>
                                   ) : (
                                     <Text style={styles.modalCompanyName}>
-                                      {selectedCompany.name}
+                                      {selectedCompany?.name}
                                     </Text>
                                   )}
                                 </View>
@@ -435,12 +435,12 @@ export default function CreateExchangeModalComponent({
                                   {deal === "edit" || deal === "offer" ? (
                                     <TouchableOpacity onPress={onRequestClose}>
                                       <Text style={styles.modalCompanyName}>
-                                        {selectedCompany.name}
+                                        {selectedCompany?.name}
                                       </Text>
                                     </TouchableOpacity>
                                   ) : (
                                     <Text style={styles.modalCompanyName}>
-                                      {selectedCompany.name}
+                                      {selectedCompany?.name}
                                     </Text>
                                   )}
                                 </View>
@@ -515,12 +515,12 @@ export default function CreateExchangeModalComponent({
                                   {deal === "edit" || deal === "offer" ? (
                                     <TouchableOpacity onPress={onRequestClose}>
                                       <Text style={styles.modalCompanyName}>
-                                        {selectedCompany.name}
+                                        {selectedCompany?.name}
                                       </Text>
                                     </TouchableOpacity>
                                   ) : (
                                     <Text style={styles.modalCompanyName}>
-                                      {selectedCompany.name}
+                                      {selectedCompany?.name}
                                     </Text>
                                   )}
                                 </View>

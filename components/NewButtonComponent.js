@@ -33,7 +33,7 @@ const GradientButton = ({
         style={[styles.button, { width: width, height: height }]}
       >
         {onPress === null ? (
-          <ActivityIndicator size="small" color="white" />
+          <ActivityIndicator size="large" color="white" />
         ) : (
           <Text style={[styles.buttonText, { fontSize: fontSize }]}>
             {title}
@@ -77,14 +77,22 @@ const NewButtonComponent = ({
               { width: width, height: height },
             ]}
           >
-            <Text
-              style={[
-                disabled ? styles.buttonTextDisabled : styles.buttonText,
-                { fontSize: fontSize },
-              ]}
-            >
-              {title}
-            </Text>
+            {loading ? (
+              <ActivityIndicator
+                visible={loading}
+                size={"large"}
+                color={"#7434b7"}
+              />
+            ) : (
+              <Text
+                style={[
+                  disabled ? styles.buttonTextDisabled : styles.buttonText,
+                  { fontSize: fontSize },
+                ]}
+              >
+                {title}
+              </Text>
+            )}
           </View>
         </TouchableOpacity>
       )}

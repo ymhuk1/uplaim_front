@@ -30,6 +30,7 @@ export default function EnterPassScreen() {
   const [passCode, setPassCode] = useState(["", "", "", ""]);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [token, setToken] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [fontsLoaded, fontError] = useFonts({
     "Rubik-Light": require("../assets/fonts/Rubik-Light.ttf"),
@@ -66,6 +67,8 @@ export default function EnterPassScreen() {
           token: userData.token,
         };
 
+        setLoading(true);
+
         console.log(
           "Отправляю запрос на вход с данными:",
           JSON.stringify(requestBody)
@@ -97,6 +100,8 @@ export default function EnterPassScreen() {
     } catch (error) {
       console.error("Ошибка при отправке запроса на вход:", error);
       Alert.alert("Ошибка", "Произошла ошибка при отправке запроса на сервер.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -141,6 +146,7 @@ export default function EnterPassScreen() {
               height={54}
               fontSize={24}
               onPress={handleLogin}
+              loading={loading}
             />
           </View>
           <TouchableOpacity onPress={handleLogout}>

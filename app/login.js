@@ -7,6 +7,7 @@ import {
   Dimensions,
   TouchableOpacity,
   StatusBar,
+  ActivityIndicator,
 } from "react-native";
 import { Image, ImageBackground } from "expo-image";
 import Constants from "expo-constants";
@@ -225,7 +226,9 @@ export default function LoginScreen() {
               height={54}
               fontSize={24}
               onPress={handleLogin}
+              loading={loading}
             />
+            {/* <ActivityIndicator visible={loading} size={"large"} color={"#7434b7"}/> */}
           </View>
         </View>
         <StatusBar backgroundColor="transparent" barStyle="light-content" />

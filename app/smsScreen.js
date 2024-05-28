@@ -33,6 +33,7 @@ export default function SmsScreen() {
   const [token, setToken] = useState("");
   const [smsCode, setSmsCode] = useState(["", "", "", ""]);
   const [deviceInfo, setDeviceInfo] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     loadUserData();
@@ -72,6 +73,8 @@ export default function SmsScreen() {
         JSON.stringify(requestBody)
       );
 
+      setLoading(true);
+
       const response = await fetch(
           `${apiBaseUrl}api/verify-sms-code`,
         {
@@ -102,6 +105,8 @@ export default function SmsScreen() {
         error
       );
       Alert.alert("Ошибка", "Произошла ошибка при отправке запроса на сервер.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -191,7 +196,7 @@ export default function SmsScreen() {
           </View>
           <View style={styles.textContainer2}>
             <Text style={styles.text2}>
-              Мы выслали СМС-код на номер +{phoneNumber}
+              Мы выслали СМС-код на номер {phoneNumber}
             </Text>
           </View>
           <View style={smsButtonstyles}>
@@ -223,6 +228,7 @@ export default function SmsScreen() {
               height={54}
               fontSize={24}
               onPress={handleVerifyCode}
+              loading={loading}
             />
           </View>
         </View>

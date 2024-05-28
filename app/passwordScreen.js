@@ -25,6 +25,7 @@ export default function PasswordScreen() {
   const [passCode, setPassCode] = useState(["", "", "", ""]);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [token, setToken] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handlePassCodeChange = (newPassCode) => {
     setPassCode(newPassCode);
@@ -59,6 +60,8 @@ export default function PasswordScreen() {
         );
         return;
       }
+
+      setLoading(true);
 
       const requestBody = {
         phone: phoneNumber,
@@ -98,6 +101,8 @@ export default function PasswordScreen() {
     } catch (error) {
       console.error("Ошибка при отправке запроса на создание пароля:", error);
       Alert.alert("Ошибка", "Произошла ошибка при отправке запроса на сервер.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -142,6 +147,7 @@ export default function PasswordScreen() {
               height={54}
               fontSize={24}
               onPress={handleCreatePassword}
+              loading={loading}
             />
           </View>
           <TouchableOpacity onPress={handleLogout}>

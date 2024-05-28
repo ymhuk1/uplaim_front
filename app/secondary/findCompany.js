@@ -32,9 +32,9 @@ export default function FindCompany() {
     fetch(`${apiBaseUrl}api/company/search?term=${term}`)
       .then((response) => response.json())
       .then((data) => {
-        const { companies } = data;
-        console.log("CompanyList results:", companies);
-        setSearchResults(companies);
+        // const { companies } = data;
+        console.log("CompanyList results:", data);
+        setSearchResults(data);
       })
       .catch((error) => {
         console.error("Error fetching search results: ", error);
