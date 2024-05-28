@@ -202,8 +202,9 @@ export default function NewCreateExchangeScreen() {
       if (companiesResponse.ok) {
         const companiesData = await companiesResponse.json();
         setCompaniesData(companiesData.companies);
+
       } else {
-        console.error("Ошибка при загрузке данных клиента");
+        console.error("Ошибка при загрузке данных компании");
       }
     } catch (error) {
       console.error("Ошибка при получении запроса:", error);
@@ -222,7 +223,6 @@ export default function NewCreateExchangeScreen() {
       if (userDataStr) {
         const userData = JSON.parse(userDataStr);
         setToken(userData.token);
-
         const headers = {
           Authorization: userData.token,
           "Content-Type": "application/json",
@@ -232,13 +232,14 @@ export default function NewCreateExchangeScreen() {
           `${apiBaseUrl}api/exchange/my_balls?${filterExchanges}`,
           { headers }
         );
+
         if (ballsResponse.ok) {
           const ballsData = await ballsResponse.json();
           setBallsData(ballsData.balls);
           console.log("ballsResponse: ", ballsResponse);
         } else {
           console.error(
-            "Ошибка при загрузке данных клиента",
+            "Ошибка при загрузке данных кли!!!ента",
             ballsResponse.status
           );
         }

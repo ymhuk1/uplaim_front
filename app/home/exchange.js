@@ -75,17 +75,19 @@ export default function ExchangeScreen() {
   }, [statusExchange]);
 
   useEffect(() => {
-    setMyExchanges(
-      activeExchanges.filter(
-        (item) => String(item.holder_id) === String(clientId)
-      )
-    );
+      setMyExchanges(
+          activeExchanges?.filter(
+              (item) => String(item.holder_id) === String(clientId)
+          )
+      );
+
     setProposedExchanges(
-      exchanges.filter((item) => String(item.last_holder_id) === clientId)
+      exchanges?.filter((item) => String(item.last_holder_id) === clientId)
     );
     console.log("myExchanges: ", myExchanges && myExchanges.length);
     console.log("activeExchanges: ", activeExchanges && activeExchanges.length);
     console.log("clientId: ", clientId);
+    console.log('cityTags: ', cityTags)
   }, [exchanges, clientId, activeExchanges]);
 
   const fetchData = async () => {
@@ -94,21 +96,19 @@ export default function ExchangeScreen() {
       const exchangesResponse = await fetch(
         `${apiBaseUrl}/api/exchange/active_exchange`
       );
-      if (!exchangesResponse.ok) {
-        throw new Error(
-          `Failed to fetch exchanges. Status: ${exchangesResponse.status}`
+
+      if (exchangesResponse.ok) {
+        const exchangesData = await exchangesResponse.json();
+        setActiveExchanges(exchangesData.exchange);
+        setMyExchanges(
+            exchangesData.exchange.filter(
+                (item) => String(item.holder_id) === clientId
+            )
         );
       }
-      const exchangesData = await exchangesResponse.json();
-      setActiveExchanges(exchangesData.exchange);
-      setMyExchanges(
-        exchangesData.exchange.filter(
-          (item) => String(item.holder_id) === clientId
-        )
-      );
 
       // города
-      const cityResponse = await fetch(`${apiBaseUrl}/api/exchange/all_cities`);
+      const cityResponse = await fetch(`${apiBaseUrl}api/exchange/all_cities`);
       if (!cityResponse.ok) {
         throw new Error(`Failed to fetch city. Status: ${cityResponse.status}`);
       }

@@ -50,9 +50,7 @@ export default function Tariffs() {
     fetch(`${apiBaseUrl}api/tariffs`)
       .then((response) => response.json())
       .then((data) => {
-        const { tariffs } = data;
-        // console.log('Данные успешно получены:', data.tariffs);
-        setTariffs(data.tariffs);
+        setTariffs(data);
         setRefreshing(false);
       })
       .catch((error) => {
