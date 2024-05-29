@@ -21,15 +21,15 @@ const SocialLinkComponent = ({ links }) => {
 
     const socialIcons = [
         { icon: <Image source={require('../assets/social/World.svg')}
-                       width={48} height={48} style={styles.socialLogo} />, linkKey: 'site' },
+                       width={48} height={48} style={styles.socialLogo} />, linkKey: 'link_1' },
         { icon: <Image source={require('../assets/social/VK.svg')}
-                       width={48} height={48} style={styles.socialLogo} />, linkKey: 'vk' },
+                       width={48} height={48} style={styles.socialLogo} />, linkKey: 'link_2' },
         { icon: <Image source={require('../assets/social/Instagram.svg')}
-                       width={48} height={48} style={styles.socialLogo} />, linkKey: 'instagram' },
+                       width={48} height={48} style={styles.socialLogo} />, linkKey: 'link_3' },
         { icon: <Image source={require('../assets/social/OK.svg')}
-                       width={48} height={48} style={styles.socialLogo} />, linkKey: 'ok' },
+                       width={48} height={48} style={styles.socialLogo} />, linkKey: 'link_4' },
         { icon: <Image source={require('../assets/social/Telegram.svg')}
-                       width={48} height={48} style={styles.socialLogo} />, linkKey: 'telegram' },
+                       width={48} height={48} style={styles.socialLogo} />, linkKey: 'link_5' },
     ];
 
     return (

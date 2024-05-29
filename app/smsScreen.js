@@ -196,8 +196,9 @@ export default function SmsScreen() {
           </View>
           <View style={styles.textContainer2}>
             <Text style={styles.text2}>
-              Мы выслали СМС-код на номер {phoneNumber}
+              Мы выслали СМС-код на номер
             </Text>
+            <Text style={styles.text2}>{phoneNumber}</Text>
           </View>
           <View style={smsButtonstyles}>
             <SmsComponent
@@ -218,7 +219,7 @@ export default function SmsScreen() {
                 <Text style={styles.smsRepeat}>Повторить СМС</Text>
               </TouchableOpacity>
             ) : (
-              <Text style={styles.smsRepeat}> </Text>
+              <Text style={styles.smsRepeat}></Text>
             )}
           </View>
           <View style={styles.button}>
