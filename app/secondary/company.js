@@ -209,7 +209,6 @@ export default function Company() {
   }, []);
 
   const main_photo = `${apiBaseUrl}${company?.main_photo}`;
-  console.log('another_photo: ', another_photo)
 
   return (
     <ScrollView

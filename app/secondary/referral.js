@@ -50,7 +50,7 @@ export default function Referral() {
 
       // reward
       const rewardResponse = await fetch(
-        `${apiBaseUrl}api/my_reward?client_id=${JSON.parse(clientInfo).id}`
+        `${apiBaseUrl}api/my_reward?client_id=${JSON.parse(clientInfo).client.id}`
       );
 
       if (!rewardResponse.ok) {

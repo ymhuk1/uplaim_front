@@ -422,7 +422,7 @@ export default function MainScreen() {
                         Заработок в день
                       </Text>
                     </View>
-                    <Text style={styles.referralBottomText}>3500 ₽</Text>
+                    <Text style={styles.referralBottomText}>{clientData?.reward_in_day ? clientData?.reward_in_day : 0}</Text>
                   </View>
                   <View style={styles.referralDownContainer}>
                     <View style={styles.referralMini}>
@@ -438,7 +438,7 @@ export default function MainScreen() {
                         Всего приглашено
                       </Text>
                     </View>
-                    <Text style={styles.referralBottomText}>15 человек</Text>
+                    <Text style={styles.referralBottomText}>{clientData?.referrals?.length}</Text>
                   </View>
                   <View style={styles.referralDownContainer}>
                     <Image
