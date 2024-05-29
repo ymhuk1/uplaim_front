@@ -3,6 +3,7 @@ import { View, Text, TextInput, StyleSheet } from "react-native";
 import styles from "../styles/InputComponentStyles";
 import { TextInputMask } from "react-native-masked-text";
 
+
 const InputComponent = ({
   placeholder,
   keyboardType,
@@ -12,6 +13,7 @@ const InputComponent = ({
 }) => {
   const [phone, setPhone] = React.useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+
 
   const handleInputFocus = () => {
     if (error !== "") {
@@ -36,4 +38,5 @@ const InputComponent = ({
     </View>
   );
 };
+
 export default InputComponent;

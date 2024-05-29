@@ -152,6 +152,7 @@ export default function Company() {
 
       // Fetch для данных компании
       const companyUrl = `${apiBaseUrl}api/companies/${companyId}`;
+
       const companyResponse = await fetch(companyUrl, {
         headers: {
           Authorization: token,
@@ -162,6 +163,7 @@ export default function Company() {
         const companyData = await companyResponse.json();
         console.log("Данные компании успешно получены:", companyData);
         setCompany(companyData);
+
       } else {
         console.error(
           "Ошибка при загрузке данных компании:",
@@ -171,6 +173,7 @@ export default function Company() {
 
       // Fetch для данных клиента
       const clientUrl = `${apiBaseUrl}api/client`;
+
       const clientResponse = await fetch(clientUrl, {
         headers: {
           Authorization: token,
@@ -181,6 +184,7 @@ export default function Company() {
         const clientData = await clientResponse.json();
         const { client } = clientData;
         console.log('Данные клиента успешно получены:', client);
+
         setClientData(client);
       } else {
         console.error(

@@ -144,6 +144,8 @@ export default function MainScreen() {
         if (myCompaniesResponse.ok) {
           const myCompaniesData = await myCompaniesResponse.json();
           setMyCompanies(myCompaniesData);
+        } else if (myCompaniesResponse.status === 404) {
+          setMyCompanies([])
         } else {
           console.error("Ошибка при загрузке данных моих компаний");
         }

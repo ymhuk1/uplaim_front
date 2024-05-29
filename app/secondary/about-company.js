@@ -194,7 +194,6 @@ export default function AboutCompany() {
               </Text>
             </View>
           </View>
-        
       {isTooltipVisible && (
         <Modal
           isVisible={isTooltipVisible}
