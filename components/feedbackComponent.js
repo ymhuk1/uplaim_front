@@ -35,14 +35,14 @@ const FeedbackComponent = ({
 
   const postReview = async () => {
     try {
-      if (!clientData || !company) {
+      if (!clientData.id || !company.id) {
         console.error(
           "Отзыв не может быть добавлен: не загружены данные о клиенте или компании."
         );
         return;
       }
 
-      if (!rating) {
+      if (!client.rating) {
         setError("Отзыв не может быть добавлен: не указана оценка.");
         return;
       } else {
@@ -50,8 +50,8 @@ const FeedbackComponent = ({
       }
 
       const requestBody = {
-        client_id: clientData,
-        company_id: company,
+        client_id: clientData.id,
+        company_id: company.id,
         rating,
         advantages,
         disadvantages,
@@ -78,6 +78,9 @@ const FeedbackComponent = ({
 
       if (response.ok) {
         console.log("Отзыв успешно добавлен!");
+        onClose();
+      } else {
+        console.error("Ошибка при выполнении отзыва:", response.statusText);
       }
     } catch (error) {
       console.error("Ошибка при выполнении отзыва:", error);
@@ -114,8 +117,9 @@ const FeedbackComponent = ({
         (acc, curr) => ({ ...acc, ...curr }),
         {}
       );
-      setCompany(company.id);
-      setClientData(client.client.id);
+
+      setCompany(company);
+      setClientData(client.client);
     } catch (error) {
       console.error("Не удалось получить данные:", error.message);
     }

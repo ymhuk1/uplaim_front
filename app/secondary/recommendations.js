@@ -86,9 +86,7 @@ export default function Recommendations() {
                 >
                   тебе
                 </Text>
-                <TouchableOpacity
-                  onPress={toggleTooltip}
-                >
+                <TouchableOpacity onPress={toggleTooltip}>
                   <Image
                     contentFit="contain"
                     contentPosition={"center"}

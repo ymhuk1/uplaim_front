@@ -1,10 +1,17 @@
-import {Link, useGlobalSearchParams, useRouter} from "expo-router";
-import React, {useEffect, useState} from "react";
-import {RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View,} from "react-native";
-import {Image, ImageBackground} from "expo-image";
+import { Link, useGlobalSearchParams, useRouter } from "expo-router";
+import React, { useEffect, useState } from "react";
+import {
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { Image, ImageBackground } from "expo-image";
 import Swiper from "react-native-swiper";
 import * as SecureStore from "expo-secure-store";
-import {LinearGradient} from "expo-linear-gradient";
+import { LinearGradient } from "expo-linear-gradient";
 import Constants from "expo-constants";
 
 import HeaderComponent from "../../components/HeaderComponent";
@@ -20,8 +27,8 @@ import {
   textPrimaryColor,
 } from "../../components/ColorsComponent";
 import NewButtonComponent from "../../components/NewButtonComponent";
-import {Rating} from "react-native-ratings";
-import {FONTS} from "../../constants/theme";
+import { Rating } from "react-native-ratings";
+import { FONTS } from "../../constants/theme";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
@@ -74,8 +81,7 @@ export default function Company() {
     }
   }
 
-  const {another_photo} = company;
-
+  const { another_photo } = company;
 
   const companyBalls = clientData.balls || [];
 
@@ -163,7 +169,6 @@ export default function Company() {
         const companyData = await companyResponse.json();
         console.log("Данные компании успешно получены:", companyData);
         setCompany(companyData);
-
       } else {
         console.error(
           "Ошибка при загрузке данных компании:",
@@ -183,7 +188,7 @@ export default function Company() {
       if (clientResponse.ok) {
         const clientData = await clientResponse.json();
         const { client } = clientData;
-        console.log('Данные клиента успешно получены:', client);
+        console.log("Данные клиента успешно получены:", client);
 
         setClientData(client);
       } else {
@@ -277,10 +282,10 @@ export default function Company() {
           </View>
           <Text style={styles.description}>{company.description}</Text>
           <View style={styles.sliderContainer}>
-          <SliderPhotoComponent
-          photos={another_photo ? another_photo : []}
-          style={styles.slider}
-          />
+            <SliderPhotoComponent
+              photos={another_photo ? another_photo : []}
+              style={styles.slider}
+            />
           </View>
           <View style={styles.buttonContainer}>
             {clientData.companies &&
@@ -400,7 +405,12 @@ export default function Company() {
                           style={styles.tariffConnect}
                           // onPress={() => handleConnectPremium(tariff.name)} // Здесь нужно обработать нажатие
                         >
-                          <Text style={[styles.tariffConnectText, {color: tariff.color}]}>
+                          <Text
+                            style={[
+                              styles.tariffConnectText,
+                              { color: tariff.color },
+                            ]}
+                          >
                             {tariff.clients_tariff_name === "Free"
                               ? ""
                               : "Подключить " + tariff.clients_tariff_name}
@@ -663,8 +673,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
-  sliderContainer: {
-  },
+  sliderContainer: {},
   textContainer2: {
     flexDirection: "row",
     alignItems: "center",
