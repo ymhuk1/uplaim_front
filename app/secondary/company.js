@@ -209,6 +209,7 @@ export default function Company() {
   }, []);
 
   const main_photo = `${apiBaseUrl}${company?.main_photo}`;
+  console.log('another_photo: ', another_photo)
 
   return (
     <ScrollView
@@ -276,12 +277,14 @@ export default function Company() {
             </View>
           </View>
           <Text style={styles.description}>{company.description}</Text>
-          <View style={styles.sliderContainer}>
-          <SliderPhotoComponent
-          photos={another_photo ? another_photo : []}
-          style={styles.slider}
-          />
-          </View>
+          {another_photo?.length !== 0 && (
+              <View style={styles.sliderContainer}>
+                <SliderPhotoComponent
+                    photos={another_photo ? another_photo : []}
+                    style={styles.slider}
+                />
+              </View>
+          )}
           <View style={styles.buttonContainer}>
             {clientData.companies &&
             clientData.companies.some((c) => c.id === company.id) ? (
@@ -412,7 +415,7 @@ export default function Company() {
                 })}
             </Swiper>
           </View>
-          {company.external_links && company.external_links.length !== 0 && (
+          {company.external_links?.length !== 0 && (
             <View>
               <View style={styles.textContainer2}>
                 <Image
@@ -428,52 +431,58 @@ export default function Company() {
               <SocialLinkComponent links={company.external_links || []} />
             </View>
           )}
-          <TouchableOpacity
-            onPress={() =>
-              router.push({
-                pathname: "/secondary/newsCompany",
-                params: { id: companyId },
-              })
-            }
-            style={styles.textContainer2}
-          >
-            <Image
-              contentFit="contain"
-              contentPosition={"center"}
-              transition={1000}
-              source={require("../../assets/reciept.svg")}
-              width={24}
-              height={24}
-            />
-            <Text style={styles.text2}>Новости и акции</Text>
-          </TouchableOpacity>
-          <SliderComponent
-            companySlider={true}
-            data={groupedData1}
-            itemsPerSlide={itemsPerSlide1}
-            itemHeight={itemHeight1}
-            slideHeight={slideHeight1}
-          />
-
-          <View style={styles.textContainer2}>
-            <Image
-              contentFit="contain"
-              contentPosition={"center"}
-              transition={1000}
-              source={require("../../assets/reciept.svg")}
-              width={24}
-              height={24}
-            />
-            <Text style={styles.text2}>Купоны и промокоды</Text>
-          </View>
-          <SliderComponent
-            coupon={true}
-            data={groupedData3}
-            itemsPerSlide={itemsPerSlide3}
-            itemHeight={itemHeight3}
-            slideHeight={slideHeight3}
-          />
-
+          {company.news?.length !== 0 && (
+              <View>
+                <TouchableOpacity
+                    onPress={() =>
+                        router.push({
+                          pathname: "/secondary/newsCompany",
+                          params: { id: companyId },
+                        })
+                    }
+                    style={styles.textContainer2}
+                >
+                  <Image
+                      contentFit="contain"
+                      contentPosition={"center"}
+                      transition={1000}
+                      source={require("../../assets/reciept.svg")}
+                      width={24}
+                      height={24}
+                  />
+                  <Text style={styles.text2}>Новости и акции</Text>
+                </TouchableOpacity>
+                <SliderComponent
+                    companySlider={true}
+                    data={groupedData1}
+                    itemsPerSlide={itemsPerSlide1}
+                    itemHeight={itemHeight1}
+                    slideHeight={slideHeight1}
+                />
+              </View>
+          )}
+          {company.coupons?.length !== 0 && (
+              <View>
+                <View style={styles.textContainer2}>
+                  <Image
+                      contentFit="contain"
+                      contentPosition={"center"}
+                      transition={1000}
+                      source={require("../../assets/reciept.svg")}
+                      width={24}
+                      height={24}
+                  />
+                  <Text style={styles.text2}>Купоны и промокоды</Text>
+                </View>
+                <SliderComponent
+                    coupon={true}
+                    data={groupedData3}
+                    itemsPerSlide={itemsPerSlide3}
+                    itemHeight={itemHeight3}
+                    slideHeight={slideHeight3}
+                />
+              </View>
+          )}
           <View style={styles.textContainer2}>
             <Image
               contentFit="contain"
@@ -567,10 +576,12 @@ const styles = StyleSheet.create({
     color: "white",
     marginBottom: 15,
   },
-  slider: {},
+  slider: {
+
+  },
   buttonContainer: {
     alignItems: "center",
-    marginTop: -10,
+    // marginTop: -10,
     marginBottom: 20,
   },
   tariffContainer: {
@@ -664,6 +675,7 @@ const styles = StyleSheet.create({
   },
 
   sliderContainer: {
+    marginBottom: -10,
   },
   textContainer2: {
     flexDirection: "row",
