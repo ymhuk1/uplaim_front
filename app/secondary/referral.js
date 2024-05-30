@@ -31,11 +31,11 @@ export default function Referral() {
     try {
       const clientInfo = await SecureStore.getItemAsync("clientData");
       if (clientInfo) {
-        setClientData(JSON.parse(clientInfo));
+        setClientData(JSON.parse(clientInfo).client);
 
         // уровни и количество приглашенных
         const referralResponse = await fetch(
-          `${apiBaseUrl}api/referral?client_id=${JSON.parse(clientInfo).id}`
+          `${apiBaseUrl}api/referral?client_id=${JSON.parse(clientInfo).client.id}`
         );
 
         if (!referralResponse.ok) {
@@ -44,18 +44,18 @@ export default function Referral() {
           );
         }
         const referralData = await referralResponse.json();
-        // console.log("referralData: ", referralData);
+        console.log("referralData: ", referralData);
         setReferral(referralData.list_referred);
       }
 
       // reward
       const rewardResponse = await fetch(
-        `${apiBaseUrl}api/my_reward?client_id=${JSON.parse(clientInfo).id}`
+        `${apiBaseUrl}api/my_reward?client_id=${JSON.parse(clientInfo).client.id}`
       );
 
       if (!rewardResponse.ok) {
         throw new Error(
-          `Failed to fetch referral. Status: ${rewardResponse.status}`
+          `Failed to fetch my_reward. Status: ${rewardResponse.status}`
         );
       }
       const rewardData = await rewardResponse.json();

@@ -329,8 +329,8 @@ const GridComponent = ({
               </View>
               <View style={styles.companyDescContainer}>
                 <Text style={styles.companyDesc}>
-                  {item.short_description
-                    ? truncateText(item.short_description, 55)
+                  {item.name
+                    ? truncateText(item.name, 55)
                     : ""}
                 </Text>
               </View>

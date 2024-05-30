@@ -43,13 +43,12 @@ export default function Notifications() {
     }${date ? `&date=${encodedDate}` : ""}${
       type_notify ? `&type_notify=${type_notify}` : ""
     }`;
-    console.log("URL:", url);
 
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
         const { tariffs } = data;
-        // console.log('Данные успешно получены:', data.notifications);
+        console.log('Данные успешно получены:', data.notifications);
         setNotificationsGroup(data.notifications);
         setRefreshing(false);
       })
@@ -62,10 +61,11 @@ export default function Notifications() {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const client = await SecureStore.getItemAsync("clientData");
+        const clientData = await SecureStore.getItemAsync("clientData");
+        const client = JSON.parse(clientData).client
         if (client) {
-          setClientId(JSON.parse(client).id);
-          await fetchData(JSON.parse(client).id);
+          setClientId(client.id);
+          await fetchData(client.id);
         }
       } catch (error) {
         console.error("Error loading user data:", error);
@@ -108,7 +108,7 @@ export default function Notifications() {
     const groupedNotifications = {};
     if (notificationsGroup) {
       notificationsGroup.forEach((notification) => {
-        const date = new Date(notification.created_on);
+        const date = new Date(notification.created_at);
         if (date instanceof Date && !isNaN(date)) {
           const dateKey = date.toISOString().slice(0, 10);
 
@@ -124,7 +124,7 @@ export default function Notifications() {
 
           groupedNotifications[dateKey][type].push(notification);
         } else {
-          console.error("Invalid date:", notification.created_on);
+          console.error("Invalid date:", notification.created_at);
         }
       });
 

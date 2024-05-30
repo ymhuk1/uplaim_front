@@ -22,9 +22,9 @@ export default function NewsCompany() {
             .then((response) => response.json())
             .then((data) => {
                 const {company} = data;
-                console.log('Данные успешно получены:', data.company.news);
-                setCompanyData(data.company)
-                setNewsData(data.company.news)
+                console.log('Данные успешно получены:', data.news);
+                setCompanyData(data)
+                setNewsData(data.news)
                 setRefreshing(false);
             })
             .catch((error) => {
