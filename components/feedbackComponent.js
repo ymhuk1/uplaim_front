@@ -42,7 +42,7 @@ const FeedbackComponent = ({
         return;
       }
 
-      if (!client.rating) {
+      if (rating === 0) {
         setError("Отзыв не может быть добавлен: не указана оценка.");
         return;
       } else {
@@ -78,7 +78,6 @@ const FeedbackComponent = ({
 
       if (response.ok) {
         console.log("Отзыв успешно добавлен!");
-        onClose();
       } else {
         console.error("Ошибка при выполнении отзыва:", response.statusText);
       }

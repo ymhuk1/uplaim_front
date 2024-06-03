@@ -27,7 +27,17 @@ export default function CompanyList() {
   const [companies, setCompanies] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
 
+  const handleData = (newData) => {
+    if (newData.length > 0) {
+      setCompanies(newData);
+      setSelectedCategoryId(null);
+    } else {
+      fetchData();
+    }
+  };
+
   const { id } = useLocalSearchParams();
+
   useEffect(() => {
     fetchData();
     if (id !== undefined && id !== "") {
@@ -109,7 +119,11 @@ export default function CompanyList() {
           <View style={styles.textContainer2}>
             <Text style={styles.text2}>Партнеры</Text>
           </View>
-          <SearchComponent company={true} style={styles.search} />
+          <SearchComponent
+            company={true}
+            style={styles.search}
+            onChange={handleData}
+          />
           <View style={styles.storyContainer}>
             <ScrollView
               style={styles.storiesContainer}
@@ -141,8 +155,8 @@ export default function CompanyList() {
                       />
                       <View style={styles.textContainer}>
                         <Text style={styles.textStories}>
-                          {item.name === "Фитнес-центры"
-                            ? "Фитнес-\nцентры"
+                          {item.name === "Фитнес-центр"
+                            ? "Фитнес-\nцентр"
                             : item.name}
                         </Text>
                       </View>
@@ -169,12 +183,7 @@ export default function CompanyList() {
                           { backgroundColor: `${item.color}20` },
                         ]}
                       >
-                        <Text
-                          style={[
-                            styles.activity,
-                            { color: item.color },
-                          ]}
-                        >
+                        <Text style={[styles.activity, { color: item.color }]}>
                           {item.name}
                         </Text>
                       </View>

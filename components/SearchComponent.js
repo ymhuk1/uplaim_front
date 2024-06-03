@@ -20,13 +20,24 @@ import { FONTS, SIZES } from "../constants/theme";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
-const SearchComponent = ({ main, modal, company }) => {
+const SearchComponent = ({ main, modal, company, onChange }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [stories, setStories] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showStories, setShowStories] = useState(true);
+
   const router = useRouter();
+
+  const handleInputChange = async (text) => {
+    try {
+      const response = await fetch(`${apiBaseUrl}api/company/search?term=${text}`);
+      const data = await response.json();
+      onChange(data);
+    } catch (error) {
+      console.error("Error fetching search results: ", error);
+    }
+  };
 
   const fetchData = async () => {
     fetch(`${apiBaseUrl}api/stories/search`)
@@ -38,7 +49,7 @@ const SearchComponent = ({ main, modal, company }) => {
       })
       .catch((error) => {
         console.error("Ошибка при загрузке данных: ", error);
-        console.log(`${apiBaseUrl}api/stories/search`)
+        console.log(`${apiBaseUrl}api/stories/search`);
       });
   };
 
@@ -162,17 +173,21 @@ const SearchComponent = ({ main, modal, company }) => {
             style={styles.customInput}
             placeholder="Поиск..."
             placeholderTextColor="white"
-            onChangeText={(text) => setSearchTerm(text)}
+            onChangeText={handleInputChange}
           />
-          <Image
-            contentFit="contain"
-            contentPosition={"center"}
-            transition={1000}
-            source={require("../assets/bottom-menu/search.svg")}
-            width={24}
-            height={24}
+          <TouchableOpacity
+            // onPress={handleSubmit}
             style={styles.customSearch}
-          />
+          >
+            <Image
+              contentFit="contain"
+              contentPosition={"center"}
+              transition={1000}
+              source={require("../assets/bottom-menu/search.svg")}
+              width={24}
+              height={24}
+            />
+          </TouchableOpacity>
         </View>
       )}
 

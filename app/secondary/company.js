@@ -189,7 +189,7 @@ export default function Company() {
         const clientData = await clientResponse.json();
         const { client } = clientData;
         console.log("Данные клиента успешно получены:", client);
-
+        
         setClientData(client);
       } else {
         console.error(
@@ -282,12 +282,12 @@ export default function Company() {
           </View>
           <Text style={styles.description}>{company.description}</Text>
           {another_photo?.length !== 0 && (
-              <View style={styles.sliderContainer}>
-                <SliderPhotoComponent
-                    photos={another_photo ? another_photo : []}
-                    style={styles.slider}
-                />
-              </View>
+            <View style={styles.sliderContainer}>
+              <SliderPhotoComponent
+                photos={another_photo ? another_photo : []}
+                style={styles.slider}
+              />
+            </View>
           )}
           <View style={styles.buttonContainer}>
             {clientData.companies &&
@@ -441,56 +441,56 @@ export default function Company() {
             </View>
           )}
           {company.news?.length !== 0 && (
-              <View>
-                <TouchableOpacity
-                    onPress={() =>
-                        router.push({
-                          pathname: "/secondary/newsCompany",
-                          params: { id: companyId },
-                        })
-                    }
-                    style={styles.textContainer2}
-                >
-                  <Image
-                      contentFit="contain"
-                      contentPosition={"center"}
-                      transition={1000}
-                      source={require("../../assets/reciept.svg")}
-                      width={24}
-                      height={24}
-                  />
-                  <Text style={styles.text2}>Новости и акции</Text>
-                </TouchableOpacity>
-                <SliderComponent
-                    companySlider={true}
-                    data={groupedData1}
-                    itemsPerSlide={itemsPerSlide1}
-                    itemHeight={itemHeight1}
-                    slideHeight={slideHeight1}
+            <View>
+              <TouchableOpacity
+                onPress={() =>
+                  router.push({
+                    pathname: "/secondary/newsCompany",
+                    params: { id: companyId },
+                  })
+                }
+                style={styles.textContainer2}
+              >
+                <Image
+                  contentFit="contain"
+                  contentPosition={"center"}
+                  transition={1000}
+                  source={require("../../assets/reciept.svg")}
+                  width={24}
+                  height={24}
                 />
-              </View>
+                <Text style={styles.text2}>Новости и акции</Text>
+              </TouchableOpacity>
+              <SliderComponent
+                companySlider={true}
+                data={groupedData1}
+                itemsPerSlide={itemsPerSlide1}
+                itemHeight={itemHeight1}
+                slideHeight={slideHeight1}
+              />
+            </View>
           )}
           {company.coupons?.length !== 0 && (
-              <View>
-                <View style={styles.textContainer2}>
-                  <Image
-                      contentFit="contain"
-                      contentPosition={"center"}
-                      transition={1000}
-                      source={require("../../assets/reciept.svg")}
-                      width={24}
-                      height={24}
-                  />
-                  <Text style={styles.text2}>Купоны и промокоды</Text>
-                </View>
-                <SliderComponent
-                    coupon={true}
-                    data={groupedData3}
-                    itemsPerSlide={itemsPerSlide3}
-                    itemHeight={itemHeight3}
-                    slideHeight={slideHeight3}
+            <View>
+              <View style={styles.textContainer2}>
+                <Image
+                  contentFit="contain"
+                  contentPosition={"center"}
+                  transition={1000}
+                  source={require("../../assets/reciept.svg")}
+                  width={24}
+                  height={24}
                 />
+                <Text style={styles.text2}>Купоны и промокоды</Text>
               </View>
+              <SliderComponent
+                coupon={true}
+                data={groupedData3}
+                itemsPerSlide={itemsPerSlide3}
+                itemHeight={itemHeight3}
+                slideHeight={slideHeight3}
+              />
+            </View>
           )}
           <View style={styles.textContainer2}>
             <Image
@@ -585,9 +585,7 @@ const styles = StyleSheet.create({
     color: "white",
     marginBottom: 15,
   },
-  slider: {
-
-  },
+  slider: {},
   buttonContainer: {
     alignItems: "center",
     // marginTop: -10,

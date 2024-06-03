@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   RefreshControl,
+  Linking,
 } from "react-native";
 import HeaderComponent from "../../components/HeaderComponent";
 import PopupComponent from "../../components/PopupComponent";
@@ -27,6 +28,7 @@ export default function AboutCompany() {
   const [refreshing, setRefreshing] = useState(false);
   const [company, setCompany] = useState({});
   const [isFeedbackVisible, setFeedbackVisible] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   const companyId = id;
 
@@ -38,6 +40,10 @@ export default function AboutCompany() {
     setFeedbackVisible(!isFeedbackVisible);
   };
 
+  const makePhoneCall = () => {
+    Linking.openURL(`tel:${phoneNumber}`);
+  };
+
   const fetchData = () => {
     fetch(`${apiBaseUrl}api/companies/${companyId}`)
       .then((response) => response.json())
@@ -45,6 +51,7 @@ export default function AboutCompany() {
         console.log("Данные успешно получены:", data);
         setCompany(data);
         setRefreshing(false);
+        setPhoneNumber(data?.phone_for_client);
       })
       .catch((error) => {
         console.error("Ошибка при загрузке данных: ", error);
@@ -148,7 +155,11 @@ export default function AboutCompany() {
               </TouchableOpacity>
             </View>
             <View style={styles.contactContainer}>
-              <View style={styles.itemContactContainer}>
+              <TouchableOpacity
+                style={styles.itemContactContainer}
+                // phoneNumber={phoneNumber}
+                onPress={makePhoneCall}
+              >
                 <Image
                   contentFit="contain"
                   contentPosition={"center"}
@@ -158,7 +169,7 @@ export default function AboutCompany() {
                   height={24}
                 />
                 <Text style={styles.textContactContainer}>Позвонить</Text>
-              </View>
+              </TouchableOpacity>
               <TouchableOpacity
                 style={styles.itemContactContainer}
                 onPress={toggleTooltip}
@@ -194,46 +205,46 @@ export default function AboutCompany() {
               </Text>
             </View>
           </View>
-      {isTooltipVisible && (
-        <Modal
-          isVisible={isTooltipVisible}
-          onBackdropPress={toggleTooltip}
-          style={styles.modal}
-        >
-          <PopupComponent
-            onClose={toggleTooltip}
-            height={220}
-            headerPopup={"Режим работы:"}
-            textPopup1={
-              company?.working_hours !== undefined
-                ? company.working_hours
-                : "Не указано"
-            }
-            textPopup2={
-              company?.working_hours_weekend !== undefined
-                ? company.working_hours_weekend
-                : "Не указано"
-            }
-          />
-        </Modal>
-      )}
-      {isFeedbackVisible && (
-        <Modal
-          isVisible={isFeedbackVisible}
-          onBackdropPress={toggleFeedback}
-          style={styles.modalFeedback}
-        >
-          <FeedbackComponent
-            onClose={toggleFeedback}
-            headerPopup1={"Поставьте оценку"}
-            headerPopup2={"Опишите плюсы и минусы"}
-            textPopup1={"Преимущества"}
-            textPopup2={"Недостатки"}
-            textPopup3={"Комментарий"}
-          />
-        </Modal>
-      )}
-    </ImageBackground>
+          {isTooltipVisible && (
+            <Modal
+              isVisible={isTooltipVisible}
+              onBackdropPress={toggleTooltip}
+              style={styles.modal}
+            >
+              <PopupComponent
+                onClose={toggleTooltip}
+                height={220}
+                headerPopup={"Режим работы:"}
+                textPopup1={
+                  company?.working_hours !== undefined
+                    ? company.working_hours
+                    : "Не указано"
+                }
+                textPopup2={
+                  company?.working_hours_weekend !== undefined
+                    ? company.working_hours_weekend
+                    : "Не указано"
+                }
+              />
+            </Modal>
+          )}
+          {isFeedbackVisible && (
+            <Modal
+              isVisible={isFeedbackVisible}
+              onBackdropPress={toggleFeedback}
+              style={styles.modalFeedback}
+            >
+              <FeedbackComponent
+                onClose={toggleFeedback}
+                headerPopup1={"Поставьте оценку"}
+                headerPopup2={"Опишите плюсы и минусы"}
+                textPopup1={"Преимущества"}
+                textPopup2={"Недостатки"}
+                textPopup3={"Комментарий"}
+              />
+            </Modal>
+          )}
+        </ImageBackground>
       </ScrollView>
     </View>
   );
