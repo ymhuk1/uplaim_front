@@ -94,9 +94,8 @@ export default function Tariffs() {
     fetch(`${apiBaseUrl}api/subscriptions?tariff_id=${id}`)
       .then((response) => response.json())
       .then((data) => {
-        const { subscriptions } = data;
-        console.log("Данные успешно получены:", data.subscriptions);
-        setSubscriptions(data.subscriptions);
+        console.log("Данные успешно получены:", data);
+        setSubscriptions(data);
         setRefreshing(false);
         setSubscribeModal(!subscribeModal);
       })
@@ -145,7 +144,7 @@ export default function Tariffs() {
     }
   };
 
-  console.log("clientData: ", clientData);
+  console.log("tariffs: ", tariffs);
 
   return (
     <View>
@@ -165,14 +164,18 @@ export default function Tariffs() {
             <HeaderComponent text={textValue} secondary={true} />
             <View>
               {tariffs ? (
-                <Carousel
+                <View>
+                  <Carousel
                   width={width}
                   height={width * 2}
                   mode="parallax"
                   data={tariffs}
+                  // onSnapToItem={handleIndexChange}
                   // onSnapToItem={(index) => console.log('current index:', index)}
+                  // defaultIndex={currentIndex}
                   renderItem={({ item }) => (
-                    <View style={styles.containerSwiper}>
+                    <View
+                        style={styles.containerSwiper}>
                       <View style={styles.tariffContainer}>
                         <Text style={styles.tariffName}>{item.name}</Text>
                         <View
@@ -233,9 +236,9 @@ export default function Tariffs() {
                                 </View>
                               ))}
                         </View>
-                        {/*<TouchableOpacity onPress={() => {setAllPrivilegeModal(!allPrivilegeModal)}}>*/}
-                        {/*    <Text style={styles.tariffAllPrivilege}>Все преимущества</Text>*/}
-                        {/*</TouchableOpacity>*/}
+                        <TouchableOpacity onPress={() => {setAllPrivilegeModal(!allPrivilegeModal)}}>
+                            <Text style={styles.tariffAllPrivilege}>Все преимущества</Text>
+                        </TouchableOpacity>
                         {item.name && item.name !== "Free" && (
                           <View>
                             {clientData &&
@@ -266,8 +269,7 @@ export default function Tariffs() {
                             )}
                           </View>
                         )}
-
-                        {clientData && clientData.tariff.name === item.name && (
+                        {clientData && clientData.tariff.name === item.name && item.name !== 'Free' && (
                           <TouchableOpacity onPress={() => {}}>
                             <Text style={styles.tariffCancel}>
                               Отменить подписку
@@ -275,12 +277,17 @@ export default function Tariffs() {
                           </TouchableOpacity>
                         )}
                       </View>
+
                     </View>
+
                   )}
                 />
-              ) : (
+                </View>
+
+                ) : (
                 <View></View>
               )}
+
             </View>
           </View>
         </ImageBackground>

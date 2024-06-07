@@ -400,7 +400,12 @@ export default function Company() {
                       ) : (
                         <TouchableOpacity
                           style={styles.tariffConnect}
-                          // onPress={() => handleConnectPremium(tariff.name)} // Здесь нужно обработать нажатие
+                          onPress={() =>
+                              router.push({
+                                pathname: "/secondary/tariffs",
+                                params: { id: tariff.id },
+                              })
+                          }
                         >
                           <Text style={[styles.tariffConnectText, {color: tariff.color}]}>
                             {tariff.clients_tariff_name === "Free"
