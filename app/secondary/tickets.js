@@ -25,11 +25,11 @@ import TicketsModalComponent from "../../components/TicketsModalComponent";
 
 const Tickets = () => {
   const [textValue, setTextValue] = useState("Ваши билеты");
-   const [isTooltipVisible, setTooltipVisible] = useState(false);
+  const [isTooltipVisible, setTooltipVisible] = useState(false);
 
-   const toggleTooltip = () => {
-     setTooltipVisible(!isTooltipVisible);
-   };
+  const toggleTooltip = () => {
+    setTooltipVisible(!isTooltipVisible);
+  };
 
   const renderActivatedTickets = () => {
     const colors = ["#2FA44E", "#F2994A", "#F456FE"];
@@ -60,16 +60,12 @@ const Tickets = () => {
         <View style={styles.block__numbers}>
           <View style={styles.block__number_left}>
             {numbers.slice(0, 3).map((number) => (
-              <Text style={[styles.text__numbers]}>
-                {number}
-              </Text>
+              <Text style={[styles.text__numbers]}>{number}</Text>
             ))}
           </View>
           <View style={styles.block__number_right}>
             {numbers.slice(3).map((number) => (
-              <Text style={[styles.text__numbers]}>
-                {number}
-              </Text>
+              <Text style={[styles.text__numbers]}>{number}</Text>
             ))}
           </View>
         </View>
@@ -83,11 +79,8 @@ const Tickets = () => {
   };
 
   return (
-    <ScrollView
-      style={styles.container}
-      showsVerticalScrollIndicator={false}
-    >
-      {textValue ? (
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      {textValue && (
         <View style={styles.ticket__container}>
           <HeaderComponent text={textValue} secondary={true} />
           <TicketsComponent
@@ -118,7 +111,7 @@ const Tickets = () => {
             />
           </View>
         </View>
-      ) : null}
+      )}
       {isTooltipVisible && (
         <Modal
           visible={isTooltipVisible}

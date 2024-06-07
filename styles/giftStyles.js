@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     color: textPrimaryColor,
   },
   makeMoney__tickets: {
-    rowGap: -32,
+
   },
   fitness__container: {
     width: WIDTH.width - 30,

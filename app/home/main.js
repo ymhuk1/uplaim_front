@@ -123,7 +123,6 @@ export default function MainScreen() {
         if (clientResponse.ok) {
           const clientData = await clientResponse.json();
           setClientData(clientData.client);
-
           const hasUnreadNotification = await clientData.client.notify.some(
             (notifications) => notifications.read === false
           );
@@ -136,6 +135,7 @@ export default function MainScreen() {
         } else {
           console.error("Ошибка при загрузке данных клиента");
         }
+        
         // My companies
         const myCompaniesResponse = await fetch(
           "https://uplaim.com/api/my_companies",

@@ -29,7 +29,12 @@ const FitnessGift = ({
         }
       >
         <View style={styles.fitness__inner_top}>
-          <Image height={52} width={52} source={imageSource} />
+          <Image
+            height={52}
+            width={52}
+            source={imageSource}
+            style={{ borderRadius: 10 }}
+          />
           {count && maxCount ? (
             <View style={styles.fitness__inner_text}>
               <Text style={styles.fitness__text}>{title}</Text>
@@ -68,7 +73,7 @@ const FitnessGift = ({
         <View style={styles.fitness__inner_bottom}>
           <Image height={16} width={16} source={statusImageSource} />
           <View style={{ marginLeft: 4 }}>
-              <Text style={styles.text_date}>{endDate}</Text>
+            <Text style={styles.text_date}>{endDate}</Text>
           </View>
           {count && maxCount ? (
             <View style={styles.fitness__balance}>

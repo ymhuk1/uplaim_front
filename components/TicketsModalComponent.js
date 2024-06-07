@@ -19,9 +19,111 @@ import {
 } from "./ColorsComponent";
 import { FONTS, WIDTH } from "../constants/theme";
 import { BlurView } from "expo-blur";
+import * as SecureStore from "expo-secure-store";
+import Constants from "expo-constants";
+
+const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
 export default function TicketsModalComponent({ onClose, disabled, modal }) {
   const [modalVisible, setModalVisible] = useState(modal);
+  const [upCount, setUpCount] = useState(0);
+  const [quantity, setQuantityCount] = useState(0);
+  const [token, setToken] = useState(null);
+  const [competitions, setCompetitions] = useState({});
+  const [notify, setNotify] = useState(false);
+  const [clientData, setClientData] = useState({});
+
+  const fetchData = async () => {
+    const userDataStr = await SecureStore.getItemAsync("userData");
+    if (!userDataStr) return;
+
+    const userData = JSON.parse(userDataStr);
+    const headers = {
+      Authorization: userData.token,
+      "Content-Type": "application/json",
+    };
+
+    const [clientResponse, competitionsResponse] = await Promise.all([
+      fetch(`${apiBaseUrl}api/client`, { headers }),
+      fetch(`${apiBaseUrl}api/competitions`),
+    ]);
+
+    if (!clientResponse.ok || !competitionsResponse.ok) {
+      console.error(
+        `Ошибка при загрузке данных клиента: ${clientResponse.statusText}`,
+        `Ошибка при загрузке данных конкурсов: ${competitionsResponse.statusText}`
+      );
+      return;
+    }
+
+    const [clientData, competitionsData] = await Promise.all([
+      clientResponse.json(),
+      competitionsResponse.json(),
+    ]);
+
+    setToken(userData);
+    setClientData(clientData.client);
+    setNotify(clientData.client.notify.some((n) => !n.read));
+    await SecureStore.setItemAsync("clientData", JSON.stringify(clientData));
+
+    if (competitionsData === null) {
+      console.error(
+        "Произошла ошибка при получении данных конкурсов: данные конкурсов равны null"
+      );
+    } else {
+      console.log("Данные Competitions успешно получены:", competitionsData);
+      setCompetitions(competitionsData);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const buyTickets = async () => {
+    if (quantity === 0 || !clientData || !competitions) {
+      console.error("Insufficient data to buy tickets.");
+      return;
+    }
+
+    const requestBody = {
+      client_id: clientData.id,
+      competition_id: competitions.id,
+      quantity,
+    };
+
+    const userToken = await SecureStore.getItemAsync("userData");
+    const token = userToken && JSON.parse(userToken).token;
+
+    if (!token) {
+      console.error("Token not found.");
+      return;
+    }
+
+    const response = await fetch(`${apiBaseUrl}api/buy_tickets`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: token },
+      body: JSON.stringify(requestBody),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to buy tickets. Status: ${response.status}`);
+    }
+  };
+
+  const balanceIncrement = () => {
+    setQuantityCount(Math.min(quantity + 1, 9999));
+  };
+  const balanceDecrement = () => {
+    setQuantityCount(Math.max(quantity - 1, 0));
+  };
+
+  const upIncrement = () => {
+    setUpCount(Math.min(upCount + 1, 99));
+  };
+  const upDecrement = () => {
+    setUpCount(Math.max(upCount - 1, 0));
+  };
 
   useEffect(() => {
     setModalVisible(modal);
@@ -78,13 +180,13 @@ export default function TicketsModalComponent({ onClose, disabled, modal }) {
                   width={24}
                   style={{ marginTop: 8 }}
                 />
-                <Text style={styles.balance__text}>10</Text>
+                <Text style={styles.balance__text}>{quantity}</Text>
               </View>
               <View style={{ rowGap: 6 }}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={balanceIncrement}>
                   <Text style={styles.text__plus}>+</Text>
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={balanceDecrement}>
                   <Text style={styles.text__minus}>-</Text>
                 </TouchableOpacity>
               </View>
@@ -101,9 +203,9 @@ export default function TicketsModalComponent({ onClose, disabled, modal }) {
                   width={24}
                   style={{ marginTop: 8 }}
                 />
-                <Text style={styles.balance__text}>9000 ₽</Text>
+                <Text style={styles.balance__text}>{quantity * 900} ₽</Text>
               </View>
-              <TouchableOpacity style={styles.button}>
+              <TouchableOpacity style={styles.button} onPress={buyTickets}>
                 <LinearGradient
                   location={[0.5, 0.5]}
                   start={[0.4, -0.9]}
@@ -131,16 +233,7 @@ export default function TicketsModalComponent({ onClose, disabled, modal }) {
                   height={23}
                   width={66}
                 />
-                <Text
-                  style={[
-                    styles.ticket__text,
-                    {
-                      left: 14,
-                    },
-                  ]}
-                >
-                  10
-                </Text>
+                <Text style={[styles.ticket__text, { left: 14 }]}>10</Text>
                 <Image
                   source={require("../assets/gifts/gift-up.svg")}
                   height={12}
@@ -154,12 +247,12 @@ export default function TicketsModalComponent({ onClose, disabled, modal }) {
                 width={24}
                 style={{ marginTop: 8 }}
               />
-              <Text style={styles.balance__text}>10</Text>
+              <Text style={styles.balance__text}>{upCount}</Text>
               <View style={{ rowGap: 5 }}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={upIncrement}>
                   <Text style={styles.text__plus}>+</Text>
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={upDecrement}>
                   <Text style={styles.text__minus}>-</Text>
                 </TouchableOpacity>
               </View>
@@ -176,7 +269,7 @@ export default function TicketsModalComponent({ onClose, disabled, modal }) {
                   columnGap: 4,
                 }}
               >
-                <Text style={styles.balance__text}>100</Text>
+                <Text style={styles.balance__text}>{10 * upCount}</Text>
                 <Image
                   source={require("../assets/up.svg")}
                   height={14}

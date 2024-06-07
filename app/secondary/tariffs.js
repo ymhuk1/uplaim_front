@@ -68,10 +68,9 @@ export default function Tariffs() {
           Authorization: userData.token,
           "Content-Type": "application/json",
         };
-        const clientResponse = await fetch(
-          `${apiBaseUrl}api/client`,
-          { headers }
-        );
+        const clientResponse = await fetch(`${apiBaseUrl}api/client`, {
+          headers,
+        });
         if (clientResponse.ok) {
           const clientData = await clientResponse.json();
           setClientData(clientData.client);

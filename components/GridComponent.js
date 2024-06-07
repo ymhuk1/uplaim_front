@@ -124,7 +124,7 @@ const GridComponent = ({
                       source={apiBaseUrl + item.main_photo}
                       width={80}
                       height={80}
-                      borderRadius={10}
+                      style={{ borderRadius: 10 }}
                     />
                   ) : (
                     <View style={styles.textNameContainer}>
@@ -209,8 +209,7 @@ const GridComponent = ({
                     }
                     width={80}
                     height={80}
-                    style={styles.logo}
-                    borderRadius={10}
+                    style={[styles.logo, { borderRadius: 10 }]}
                   />
                 </View>
                 <View style={styles.couponContainer}>
@@ -268,8 +267,7 @@ const GridComponent = ({
                             }
                             width={74}
                             height={74}
-                            style={styles.logo}
-                            borderRadius={10}
+                            style={[styles.logo, { borderRadius: 10 }]}
                           />
                           <View style={styles.infoTopContainer}>
                             <View style={styles.textTopContainer}>
@@ -329,9 +327,7 @@ const GridComponent = ({
               </View>
               <View style={styles.companyDescContainer}>
                 <Text style={styles.companyDesc}>
-                  {item.name
-                    ? truncateText(item.name, 55)
-                    : ""}
+                  {item.name ? truncateText(item.name, 55) : ""}
                 </Text>
               </View>
             </View>
@@ -371,7 +367,7 @@ const GridComponent = ({
                       source={apiBaseUrl + item.main_photo}
                       width={80}
                       height={80}
-                      borderRadius={10}
+                      style={{ borderRadius: 10 }}
                     />
                   ) : (
                     <View style={styles.textNameContainer}>
