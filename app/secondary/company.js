@@ -54,10 +54,7 @@ export default function Company() {
   const itemsPerSlide3 = 4;
   const itemHeight3 = 240;
   let slideHeight3 = 520;
-  const groupedData3 = [];
-
-  // const roundedReviewsRating = company.reviews_rating !== null ? Math.floor(company.reviews_rating * 10) / 10 : 0;
-  // company.reviews_rating = roundedReviewsRating;
+  const groupedData3 = [];  
 
   if (company?.news && company.news.length > 0) {
     for (let i = 0; i < company.news.length; i += itemsPerSlide1) {

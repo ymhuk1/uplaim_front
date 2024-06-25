@@ -75,11 +75,11 @@ export default function ExchangeScreen() {
   }, [statusExchange]);
 
   useEffect(() => {
-      setMyExchanges(
-          activeExchanges?.filter(
-              (item) => String(item.holder_id) === String(clientId)
-          )
-      );
+    setMyExchanges(
+      activeExchanges?.filter(
+        (item) => String(item.holder_id) === String(clientId)
+      )
+    );
 
     setProposedExchanges(
       exchanges?.filter((item) => String(item.last_holder_id) === clientId)
@@ -87,7 +87,7 @@ export default function ExchangeScreen() {
     console.log("myExchanges: ", myExchanges && myExchanges.length);
     console.log("activeExchanges: ", activeExchanges && activeExchanges.length);
     console.log("clientId: ", clientId);
-    console.log('cityTags: ', cityTags)
+    console.log("cityTags: ", cityTags);
   }, [exchanges, clientId, activeExchanges]);
 
   const fetchData = async () => {
@@ -101,9 +101,9 @@ export default function ExchangeScreen() {
         const exchangesData = await exchangesResponse.json();
         setActiveExchanges(exchangesData.exchange);
         setMyExchanges(
-            exchangesData.exchange.filter(
-                (item) => String(item.holder_id) === clientId
-            )
+          exchangesData.exchange.filter(
+            (item) => String(item.holder_id) === clientId
+          )
         );
       }
 

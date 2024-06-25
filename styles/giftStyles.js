@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     color: textPrimaryColor,
   },
   prize__container: {
+    marginTop: 20,
     width: WIDTH.width - 30,
     paddingVertical: 15,
     paddingHorizontal: 40,
@@ -148,9 +149,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: textPrimaryColor,
   },
-  makeMoney__tickets: {
-
-  },
+  makeMoney__tickets: {},
   fitness__container: {
     width: WIDTH.width - 30,
     marginBottom: 20,
@@ -215,6 +214,26 @@ const styles = StyleSheet.create({
     maxWidth: WIDTH.width - 30,
     rowGap: 20,
     marginBottom: 40,
+  },
+  dot: {
+    backgroundColor: "rgba(255,255,255,.05)",
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginLeft: 3,
+    marginRight: 3,
+    marginTop: 3,
+    marginBottom: 3,
+  },
+  activeDot: {
+    backgroundColor: "rgba(255,255,255,.2)",
+    width: 16,
+    height: 8,
+    borderRadius: 4,
+    marginLeft: 3,
+    marginRight: 3,
+    marginTop: 3,
+    marginBottom: 3,
   },
 });
 

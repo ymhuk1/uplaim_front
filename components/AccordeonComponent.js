@@ -23,7 +23,7 @@ const Accordion = ({ title, content, width }) => {
         <View
           style={{
             flexDirection: "row",
-            alignItems: "baseline",
+            alignItems: "center",
           }}
         >
           <Text
@@ -33,7 +33,7 @@ const Accordion = ({ title, content, width }) => {
               lineHeight: 20,
               color: textPrimaryColor,
               marginRight: "auto",
-              marginBottom: 10,
+              // marginBottom: 10,
             }}
             width={width}
           >

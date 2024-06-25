@@ -6,6 +6,7 @@ import {
   View,
 } from "react-native";
 import { useEffect, useRef, useState } from "react";
+import { FONTS } from "../constants/theme";
 
 const NewTagComponent = ({ tag, valueOnChange }) => {
   const isDropdownTag = Array.isArray(tag);
@@ -78,6 +79,7 @@ const styles = StyleSheet.create({
   },
   tagContainerText: {},
   tagText: {
+    fontFamily: FONTS.regular,
     borderRadius: 4,
     paddingVertical: 3,
     paddingHorizontal: 10,
@@ -96,6 +98,7 @@ const styles = StyleSheet.create({
     minWidth: 100,
   },
   dropdownText: {
+    fontFamily: FONTS.regular,
     fontSize: 16,
     color: "black",
   },
