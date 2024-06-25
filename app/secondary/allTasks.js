@@ -1,5 +1,5 @@
 import { Modal, ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image, ImageBackground } from "expo-image";
 import HeaderComponent from "../../components/HeaderComponent";
 import { FONTS, HEIGHT, WIDTH } from "../../constants/theme";
@@ -9,14 +9,34 @@ import {
 } from "../../components/ColorsComponent";
 import FitnessGift from "../../components/FitnessCardComponent";
 import UniversalModal from "../../components/ModalWindowComponent";
+import Constants from "expo-constants";
+
+const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
 export default function AllTasks() {
   const [textValue, setTextValue] = useState("Все задания");
   const [isTooltipVisible, setTooltipVisible] = useState(false);
+  const [tasks, setTasks] = useState([]);
 
   const toggleTooltip = () => {
     setTooltipVisible(!isTooltipVisible);
   };
+
+  const fetchData = async () => {
+    // All tasks
+    const allTasksResponse = await fetch(`${apiBaseUrl}api/all_tasks`);
+    if (allTasksResponse.ok) {
+      const data = await allTasksResponse.json();
+      // console.log("Данные Tasks успешно получены:", data);
+      setTasks(data);
+    } else {
+      console.error("Произошла ошибка при получении данных задач");
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -62,75 +82,63 @@ export default function AllTasks() {
           </View>
         </View>
         <Text style={styles.title__text}>Регулярные задания</Text>
-        <View style={{ marginBottom: 20 }}>
-          <FitnessGift
-            imageSource={require("../../assets/gifts/fitness.svg")}
-            balanceImageSource={require("../../assets/up.svg")}
-            statusImageSource={require("../../assets/gifts/clock.svg")}
-            title={"Фитнес-центр"}
-            description={
-              "Приобретите что то у нас и мы сделаем скидку 15% для вас"
-            }
-            count={5}
-            maxCount={5}
-            endDate={"до 1 января 2024 года"}
-            balance={10}
-            balanceImageHeight={14}
-            balanceImageWidth={22}
-            onClose={toggleTooltip}
-          />
-          <FitnessGift
-            imageSource={require("../../assets/gifts/fitness.svg")}
-            balanceImageSource={require("../../assets/ticket-green.svg")}
-            statusImageSource={require("../../assets/gifts/clock.svg")}
-            title={"Фитнес-центр"}
-            description={
-              "Приобретите что то у нас и мы сделаем скидку 15% для вас"
-            }
-            count={5}
-            maxCount={5}
-            endDate={"до 1 января 2024 года"}
-            balance={10}
-            balanceImageHeight={12}
-            balanceImageWidth={33}
-            onClose={toggleTooltip}
-          />
-        </View>
+        {tasks.length > 0 &&
+          tasks.map((task) => (
+            <View style={{ columnGap: 20 }} key={task.id}>
+              <FitnessGift
+                imageSource={apiBaseUrl + task.photo}
+                balanceImageSource={
+                  task.reward_type === "up"
+                    ? require("../../assets/up.svg")
+                    : null
+                }
+                balanceSource={task.reward_type}
+                statusImageSource={
+                  task.status !== "activate"
+                    ? require("../../assets/gifts/clock.svg")
+                    : require("../../assets/gifts/success.svg")
+                }
+                title={task.name}
+                description={task.description}
+                count={task.quantity === null ? "1" : task.quantity}
+                maxCount={task.quantity === null ? "1" : task.quantity}
+                endDate={"до " + task.date_end.slice(0, 10)}
+                balance={10}
+                balanceImageHeight={14}
+                balanceImageWidth={22}
+                onClose={toggleTooltip}
+              />
+            </View>
+          ))}
         <Text style={styles.title__text}>Разовые задания</Text>
-        <View>
-          <FitnessGift
-            imageSource={require("../../assets/gifts/fitness.svg")}
-            balanceImageSource={require("../../assets/up.svg")}
-            statusImageSource={require("../../assets/gifts/success.svg")}
-            title={"Фитнес-центр"}
-            description={
-              "Приобретите что то у нас и мы сделаем скидку 15% для вас"
-            }
-            count={5}
-            maxCount={5}
-            endDate={"выполнено"}
-            balance={10}
-            balanceImageHeight={14}
-            balanceImageWidth={22}
-            onClose={toggleTooltip}
-          />
-          <FitnessGift
-            imageSource={require("../../assets/gifts/fitness.svg")}
-            balanceImageSource={require("../../assets/ticket-orange.svg")}
-            statusImageSource={require("../../assets/gifts/clock.svg")}
-            title={"Фитнес-центр"}
-            description={
-              "Приобретите что то у нас и мы сделаем скидку 15% для вас"
-            }
-            count={5}
-            maxCount={5}
-            endDate={"до 5 февраля 2024 года"}
-            balance={5}
-            balanceImageHeight={12}
-            balanceImageWidth={33}
-            onClose={toggleTooltip}
-          />
-        </View>
+        {tasks.length > 0 &&
+          tasks.map((task, index) => (
+            <View style={{ columnGap: 20 }} key={index}>
+              <FitnessGift
+                imageSource={apiBaseUrl + task.photo}
+                balanceImageSource={
+                  task.reward_type === "up"
+                    ? require("../../assets/up.svg")
+                    : null
+                }
+                balanceSource={task.reward_type}
+                statusImageSource={
+                  task.status !== "activate"
+                    ? require("../../assets/gifts/clock.svg")
+                    : require("../../assets/gifts/success.svg")
+                }
+                title={task.name}
+                description={task.description}
+                count={task.quantity === null ? "1" : task.quantity}
+                maxCount={task.quantity === null ? "1" : task.quantity}
+                endDate={"до " + task.date_end.slice(0, 10)}
+                balance={10}
+                balanceImageHeight={14}
+                balanceImageWidth={22}
+                onClose={toggleTooltip}
+              />
+            </View>
+          ))}
         {isTooltipVisible && (
           <Modal
             visible={isTooltipVisible}
@@ -139,18 +147,14 @@ export default function AllTasks() {
           >
             <UniversalModal
               onClose={toggleTooltip}
-              title={"Покупайте в категории Авто"}
+              title={tasks[0].name}
               title2={"Получаете"}
               buttonTitle={"К покупкам"}
-              balance={10}
-              balanceUp={10}
-              content={
-                "Приобретите что то у нас и мы сделаем скидку 15% для вас скидку 15% для васПриобретите что то у нас и мы сделаем скидку 15% для вас"
-              }
-              sourceImg={require("../../assets/gifts/car.png")}
-              dateText={
-                "Приобретите что то у нас и мы сделаем скидку 15% для вас скидку 15% для вас"
-              }
+              balance={tasks[0].reward_type}
+              balanceUp={tasks[0].reward_type}
+              content={tasks[0].description}
+              sourceImg={apiBaseUrl + tasks[0].photo}
+              dateText={tasks[0].short_description}
             />
           </Modal>
         )}

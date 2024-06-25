@@ -81,7 +81,7 @@ export default function TicketsModalComponent({ onClose, disabled, modal }) {
   }, []);
 
   const buyTickets = async () => {
-    if (quantity === 0 || !clientData || !competitions) {
+    if (quantity === 0 || !clientData.id || !competitions.id) {
       console.error("Insufficient data to buy tickets.");
       return;
     }
@@ -100,11 +100,14 @@ export default function TicketsModalComponent({ onClose, disabled, modal }) {
       return;
     }
 
-    const response = await fetch(`${apiBaseUrl}api/buy_tickets`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: token },
-      body: JSON.stringify(requestBody),
-    });
+    const response = await fetch(
+      `${apiBaseUrl}api/buy_tickets?client_id=${clientData.id}&competition_id=${competitions.id}&quantity=${quantity}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: token },
+        body: JSON.stringify(requestBody),
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`Failed to buy tickets. Status: ${response.status}`);
@@ -205,7 +208,10 @@ export default function TicketsModalComponent({ onClose, disabled, modal }) {
                 />
                 <Text style={styles.balance__text}>{quantity * 900} ₽</Text>
               </View>
-              <TouchableOpacity style={styles.button} onPress={buyTickets}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={(quantity) => buyTickets(quantity)}
+              >
                 <LinearGradient
                   location={[0.5, 0.5]}
                   start={[0.4, -0.9]}

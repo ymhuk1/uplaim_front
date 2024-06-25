@@ -81,35 +81,37 @@ const UniversalModal = ({
               />
               <Text style={styles.text__content}>{content}</Text>
               <View style={{}}>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Text
-                    style={[
-                      styles.text__title,
-                      {
-                        fontFamily: FONTS.regular,
-                        fontSize: 16,
-                        marginRight: "auto",
-                      },
-                    ]}
-                  >
-                    {title2}
-                  </Text>
-                  <Text
-                    style={[
-                      styles.text__title,
-                      { fontSize: 20, marginRight: 5 },
-                    ]}
-                  >
-                    {balance}
-                  </Text>
-                  <Image
-                    contentFit="cover"
-                    contentPosition={"top"}
-                    height={12}
-                    width={33}
-                    source={require("../assets/ticket-green.svg")}
-                  />
-                </View>
+                {balanceUp !== "rub" ? (
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Text
+                      style={[
+                        styles.text__title,
+                        {
+                          fontFamily: FONTS.regular,
+                          fontSize: 16,
+                          marginRight: "auto",
+                        },
+                      ]}
+                    >
+                      {title2}
+                    </Text>
+                    <Text
+                      style={[
+                        styles.text__title,
+                        { fontSize: 20, marginRight: 5 },
+                      ]}
+                    >
+                      {balance}
+                    </Text>
+                    <Image
+                      contentFit="cover"
+                      contentPosition={"top"}
+                      height={12}
+                      width={33}
+                      source={require("../assets/ticket-green.svg")}
+                    />
+                  </View>
+                ) : null}
                 {balanceUp ? (
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <Text
@@ -130,15 +132,15 @@ const UniversalModal = ({
                         { fontSize: 20, marginRight: 5 },
                       ]}
                     >
-                      {balanceUp}
+                      {balance} {balanceUp}
                     </Text>
-                    <Image
+                    {/* <Image
                       contentFit="cover"
                       contentPosition={"top"}
                       height={14}
                       width={22}
                       source={require("../assets/up.svg")}
-                    />
+                    /> */}
                   </View>
                 ) : null}
               </View>

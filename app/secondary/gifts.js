@@ -43,10 +43,45 @@ export default function Gifts() {
   const [notify, setNotify] = useState(true);
   const [competitions, setCompetitions] = useState({});
   const [prizes, setPrizes] = useState({});
-  const [mytickets, setMytickets] = useState({});
   const [tasks, setTasks] = useState({});
-  const [tasksTransactions, setTasksTransactions] = useState({});
+  const [transactions, setTransactions] = useState({});
   const [questions, setQuestions] = useState({});
+  const [currentBalance, setCurrentBalance] = useState();
+
+  // Competitions
+  const fetchCompetitions = (id) => {
+    fetch(`${apiBaseUrl}api/competitions?client_id=${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data === null) {
+          console.error(
+            "Произошла ошибка при получении данных конкурсов: данные конкурсов равны null"
+          );
+        } else {
+          // console.log("Данные Competitions успешно получены:", data);
+          setCompetitions(data);
+        }
+      })
+      .catch((error) => {
+        console.error("Произошла ошибка при получении данных:", error);
+      });
+  };
+
+  //All transactions tasks
+  const fetchAllTransactions = (id) => {
+    fetch(`${apiBaseUrl}api/all_transaction_tasks?client_id=${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setTransactions(data);
+        // console.log("Данные Transactions успешно получены:", data);
+      })
+      .catch((error) => {
+        console.error(
+          "Произошла ошибка при получении данных транзакции:",
+          error
+        );
+      });
+  };
 
   const fetchData = async (id) => {
     const userDataStr = await SecureStore.getItemAsync("userData");
@@ -67,7 +102,10 @@ export default function Gifts() {
         if (clientResponse.ok) {
           const clientData = await clientResponse.json();
           setClientData(clientData.client);
-          console.log("Данные клиента успешно получены:", clientData.id);
+          const id = clientData.client.id;
+          fetchCompetitions(id);
+          fetchAllTransactions(id);
+          // console.log("Данные клиента успешно получены:", clientData.client);
           const hasUnreadNotification = await clientData.client.notify.some(
             (notifications) => notifications.read === false
           );
@@ -77,72 +115,30 @@ export default function Gifts() {
             "clientData",
             JSON.stringify(clientData)
           );
+
+          // console.log("clientData", clientData.client.id);
         } else {
           console.error("Ошибка при загрузке данных клиента");
-        }
-
-        // Competitions
-        const competitionsResponse = await fetch(
-          `${apiBaseUrl}api/competitions`
-        );
-        if (competitionsResponse.ok) {
-          const data = await competitionsResponse.json();
-          if (data === null) {
-            console.error(
-              "Произошла ошибка при получении данных конкурсов: данные конкурсов равны null"
-            );
-          } else {
-            console.log("Данные Competitions успешно получены:", data);
-            setCompetitions(data);
-          }
-        } else {
-          console.error(
-            `Произошла ошибка при получении данных конкурсов. Статус ответа: ${competitionsResponse.status}`
-          );
         }
 
         //Prizes
         const prizesResponse = await fetch(`${apiBaseUrl}api/prizes`);
         if (prizesResponse.ok) {
           const data = await prizesResponse.json();
-          console.log("Данные Prizes успешно получены:", data);
+          // console.log("Данные Prizes успешно получены:", data);
           setPrizes(data);
         } else {
           console.error("Произошла ошибка при получении данных призов");
-        }
-
-        //My tickets
-        const ticketsResponse = await fetch(
-          `${apiBaseUrl}api/my_tickets?client_id=${clientData.id}`
-        );
-        if (ticketsResponse.ok) {
-          const data = await ticketsResponse.json();
-          console.log("Данные Tickets успешно получены:", data);
-          setMytickets(data);
-        } else {
-          console.error("Произошла ошибка при получении данных билетов");
         }
 
         // All tasks
         const allTasksResponse = await fetch(`${apiBaseUrl}api/all_tasks`);
         if (allTasksResponse.ok) {
           const data = await allTasksResponse.json();
-          console.log("Данные Tasks успешно получены:", data);
+          // console.log("Данные Tasks успешно получены:", data);
           setTasks(data);
         } else {
           console.error("Произошла ошибка при получении данных задач");
-        }
-
-        //All transactions tasks
-        const allTransactionsResponse = await fetch(
-          `${apiBaseUrl}api/all_transactions_tasks`
-        );
-        if (allTransactionsResponse.ok) {
-          const data = await allTransactionsResponse.json();
-          console.log("Данные Transactions успешно получены:", data);
-          setTasksTransactions(data);
-        } else {
-          console.error("Произошла ошибка при получении данных транзакции");
         }
 
         //All questions
@@ -151,14 +147,30 @@ export default function Gifts() {
         );
         if (allQuestionsResponse.ok) {
           const data = await allQuestionsResponse.json();
-          console.log("Данные Questions успешно получены:", data);
+          // console.log("Данные Questions успешно получены:", data);
           setQuestions(data);
         } else {
           console.error("Произошла ошибка при получении данных вопросов");
         }
+
+        //Tickets on sell
+        // const ticketsOnSellResponse = await fetch(
+        //   `${apiBaseUrl}api/tickets_on_sell`
+        // );
+        // if (ticketsOnSellResponse.ok) {
+        //   const data = await ticketsOnSellResponse.json();
+        //   // console.log("Данные ticketsOnSell успешно получены:", data);
+        //   setTicketsOnSell(data);
+        // } else {
+        //   console.error(
+        //     "Произошла ошибка при получении данных билетов на продажу"
+        //   );
+        // }
       }
     } catch (error) {
       console.error("Произошла ошибка при получении данных:", error);
+    } finally {
+      setRefreshing(false);
     }
   };
 
@@ -176,15 +188,16 @@ export default function Gifts() {
 
   const onRefresh = () => {
     setRefreshing(true);
+    fetchData();
   };
+
   return (
     <View>
       <ScrollView
         // style={styles.container}
-        // refreshControl={
-        //   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        // }
-        // scrollEnabled={true}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
         showsVerticalScrollIndicator={false}
         // contentContainerStyle={styles.container}
       >
@@ -210,6 +223,7 @@ export default function Gifts() {
                   <Image
                     height={18}
                     width={28}
+                    transition={1000}
                     source={require("../../assets/up.svg")}
                   />
                   <Text style={styles.balance__text}>
@@ -227,25 +241,37 @@ export default function Gifts() {
             </View>
             <Text style={styles.textTitle2}>Сейчас в розыгрыше</Text>
 
-            {prizes.length > 0 &&
-              prizes.map((item) => (
-                <View
-                  style={{
-                    flexDirection: "row",
-                    columnGap: 15,
-                    marginBottom: 15,
-                  }}
-                >
-                  <GiftsNow
-                    sourceImg={apiBaseUrl + item.photo}
-                    sourceTicket={require("../../assets/ticket-green.svg")}
-                    text={item.description}
-                    height={154}
-                    imageHeight={105}
-                    width={giftsWidthImg}
-                  />
-                </View>
-              ))}
+            <ScrollView
+              showsHorizontalScrollIndicator={false}
+              decelerationRate="normal"
+              horizontal
+            >
+              {competitions.length > 0 &&
+                competitions.map((competition) =>
+                  competition.prizes.map((item, index) => (
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        marginRight: 15,
+                        marginTop: 8,
+                        marginBottom: 15,
+                      }}
+                      key={index}
+                    >
+                      <TouchableOpacity>
+                        <GiftsNow
+                          sourceImg={apiBaseUrl + item.photo}
+                          sourceTicket={competition.color}
+                          text={item.name}
+                          height={154}
+                          imageHeight={105}
+                          width={giftsWidthImg}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                  ))
+                )}
+            </ScrollView>
 
             <TouchableOpacity
               onPress={() => router.push({ pathname: "/secondary/allGifts" })}
@@ -258,9 +284,9 @@ export default function Gifts() {
             <Text style={styles.textTitle2}>Текущие розыгрыши</Text>
             <View style={styles.currentGifts}>
               {competitions.length > 0 &&
-                competitions.map((item) => (
+                competitions.slice(0, 3).map((item, index) => (
                   <View
-                    key={item.id}
+                    key={index}
                     style={[
                       styles.currentGifts__inner,
                       { borderColor: item.color },
@@ -304,12 +330,15 @@ export default function Gifts() {
                           />
                         </Svg>
                         <Text style={styles.currentGifts__text_prizes}>
-                          {item.prizes.length === 0 ? 0 : item.prizes.length} призов
+                          {item.prizes.length === 0 ? 0 : item.prizes.length}{" "}
+                          призов
                         </Text>
                       </View>
                     </View>
                     <View style={styles.currentGifts__button}>
-                      <TouchableOpacity onPress={() => toggleModal()}>
+                      <TouchableOpacity
+                        onPress={() => toggleModal() || setCurrentBalance(item)}
+                      >
                         <Text
                           style={[
                             styles.currentGifts__button_text,
@@ -320,7 +349,7 @@ export default function Gifts() {
                         </Text>
                       </TouchableOpacity>
                       <Text style={styles.currentGifts__button_ticket}>
-                        Активных билетов: {item.quantity_ticket}
+                        Активных билетов: {item.current_client_active_tickets}
                       </Text>
                     </View>
                   </View>
@@ -375,28 +404,29 @@ export default function Gifts() {
             </Text>
 
             {tasks.length > 0 &&
-              tasks.map((item) => (
-                <View key={item.id} style={{ marginBottom: 20 }}>
+              tasks.slice(0, 3).map((item, index) => (
+                <View key={index} style={{ rowGap: 10 }}>
                   <FitnessGift
                     imageSource={apiBaseUrl + item.photo}
                     balanceImageSource={
-                      item.reward === "up"
+                      item.reward_type === "up"
                         ? require("../../assets/up.svg")
-                        : require("../../assets/ticket-green.svg")
+                        : null
                     }
+                    balanceSource={item.reward_type}
                     statusImageSource={
-                      item.status !== "success"
+                      item.status !== "activate"
                         ? require("../../assets/gifts/clock.svg")
                         : require("../../assets/gifts/success.svg")
                     }
                     title={item.name}
                     description={item.description}
-                    count={5}
-                    maxCount={5}
+                    count={item.quantity === null ? "1" : item.quantity}
+                    maxCount={item.quantity === null ? "1" : item.quantity}
                     endDate={"до " + item.date_end.slice(0, 10)}
-                    balance={item.reward_type}
-                    balanceImageHeight={14}
-                    balanceImageWidth={22}
+                    balance={item.reward}
+                    balanceImageHeight={12}
+                    balanceImageWidth={35}
                     onClose={toggleTooltip}
                   />
                 </View>
@@ -411,40 +441,27 @@ export default function Gifts() {
             </TouchableOpacity>
 
             <Text style={styles.textTitle2}>История начислений</Text>
-            <View style={{ rowGap: 12, marginBottom: 20 }}>
-              <Text style={styles.ticket__text}>10 октября</Text>
-              <FitnessGift
-                imageSource={require("../../assets/gifts/fitness.svg")}
-                balanceImageSource={require("../../assets/ticket-green.svg")}
-                description={
-                  "Приобретите что то у нас и мы сделаем скидку 15% для вас"
-                }
-                balance={10}
-                balanceImageHeight={12}
-                balanceImageWidth={33}
-              />
-              <FitnessGift
-                imageSource={require("../../assets/gifts/fitness.svg")}
-                balanceImageSource={require("../../assets/up.svg")}
-                description={
-                  "Приобретите что то у нас и мы сделаем скидку 15% для вас"
-                }
-                balance={10}
-                balanceImageHeight={14}
-                balanceImageWidth={22}
-              />
-              <Text style={styles.ticket__text}>8 октября</Text>
-              <FitnessGift
-                imageSource={require("../../assets/gifts/fitness.svg")}
-                balanceImageSource={require("../../assets/ticket-green.svg")}
-                description={
-                  "Приобретите что то у нас и мы сделаем скидку 15% для вас"
-                }
-                balance={10}
-                balanceImageHeight={12}
-                balanceImageWidth={33}
-              />
-            </View>
+            {transactions.length > 0 &&
+              transactions.map((item, index) => (
+                <View style={{ rowGap: 12, marginBottom: 20 }} key={index}>
+                  <Text style={styles.ticket__text}>
+                    {item.created_at.slice(0, 10)}
+                  </Text>
+                  <FitnessGift
+                    imageSource={apiBaseUrl + item["task"].photo}
+                    balanceImageSource={
+                      item.reward_type === "up"
+                        ? require("../../assets/up.svg")
+                        : null
+                    }
+                    balanceSource={item["task"].reward_type}
+                    description={item["task"].name}
+                    balance={item["task"].reward}
+                    balanceImageHeight={12}
+                    balanceImageWidth={33}
+                  />
+                </View>
+              ))}
 
             <TouchableOpacity
               onPress={() =>
@@ -459,27 +476,16 @@ export default function Gifts() {
             <Text style={styles.textTitle2}>Ответы на вопросы</Text>
 
             <View style={styles.accordion__container}>
-              <Accordion
-                title={"Отзыв / предложение по стабильности или функционалу"}
-                content={
-                  "Приобретите что то у нас и мы сделаем скидку 15% для вас"
-                }
-                width={270}
-              />
-              <Accordion
-                title={"Я не вижу баллы Проверить начисления"}
-                content={
-                  "Приобретите что то у нас и мы сделаем скидку 15% для вас"
-                }
-                width={180}
-              />
-              <Accordion
-                title={"Отзыв / предложение по стабильности или функционалу"}
-                content={
-                  "Приобретите что то у нас и мы сделаем скидку 15% для вас"
-                }
-                width={270}
-              />
+              {questions.length > 0 &&
+                questions.map((item, index) => (
+                  <View style={{ marginBottom: 20 }} key={index}>
+                    <Accordion
+                      title={item.question}
+                      content={item.answer}
+                      width={"auto"}
+                    />
+                  </View>
+                ))}
             </View>
             {isTooltipVisible && (
               <Modal
@@ -489,18 +495,14 @@ export default function Gifts() {
               >
                 <UniversalModal
                   onClose={toggleTooltip}
-                  title={"Покупайте в категории Авто"}
+                  title={tasks[0].name}
                   title2={"Получаете"}
                   buttonTitle={"К покупкам"}
-                  balance={10}
-                  balanceUp={10}
-                  content={
-                    "Приобретите что то у нас и мы сделаем скидку 15% для вас скидку 15% для васПриобретите что то у нас и мы сделаем скидку 15% для вас"
-                  }
-                  sourceImg={require("../../assets/gifts/car.png")}
-                  dateText={
-                    "Приобретите что то у нас и мы сделаем скидку 15% для вас скидку 15% для вас"
-                  }
+                  balance={tasks[0].reward}
+                  balanceUp={tasks[0].reward_type}
+                  content={tasks[0].description}
+                  sourceImg={apiBaseUrl + tasks[0].photo}
+                  dateText={tasks[0].short_description}
                 />
               </Modal>
             )}
@@ -510,7 +512,11 @@ export default function Gifts() {
                 animationType="slide"
                 transparent={true}
               >
-                <ActivatesModalComponent onClose={toggleModal} />
+                <ActivatesModalComponent
+                  onClose={toggleModal}
+                  balance={currentBalance?.quantity_ticket}
+                  ticketColor={currentBalance?.color}
+                />
               </Modal>
             )}
           </View>

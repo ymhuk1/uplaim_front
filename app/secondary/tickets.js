@@ -22,60 +22,74 @@ import HeaderComponent from "../../components/HeaderComponent";
 import NewButtonComponent from "../../components/NewButtonComponent";
 import { router } from "expo-router";
 import TicketsModalComponent from "../../components/TicketsModalComponent";
+import Constants from "expo-constants";
+import * as SecureStore from "expo-secure-store";
+
+const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
 const Tickets = () => {
   const [textValue, setTextValue] = useState("Ваши билеты");
   const [isTooltipVisible, setTooltipVisible] = useState(false);
+  const [clientData, setClientData] = useState({});
+  const [activatedTickets, setActivatedTickets] = useState([]);
+  const [notActivatedTickets, setNotActivatedTickets] = useState([]);
+  const [token, setToken] = useState(null);
+
+  const fetchMyTickets = (id) => {
+    fetch(`${apiBaseUrl}api/my_tickets?client_id=${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setActivatedTickets(data.activate);
+        setNotActivatedTickets(data.not_activate);
+        // console.log("Данные успешно получены:", data.not_activate);
+      })
+      .catch((error) => {
+        console.log("Произошла ошибка при получении данных:", error);
+      });
+  };
+
+  const fetchData = async () => {
+    const userDataStr = await SecureStore.getItemAsync("userData");
+    try {
+      if (userDataStr) {
+        const userData = JSON.parse(userDataStr);
+        setToken(userData);
+
+        const headers = {
+          Authorization: userData.token,
+          "Content-Type": "application/json",
+        };
+
+        // Client
+        const clientResponse = await fetch(`${apiBaseUrl}api/client`, {
+          headers,
+        });
+        if (clientResponse.ok) {
+          const clientData = await clientResponse.json();
+
+          await SecureStore.setItemAsync(
+            "clientData",
+            JSON.stringify(clientData)
+          );
+          setClientData(clientData.client);
+          const id = clientData.client.id;
+          fetchMyTickets(id);
+          // console.log("clientData", clientData.client.id);
+        } else {
+          console.error("Ошибка при загрузке данных клиента");
+        }
+      }
+    } catch (error) {
+      console.error("Произошла ошибка при получении данных:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const toggleTooltip = () => {
     setTooltipVisible(!isTooltipVisible);
-  };
-
-  const renderActivatedTickets = () => {
-    const colors = ["#2FA44E", "#F2994A", "#F456FE"];
-    return colors.map((color, index) =>
-      renderActivatedTicketBlock(color, index)
-    );
-  };
-
-  const renderActivatedTicketBlock = (color, index) => {
-    const date = new Date().toLocaleDateString("ru-RU");
-    const numbers = [
-      "126415285452",
-      "245862145655",
-      "545554544541",
-      "554455544544",
-      "245862145655",
-      "245862145655",
-    ];
-
-    return (
-      <View
-        key={index}
-        style={[styles.activated__tickets_block, { borderColor: color }]}
-      >
-        <Text style={[styles.block__text, { color }]}>
-          Билеты розыгрыша “Лови момент” ({date}):
-        </Text>
-        <View style={styles.block__numbers}>
-          <View style={styles.block__number_left}>
-            {numbers.slice(0, 3).map((number) => (
-              <Text style={[styles.text__numbers]}>{number}</Text>
-            ))}
-          </View>
-          <View style={styles.block__number_right}>
-            {numbers.slice(3).map((number) => (
-              <Text style={[styles.text__numbers]}>{number}</Text>
-            ))}
-          </View>
-        </View>
-        <TouchableOpacity
-          style={[styles.block__button, { borderColor: color }]}
-        >
-          <Text style={styles.text__button}>Все билеты</Text>
-        </TouchableOpacity>
-      </View>
-    );
   };
 
   return (
@@ -91,6 +105,7 @@ const Tickets = () => {
             }
             widthButton={142}
             height={35}
+            notActivatedTickets={notActivatedTickets}
           />
           <View style={styles.activated__ticket}>
             <LinearGradient
@@ -98,7 +113,49 @@ const Tickets = () => {
               style={styles.activated__ticket_inner}
             >
               <Text style={styles.activated__title}>Активированные билеты</Text>
-              {renderActivatedTickets()}
+              {activatedTickets.map((activated) =>
+                activated.tickets.slice(0, 3).map((item, index) => (
+                  <View
+                    key={index}
+                    style={[
+                      styles.activated__tickets_block,
+                      { borderColor: activated.color },
+                    ]}
+                  >
+                    <Text
+                      style={[styles.block__text, { color: activated.color }]}
+                    >
+                      Билеты розыгрыша {activated.name_competition} (
+                      {activated.date_end}
+                      ):
+                    </Text>
+                    <View style={styles.block__numbers}>
+                      {activated.tickets.slice(0, 3).map((item, index) => (
+                        <View style={styles.block__number_left} key={index}>
+                          <Text style={[styles.text__numbers]}>
+                            {item.length === null ? "0" : item.name}
+                          </Text>
+                        </View>
+                      ))}
+                      {activated.tickets.slice(3).map((item, index) => (
+                        <View style={styles.block__number_right} key={index}>
+                          <Text style={[styles.text__numbers]}>
+                            {item.length === null ? "0" : item.name}
+                          </Text>
+                        </View>
+                      ))}
+                    </View>
+                    <TouchableOpacity
+                      style={[
+                        styles.block__button,
+                        { borderColor: activated.color },
+                      ]}
+                    >
+                      <Text style={styles.text__button}>Все билеты</Text>
+                    </TouchableOpacity>
+                  </View>
+                ))
+              )}
             </LinearGradient>
           </View>
           <View style={styles.button}>
@@ -173,7 +230,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   block__number_left: {
-    width: 100,
+    // width: 100,
     marginRight: "auto",
   },
   block__number_right: {

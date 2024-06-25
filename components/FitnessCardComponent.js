@@ -16,6 +16,7 @@ const FitnessGift = ({
   endDate,
   balance,
   balanceImageSource,
+  balanceSource,
   balanceImageHeight,
   balanceImageWidth,
   statusImageSource,
@@ -25,7 +26,9 @@ const FitnessGift = ({
     <View style={styles.fitness__container}>
       <View
         style={
-          count && maxCount ? styles.fitness__inner : styles.fitness__inner2
+          count && maxCount !== null
+            ? styles.fitness__inner
+            : styles.fitness__inner2
         }
       >
         <View style={styles.fitness__inner_top}>
@@ -35,7 +38,7 @@ const FitnessGift = ({
             source={imageSource}
             style={{ borderRadius: 10 }}
           />
-          {count && maxCount ? (
+          {count && maxCount !== null ? (
             <View style={styles.fitness__inner_text}>
               <Text style={styles.fitness__text}>{title}</Text>
               <Text style={styles.fitness__text2}>{description}</Text>
@@ -60,11 +63,15 @@ const FitnessGift = ({
             ) : (
               <View style={styles.fitness__balance}>
                 <Text style={styles.fitness__text3}>{balance}</Text>
-                <Image
-                  height={balanceImageHeight}
-                  width={balanceImageWidth}
-                  source={balanceImageSource}
-                />
+                {balanceImageSource !== null ? (
+                  <Image
+                    height={balanceImageHeight}
+                    width={balanceImageWidth}
+                    source={balanceImageSource}
+                  />
+                ) : (
+                  <Text style={styles.fitness__text3}>{balanceSource}</Text>
+                )}
               </View>
             )}
           </View>
@@ -75,14 +82,18 @@ const FitnessGift = ({
           <View style={{ marginLeft: 4 }}>
             <Text style={styles.text_date}>{endDate}</Text>
           </View>
-          {count && maxCount ? (
+          {count && maxCount !== null ? (
             <View style={styles.fitness__balance}>
               <Text style={styles.fitness__text3}>{balance}</Text>
-              <Image
-                height={balanceImageHeight}
-                width={balanceImageWidth}
-                source={balanceImageSource}
-              />
+              {balanceImageSource !== null ? (
+                <Image
+                  height={balanceImageHeight}
+                  width={balanceImageWidth}
+                  source={balanceImageSource}
+                />
+              ) : (
+                <Text style={styles.fitness__text3}>{balanceSource}</Text>
+              )}
             </View>
           ) : null}
         </View>

@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ImageBackground } from "expo-image";
 import { FONTS, HEIGHT } from "../../constants/theme";
 import HeaderComponent from "../../components/HeaderComponent";
@@ -10,9 +10,35 @@ import {
   textDisabledColor,
   textPrimaryColor,
 } from "../../components/ColorsComponent";
+import Constants from "expo-constants";
+
+const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
 export default function AccrualHistory() {
   const [textValue, setTextValue] = useState("История начислений");
+  const [transactions, setTransactions] = useState({});
+
+  const fetchData = async () => {
+    try {
+      //All transactions tasks
+      const allTransactionsResponse = await fetch(
+        `${apiBaseUrl}api/all_transactions_tasks`
+      );
+      if (allTransactionsResponse.ok) {
+        const data = await allTransactionsResponse.json();
+        console.log("Данные Transactions успешно получены:", data);
+        setTransactions(data);
+      } else {
+        console.error("Произошла ошибка при получении данных транзакции");
+      }
+    } catch (error) {
+      console.error("Произошла ошибка при получении данных:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -60,51 +86,53 @@ export default function AccrualHistory() {
           </Text>
         </View>
 
-        <View style={{ rowGap: 12, marginBottom: 20, marginTop: 10 }}>
-          <Text style={styles.ticket__text}>Сегодня</Text>
-          <FitnessGift
-            imageSource={require("../../assets/gifts/fitness.svg")}
-            balanceImageSource={require("../../assets/ticket-green.svg")}
-            description={
-              "Приобретите что то у нас и мы сделаем скидку 15% для вас"
-            }
-            balance={10}
-            balanceImageHeight={12}
-            balanceImageWidth={33}
-          />
-          <FitnessGift
-            imageSource={require("../../assets/gifts/fitness.svg")}
-            balanceImageSource={require("../../assets/up.svg")}
-            description={
-              "Приобретите что то у нас и мы сделаем скидку 15% для вас"
-            }
-            balance={10}
-            balanceImageHeight={14}
-            balanceImageWidth={22}
-          />
-          <Text style={styles.ticket__text}>8 октября</Text>
-          <FitnessGift
-            imageSource={require("../../assets/gifts/fitness.svg")}
-            balanceImageSource={require("../../assets/ticket-green.svg")}
-            description={
-              "Приобретите что то у нас и мы сделаем скидку 15% для вас"
-            }
-            balance={10}
-            balanceImageHeight={12}
-            balanceImageWidth={33}
-          />
-          <Text style={styles.ticket__text}>6 октября</Text>
-          <FitnessGift
-            imageSource={require("../../assets/gifts/fitness.svg")}
-            balanceImageSource={require("../../assets/ticket-orange.svg")}
-            description={
-              "Приобретите что то у нас и мы сделаем скидку 15% для вас"
-            }
-            balance={10}
-            balanceImageHeight={12}
-            balanceImageWidth={33}
-          />
-        </View>
+        {transactions.length > 0 && (
+          <View style={{ rowGap: 12, marginBottom: 20, marginTop: 10 }}>
+            <Text style={styles.ticket__text}>Сегодня</Text>
+            <FitnessGift
+              imageSource={require("../../assets/gifts/fitness.svg")}
+              balanceImageSource={require("../../assets/ticket-green.svg")}
+              description={
+                "Приобретите что то у нас и мы сделаем скидку 15% для вас"
+              }
+              balance={10}
+              balanceImageHeight={12}
+              balanceImageWidth={33}
+            />
+            <FitnessGift
+              imageSource={require("../../assets/gifts/fitness.svg")}
+              balanceImageSource={require("../../assets/up.svg")}
+              description={
+                "Приобретите что то у нас и мы сделаем скидку 15% для вас"
+              }
+              balance={10}
+              balanceImageHeight={14}
+              balanceImageWidth={22}
+            />
+            <Text style={styles.ticket__text}>8 октября</Text>
+            <FitnessGift
+              imageSource={require("../../assets/gifts/fitness.svg")}
+              balanceImageSource={require("../../assets/ticket-green.svg")}
+              description={
+                "Приобретите что то у нас и мы сделаем скидку 15% для вас"
+              }
+              balance={10}
+              balanceImageHeight={12}
+              balanceImageWidth={33}
+            />
+            <Text style={styles.ticket__text}>6 октября</Text>
+            <FitnessGift
+              imageSource={require("../../assets/gifts/fitness.svg")}
+              balanceImageSource={require("../../assets/ticket-orange.svg")}
+              description={
+                "Приобретите что то у нас и мы сделаем скидку 15% для вас"
+              }
+              balance={10}
+              balanceImageHeight={12}
+              balanceImageWidth={33}
+            />
+          </View>
+        )}
       </ImageBackground>
     </ScrollView>
   );
