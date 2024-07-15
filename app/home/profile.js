@@ -4,15 +4,33 @@ import {
   StyleSheet,
   Text,
   View,
+  Modal,
+  StatusBar,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Image, ImageBackground } from "expo-image";
-import { textPrimaryColor } from "../../components/ColorsComponent";
+import {
+  elemBackgroundColor,
+  textPrimaryColor,
+} from "../../components/ColorsComponent";
 import * as SecureStore from "expo-secure-store";
-import { router, useRouter } from "expo-router";
+import { Link, router, useRouter } from "expo-router";
 import { FONTS, HEIGHT, SIZES } from "../../constants/theme";
+import Constants from "expo-constants";
+import { BlurView } from "expo-blur";
+
+const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
 export default function ProfileScreen() {
+  const [clientData, setClientData] = useState({});
+  const [token, setToken] = useState({});
+  const [modalVisible, setModalVisible] = useState(false);
+  const [city, setCity] = useState("");
+
+  const handleModal = () => {
+    setModalVisible(!modalVisible);
+  };
+
   const router = useRouter();
   const handleLogout = async () => {
     try {
@@ -24,6 +42,77 @@ export default function ProfileScreen() {
       console.error("Ошибка при выходе:", error.message);
     }
   };
+
+  const postCity = async () => {
+    try {
+      const userDataStr = await SecureStore.getItemAsync("userData");
+      if (userDataStr) {
+        const userData = JSON.parse(userDataStr);
+        const headers = {
+          Authorization: userData.token,
+          "Content-Type": "application/json",
+        };
+        const response = await fetch(`${apiBaseUrl}api/edit_client`, {
+          method: "POST",
+          headers,
+          body: JSON.stringify({
+            city: city,
+          }),
+        });
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Город успешно изменен:", data.city);
+        } else {
+          console.error("Ошибка при изменении города");
+        }
+      }
+    } catch (error) {
+      console.error("Ошибка при изменении города:", error.message);
+    }
+  };
+
+  const fetchData = async () => {
+    const userDataStr = await SecureStore.getItemAsync("userData");
+    try {
+      if (userDataStr) {
+        const userData = JSON.parse(userDataStr);
+        setToken(userData);
+
+        const headers = {
+          Authorization: userData.token,
+          "Content-Type": "application/json",
+        };
+
+        // Client
+        const clientResponse = await fetch(`${apiBaseUrl}api/client`, {
+          headers,
+        });
+        if (clientResponse.ok) {
+          const clientData = await clientResponse.json();
+          setClientData(clientData.client);
+          // console.log(
+          //   "Данные клиента успешно получены:",
+          //   clientData.client
+          // );
+
+          await SecureStore.setItemAsync(
+            "clientData",
+            JSON.stringify(clientData)
+          );
+
+          // console.log("clientData", clientData);
+        } else {
+          console.error("Ошибка при загрузке данных клиента");
+        }
+      }
+    } catch (error) {
+      console.error("Ошибка при получении данных клиента:", error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <ScrollView
@@ -52,7 +141,11 @@ export default function ProfileScreen() {
             </View>
             <View style={styles.rightContainer}>
               <View style={styles.textContainer}>
-                <Text style={styles.text}>Константин</Text>
+                <TouchableOpacity
+                  onPress={() => router.push({ pathname: "/secondary/myData" })}
+                >
+                  <Text style={styles.text}>Константин</Text>
+                </TouchableOpacity>
                 <Text style={styles.minText}>Рефералов: 113</Text>
               </View>
             </View>
@@ -68,9 +161,16 @@ export default function ProfileScreen() {
                   height={24}
                 />
               </View>
-              <View style={styles.textMenuContainer}>
-                <Text style={styles.textMenu}>Москва</Text>
-              </View>
+              <TouchableOpacity
+                style={styles.textMenuContainer}
+                onPress={() => handleModal()}
+              >
+                <Text style={styles.textMenu}>
+                  {clientData.city === null
+                    ? "Город не выбран"
+                    : clientData.city}
+                </Text>
+              </TouchableOpacity>
             </View>
             <View style={styles.itemMenuContainer}>
               <View style={styles.iconMenuContainer}>
@@ -112,7 +212,7 @@ export default function ProfileScreen() {
                 </TouchableOpacity>
               </View>
             </View>
-            <View style={styles.itemMenuContainer}>
+            {/* <View style={styles.itemMenuContainer}>
               <View style={styles.iconMenuContainer}>
                 <Image
                   contentFit="contain"
@@ -125,7 +225,7 @@ export default function ProfileScreen() {
               <View style={styles.textMenuContainer}>
                 <Text style={styles.textMenu}>Мои заказы</Text>
               </View>
-            </View>
+            </View> */}
             <View style={styles.itemMenuContainer}>
               <View style={styles.iconMenuContainer}>
                 <Image
@@ -136,11 +236,18 @@ export default function ProfileScreen() {
                   height={24}
                 />
               </View>
-              <View style={styles.textMenuContainer}>
+              <TouchableOpacity
+                style={styles.textMenuContainer}
+                onPress={() =>
+                  router.push({
+                    pathname: "/secondary/couponsList",
+                  })
+                }
+              >
                 <Text style={styles.textMenu}>Мои купоны и промокоды</Text>
-              </View>
+              </TouchableOpacity>
             </View>
-            <View style={styles.itemMenuContainer}>
+            {/* <View style={styles.itemMenuContainer}>
               <View style={styles.iconMenuContainer}>
                 <Image
                   contentFit="contain"
@@ -153,8 +260,8 @@ export default function ProfileScreen() {
               <View style={styles.textMenuContainer}>
                 <Text style={styles.textMenu}>Сообщения</Text>
               </View>
-            </View>
-            <View style={styles.itemMenuContainer}>
+            </View> */}
+            {/* <View style={styles.itemMenuContainer}>
               <View style={styles.iconMenuContainer}>
                 <Image
                   contentFit="contain"
@@ -173,8 +280,8 @@ export default function ProfileScreen() {
                   <Text style={styles.textMenu}>Мои финансы</Text>
                 </TouchableOpacity>
               </View>
-            </View>
-            <View style={styles.itemMenuContainer}>
+            </View> */}
+            {/* <View style={styles.itemMenuContainer}>
               <View style={styles.iconMenuContainer}>
                 <Image
                   contentFit="contain"
@@ -193,8 +300,8 @@ export default function ProfileScreen() {
                   <Text style={styles.textMenu}>Настройки</Text>
                 </TouchableOpacity>
               </View>
-            </View>
-            <View style={styles.itemMenuContainer}>
+            </View> */}
+            {/* <View style={styles.itemMenuContainer}>
               <View style={styles.iconMenuContainer}>
                 <Image
                   contentFit="contain"
@@ -207,7 +314,7 @@ export default function ProfileScreen() {
               <View style={styles.textMenuContainer}>
                 <Text style={styles.textMenu}>Обратная связь</Text>
               </View>
-            </View>
+            </View> */}
             <View style={styles.itemMenuContainer}>
               <View style={styles.iconMenuContainer}>
                 <Image
@@ -218,9 +325,14 @@ export default function ProfileScreen() {
                   height={24}
                 />
               </View>
-              <View style={styles.textMenuContainer}>
+              <TouchableOpacity
+                style={styles.textMenuContainer}
+                onPress={() =>
+                  router.push({ pathname: "/secondary/franchise" })
+                }
+              >
                 <Text style={styles.textMenu}>Франшиза</Text>
-              </View>
+              </TouchableOpacity>
             </View>
             <View style={styles.itemMenuContainer}>
               <View style={styles.iconMenuContainer}>
@@ -232,9 +344,12 @@ export default function ProfileScreen() {
                   height={24}
                 />
               </View>
-              <View style={styles.textMenuContainer}>
+              <TouchableOpacity
+                style={styles.textMenuContainer}
+                onPress={() => router.push({ pathname: "/secondary/aboutApp" })}
+              >
                 <Text style={styles.textMenu}>О приложении</Text>
-              </View>
+              </TouchableOpacity>
             </View>
             <View style={styles.itemMenuContainer}>
               <View style={styles.iconMenuContainer}>
@@ -254,6 +369,63 @@ export default function ProfileScreen() {
               </TouchableOpacity>
             </View>
           </View>
+          {modalVisible && (
+            <Modal
+              animationType="fade"
+              isVisible={modalVisible}
+              transparent={true}
+              style={styles.modal}
+            >
+              <BlurView
+                tint="dark"
+                intensity={40}
+                blurReductionFactor={10}
+                experimentalBlurMethod={"dimezisBlurView"}
+                style={styles.containerBlur}
+              >
+                <StatusBar barStyle="light-content" backgroundColor="#121123" />
+                <View style={styles.modalContent}>
+                  <TouchableOpacity
+                    onPress={() => setModalVisible(false)}
+                    style={styles.closePopup}
+                  >
+                    <Image
+                      contentFit="contain"
+                      contentPosition={"center"}
+                      transition={1000}
+                      source={require("../../assets/close.svg")}
+                      width={40}
+                      height={40}
+                    />
+                  </TouchableOpacity>
+                  <Text style={styles.modalText}>Выбор города:</Text>
+                  <View style={styles.citysContainer}>
+                    <TouchableOpacity style={styles.button} onPress={() => {}}>
+                      <Text style={styles.cityText}>Краснодар</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() => postCity() || setCity("Москва")}
+                    >
+                      <Text style={styles.cityText}>Москва</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={() => {}}>
+                      <Text style={styles.cityText}>Омск</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={() => {}}>
+                      <Text style={styles.cityText}>Оренбург</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={() => {}}>
+                      <Text style={styles.cityText}>Псков</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={() => {}}>
+                      <Text style={styles.cityText}>Самара</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </BlurView>
+            </Modal>
+          )}
         </View>
       </ImageBackground>
     </ScrollView>
@@ -317,5 +489,43 @@ const styles = StyleSheet.create({
     color: "white",
     marginLeft: 8,
     textAlign: "center",
+  },
+  modal: {},
+  modalContent: {
+    position: "absolute",
+    width: "100%",
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    // height: 300,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    backgroundColor: "#121123",
+    bottom: 0,
+  },
+  modalText: {
+    fontFamily: FONTS.medium,
+    fontSize: 18,
+    lineHeight: 20,
+    color: textPrimaryColor,
+  },
+  citysContainer: {
+    rowGap: 20,
+    marginVertical: 20,
+  },
+  cityText: {
+    fontFamily: FONTS.regular,
+    fontSize: 16,
+    lineHeight: 20,
+    color: "white",
+    marginLeft: 12,
+  },
+  closePopup: {
+    alignItems: "flex-end",
+  },
+  containerBlur: {
+    flex: 1,
+    height: HEIGHT.height,
+    justifyContent: "flex-end",
+    alignItems: "center",
   },
 });

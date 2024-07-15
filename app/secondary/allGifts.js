@@ -19,6 +19,7 @@ import UniversalModal from "../../components/ModalWindowComponent";
 import Constants from "expo-constants";
 import * as SecureStore from "expo-secure-store";
 import { Path, Svg } from "react-native-svg";
+import { useLocalSearchParams } from "expo-router";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
@@ -28,6 +29,7 @@ export default function AllGifts() {
   const [prizes, setPrizes] = useState([]);
   const [competitions, setCompetitions] = useState([]);
   const [selectedPrize, setSelectedPrize] = useState();
+  const [selectedPrizeId, setSelectedPrizeId] = useState();
 
   const fetchData = async () => {
     try {
@@ -69,6 +71,19 @@ export default function AllGifts() {
     setTooltipVisible(!isTooltipVisible);
   };
 
+  const { id } = useLocalSearchParams();
+
+  useEffect(() => {
+    fetchData();
+    if (id !== undefined && id !== "") {
+      setSelectedPrizeId(Number(id));
+    }
+  }, [id]);
+
+  const handleCategoryClick = (id) => {
+    setSelectedPrizeId(id);
+  };
+
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <ImageBackground
@@ -100,6 +115,7 @@ export default function AllGifts() {
                         : {},
                     ]}
                     onPress={() =>
+                      handleCategoryClick(item.id) ||
                       setSelectedPrize(selectedPrize === item ? null : item)
                     }
                   >
@@ -135,22 +151,28 @@ export default function AllGifts() {
           >
             {competitions.length > 0 &&
               competitions.map((competition) =>
-                competition.prizes.map((item, index) => (
-                  <TouchableOpacity
-                    onPress={() => toggleTooltip() || setSelectedPrize(item)}
-                    key={index}
-                  >
-                    <GiftNow
-                      sourceImg={apiBaseUrl + item.photo}
-                      sourceTicket={competition.color}
-                      title={item.name}
-                      text={item.description}
-                      height={giftsHeightWrapper}
-                      imageHeight={heightImage}
-                      width={giftsWidthImg}
-                    />
-                  </TouchableOpacity>
-                ))
+                competition.prizes
+                  .filter(
+                    (item) =>
+                      !selectedPrizeId ||
+                      (item.id && item.id === selectedPrizeId)
+                  )
+                  .map((item, index) => (
+                    <TouchableOpacity
+                      onPress={() => toggleTooltip() || setSelectedPrize(item)}
+                      key={index}
+                    >
+                      <GiftNow
+                        sourceImg={apiBaseUrl + item.photo}
+                        sourceTicket={competition.color}
+                        title={item.name}
+                        text={item.description}
+                        height={giftsHeightWrapper}
+                        imageHeight={heightImage}
+                        width={giftsWidthImg}
+                      />
+                    </TouchableOpacity>
+                  ))
               )}
           </View>
           {isTooltipVisible && (

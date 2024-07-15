@@ -13,6 +13,10 @@ export const fuchsia = '#9B51E0';
 
 export const elemBackgroundColor = '#24224A';
 
+export const inputBackgroundColor = "#181629";
+
+export const elemBackgroundColor2 = "#121123";
+
 export const elemBackgroundColor3 = '#3F3761';
 
 export const elemGradientColors = ['#3B295D', '#2C2A51'];

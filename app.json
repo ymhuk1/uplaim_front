@@ -3,7 +3,7 @@
     "owner": "viktorka",
     "name": "Uplaim",
     "slug": "desert",
-    "version": "1.0.0",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -19,6 +19,7 @@
       "supportsTablet": false
     },
     "android": {
+      "versionCode": 2,
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#24224A"
@@ -27,12 +28,14 @@
     },
     "scheme": "uplaim",
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/logo_store.png"
     },
     "plugins": [
       "expo-router",
       "expo-font",
-      "expo-secure-store"
+      "expo-secure-store",
+      "@config-plugins/react-native-blob-util",
+      "@config-plugins/react-native-pdf"
     ],
     "extra": {
       "API_PROD": "https://uplaim.com/",

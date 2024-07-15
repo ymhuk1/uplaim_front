@@ -56,18 +56,24 @@ const HeaderComponent = ({ text, secondary, home, main, notify, skeleton }) => {
       );
     } else if (isOverScreen) {
       return (
-        <View style={styles.headerContainerBack}>
-          <TouchableOpacity onPress={() => router.back()} title={" "}>
-            <Image
-              contentFit="contain"
-              contentPosition={"center"}
-              transition={1000}
-              source={require("../assets/arrow-left.svg")}
-              width={32}
-              height={32}
-            />
-          </TouchableOpacity>
-          <Text style={styles.headerText}>{text}</Text>
+        <View style={{ paddingTop: 50 }}>
+          <Skeleton show={skeleton} height={40} {...SKELETON}>
+            <View style={styles.headerContainerBack}>
+              <TouchableOpacity onPress={() => router.back()} title={" "}>
+                <Image
+                  contentFit="contain"
+                  contentPosition={"center"}
+                  transition={1000}
+                  source={require("../assets/arrow-left.svg")}
+                  width={32}
+                  height={32}
+                />
+              </TouchableOpacity>
+              {/* </Skeleton>
+              <Skeleton show={skeleton} height={40} {...SKELETON}> */}
+              <Text style={styles.headerText}>{text}</Text>
+            </View>
+          </Skeleton>
         </View>
       );
     }
@@ -89,7 +95,6 @@ const styles = StyleSheet.create({
   headerContainerBack: {
     flexDirection: "row",
     alignItems: "center",
-    paddingTop: 50,
   },
   iconContainer: {},
   iconCountContainer: {
