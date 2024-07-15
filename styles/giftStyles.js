@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { FONTS, WIDTH } from "../constants/theme";
+import { FONTS, HEIGHT, WIDTH } from "../constants/theme";
 import { elemBackgroundColor, elemBackgroundColor3, fuchsia, textColor4, textPrimaryColor } from "../components/ColorsComponent";
 
 let ticketsWidth = WIDTH.width - 180;
@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
   containerView: {
     marginHorizontal: 15,
     // marginTop: 50,
+    minHeight: HEIGHT.height,
   },
   textTitle1: {
     marginBottom: 15,
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
     color: textPrimaryColor,
   },
   textTitle2: {
-    marginTop: 20,
+    // marginTop: 20,
     marginBottom: 16,
     fontFamily: FONTS.medium,
     fontSize: 24,
@@ -60,9 +61,9 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.regular,
     fontSize: 14,
     color: textPrimaryColor,
+    // marginBottom: 12,
   },
   prize__container: {
-    marginTop: 20,
     width: WIDTH.width - 30,
     paddingVertical: 15,
     paddingHorizontal: 40,
@@ -149,7 +150,9 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: textPrimaryColor,
   },
-  makeMoney__tickets: {},
+  makeMoney__tickets: {
+    marginRight: 10,
+  },
   fitness__container: {
     width: WIDTH.width - 30,
     marginBottom: 20,

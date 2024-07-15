@@ -95,7 +95,7 @@ function TicketsComponent({
               <Text style={styles.ticket__title}>{ticketsTitle}</Text>
             </View>
           ) : null}
-          {notActivatedTickets.length > 0 &&
+          {notActivatedTickets.length > 0 ? (
             notActivatedTickets.slice(0, 3).map((item, index) => (
               <View
                 key={index}
@@ -125,7 +125,10 @@ function TicketsComponent({
                   {item.quantity_tickets === 1 ? "билет" : "билета"}
                 </Text>
               </View>
-            ))}
+            ))
+          ) : (
+              <Text style={styles.ticket__text}>У вас пока нет билетов</Text>
+          )}
         </View>
         <View
           style={[

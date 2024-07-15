@@ -34,6 +34,7 @@ const Tickets = () => {
   const [activatedTickets, setActivatedTickets] = useState([]);
   const [notActivatedTickets, setNotActivatedTickets] = useState([]);
   const [token, setToken] = useState(null);
+  console.log("activatedTickets", notActivatedTickets.length);
 
   const fetchMyTickets = (id) => {
     fetch(`${apiBaseUrl}api/my_tickets?client_id=${id}`)
@@ -97,67 +98,94 @@ const Tickets = () => {
       {textValue && (
         <View style={styles.ticket__container}>
           <HeaderComponent text={textValue} secondary={true} />
-          <TicketsComponent
-            buttonTitle={"Активировать"}
-            ticketsTitle={"Неактивированные билеты"}
-            onButtonPress={() =>
-              router.push({ pathname: "/secondary/allRaffles" })
-            }
-            widthButton={142}
-            height={35}
-            notActivatedTickets={notActivatedTickets}
-          />
-          <View style={styles.activated__ticket}>
-            <LinearGradient
-              colors={elemGradientColors}
-              style={styles.activated__ticket_inner}
+          {notActivatedTickets.length > 0 ? (
+            <TicketsComponent
+              buttonTitle={"Активировать"}
+              ticketsTitle={"Неактивированные билеты"}
+              onButtonPress={() =>
+                router.push({ pathname: "/secondary/allRaffles" })
+              }
+              widthButton={142}
+              height={35}
+              notActivatedTickets={notActivatedTickets}
+            />
+          ) : (
+            <Text
+              style={{
+                marginTop: 20,
+                color: textPrimaryColor,
+                textAlign: "center",
+                fontSize: 18,
+              }}
             >
-              <Text style={styles.activated__title}>Активированные билеты</Text>
-              {activatedTickets.map((activated) =>
-                activated.tickets.slice(0, 3).map((item, index) => (
-                  <View
-                    key={index}
-                    style={[
-                      styles.activated__tickets_block,
-                      { borderColor: activated.color },
-                    ]}
-                  >
-                    <Text
-                      style={[styles.block__text, { color: activated.color }]}
-                    >
-                      Билеты розыгрыша {activated.name_competition} (
-                      {activated.date_end}
-                      ):
-                    </Text>
-                    <View style={styles.block__numbers}>
-                      {activated.tickets.slice(0, 3).map((item, index) => (
-                        <View style={styles.block__number_left} key={index}>
-                          <Text style={[styles.text__numbers]}>
-                            {item.length === null ? "0" : item.name}
-                          </Text>
+              У вас пока нет билетов
+            </Text>
+          )}
+          {
+            <View style={styles.activated__ticket}>
+              <LinearGradient
+                colors={elemGradientColors}
+                style={
+                  activatedTickets.length > 0 && styles.activated__ticket_inner
+                }
+              >
+                {activatedTickets.map((activated) =>
+                  activated.tickets.map((item, index) => (
+                    <View>
+                      <Text style={styles.activated__title}>
+                        Активированные билеты
+                      </Text>
+                      <View
+                        key={index}
+                        style={[
+                          styles.activated__tickets_block,
+                          { borderColor: activated.color },
+                        ]}
+                      >
+                        <Text
+                          style={[
+                            styles.block__text,
+                            { color: activated.color },
+                          ]}
+                        >
+                          Билеты розыгрыша {activated.name_competition} (
+                          {activated.date_end}
+                          ):
+                        </Text>
+                        <View style={styles.block__numbers}>
+                          {activated.tickets.slice(0, 3).map((item, index) => (
+                            <View style={styles.block__number_left} key={index}>
+                              <Text style={[styles.text__numbers]}>
+                                {item.length === null ? "0" : item.name}
+                              </Text>
+                            </View>
+                          ))}
+                          {activated.tickets.slice(3).map((item, index) => (
+                            <View
+                              style={styles.block__number_right}
+                              key={index}
+                            >
+                              <Text style={[styles.text__numbers]}>
+                                {item.length === null ? "0" : item.name}
+                              </Text>
+                            </View>
+                          ))}
                         </View>
-                      ))}
-                      {activated.tickets.slice(3).map((item, index) => (
-                        <View style={styles.block__number_right} key={index}>
-                          <Text style={[styles.text__numbers]}>
-                            {item.length === null ? "0" : item.name}
-                          </Text>
-                        </View>
-                      ))}
+                        <TouchableOpacity
+                          style={[
+                            styles.block__button,
+                            { borderColor: activated.color },
+                          ]}
+                        >
+                          <Text style={styles.text__button}>Все билеты</Text>
+                        </TouchableOpacity>
+                      </View>
                     </View>
-                    <TouchableOpacity
-                      style={[
-                        styles.block__button,
-                        { borderColor: activated.color },
-                      ]}
-                    >
-                      <Text style={styles.text__button}>Все билеты</Text>
-                    </TouchableOpacity>
-                  </View>
-                ))
-              )}
-            </LinearGradient>
-          </View>
+                  ))
+                )}
+              </LinearGradient>
+            </View>
+          }
           <View style={styles.button}>
             <NewButtonComponent
               title={"Магазин билетов"}
@@ -205,10 +233,10 @@ const styles = StyleSheet.create({
     height: "auto",
     paddingHorizontal: 15,
     borderRadius: 8,
-    borderWidth: 1,
-    borderColor: elemBackgroundColor3,
-    borderStyle: "solid",
-    borderRadius: 10,
+    // borderWidth: 1,
+    // borderColor: elemBackgroundColor3,
+    // borderStyle: "solid",
+    // borderRadius: 10,
   },
   activated__title: {
     fontFamily: FONTS.medium,
