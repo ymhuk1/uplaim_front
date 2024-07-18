@@ -27,18 +27,17 @@ export default function ProfileScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [cities, setCities] = useState("");
   const [currentCity, setCurrentCity] = useState("");
-  console.log("currentCity", currentCity);
-  console.log("clientData", clientData.city);
 
   const handleModal = () => {
     setModalVisible(!modalVisible);
   };
 
   const changeCity = async (city) => {
-    setCurrentCity(city);
     if (city !== null) {
-      postCurrentCity(city);
+      await postCurrentCity(city);
     }
+    fetchData();
+    handleModal();
   };
 
   const router = useRouter();
@@ -56,7 +55,7 @@ export default function ProfileScreen() {
   const postCurrentCity = async (city) => {
     try {
       const requestBody = {
-        city: currentCity,
+        city: city,
       };
 
       const url = `${apiBaseUrl}api/edit_client`;
@@ -79,7 +78,7 @@ export default function ProfileScreen() {
 
       const data = await response.json();
       if (response.ok) {
-        console.log("Город успешно добавлен:", data);
+        console.log("Город успешно добавлен:", response.city);
       }
     } catch (error) {
       console.error("Ошибка при изменении города:", error);
@@ -118,7 +117,10 @@ export default function ProfileScreen() {
           const clientData = await clientResponse.json();
           setClientData(clientData.client);
           // console.log("Данные клиента успешно получены:", clientData);
-
+          if (clientData.client.city) {
+            const cityName = clientData.client.city.name;
+            setCurrentCity(cityName);
+          }
           await SecureStore.setItemAsync(
             "clientData",
             JSON.stringify(clientData)
@@ -167,7 +169,7 @@ export default function ProfileScreen() {
                 <TouchableOpacity
                   onPress={() => router.push({ pathname: "/secondary/myData" })}
                 >
-                  <Text style={styles.text}>Константин</Text>
+                  <Text style={styles.text}>{clientData.name}</Text>
                 </TouchableOpacity>
                 <Text style={styles.minText}>Рефералов: 113</Text>
               </View>
@@ -189,9 +191,7 @@ export default function ProfileScreen() {
                 onPress={() => handleModal()}
               >
                 <Text style={styles.textMenu}>
-                  {clientData.city === null
-                    ? "Город не выбран"
-                    : clientData.city}
+                  {clientData.city === null ? "Город не выбран" : currentCity}
                 </Text>
               </TouchableOpacity>
             </View>
