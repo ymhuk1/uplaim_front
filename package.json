@@ -43,7 +43,8 @@
     "react-native-svg": "15.2.0",
     "react-native-swiper": "^1.6.0",
     "react-native-toggle-input": "^1.0.12",
-    "toggle-switch-react-native": "^3.3.0"
+    "toggle-switch-react-native": "^3.3.0",
+    "react-native-webview": "13.8.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

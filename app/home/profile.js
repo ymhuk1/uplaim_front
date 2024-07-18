@@ -14,7 +14,7 @@ import {
   textPrimaryColor,
 } from "../../components/ColorsComponent";
 import * as SecureStore from "expo-secure-store";
-import { Link, router, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { FONTS, HEIGHT, SIZES } from "../../constants/theme";
 import Constants from "expo-constants";
 import { BlurView } from "expo-blur";
@@ -25,10 +25,20 @@ export default function ProfileScreen() {
   const [clientData, setClientData] = useState({});
   const [token, setToken] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
-  const [city, setCity] = useState("");
+  const [cities, setCities] = useState("");
+  const [currentCity, setCurrentCity] = useState("");
+  console.log("currentCity", currentCity);
+  console.log("clientData", clientData.city);
 
   const handleModal = () => {
     setModalVisible(!modalVisible);
+  };
+
+  const changeCity = async (city) => {
+    setCurrentCity(city);
+    if (city !== null) {
+      postCurrentCity(city);
+    }
   };
 
   const router = useRouter();
@@ -43,32 +53,49 @@ export default function ProfileScreen() {
     }
   };
 
-  const postCity = async () => {
+  const postCurrentCity = async (city) => {
     try {
-      const userDataStr = await SecureStore.getItemAsync("userData");
-      if (userDataStr) {
-        const userData = JSON.parse(userDataStr);
-        const headers = {
-          Authorization: userData.token,
-          "Content-Type": "application/json",
-        };
-        const response = await fetch(`${apiBaseUrl}api/edit_client`, {
-          method: "POST",
-          headers,
-          body: JSON.stringify({
-            city: city,
-          }),
-        });
-        if (response.ok) {
-          const data = await response.json();
-          console.log("Город успешно изменен:", data.city);
-        } else {
-          console.error("Ошибка при изменении города");
-        }
+      const requestBody = {
+        city: currentCity,
+      };
+
+      const url = `${apiBaseUrl}api/edit_client`;
+      const userToken = await SecureStore.getItemAsync("userData");
+      const token = userToken && JSON.parse(userToken).token;
+
+      if (!token) {
+        console.error("Город не может быть добавлен: токен не найден.");
+        return;
+      }
+
+      const config = {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: token },
+      };
+      const response = await fetch(url, {
+        ...config,
+        body: JSON.stringify(requestBody),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        console.log("Город успешно добавлен:", data);
       }
     } catch (error) {
-      console.error("Ошибка при изменении города:", error.message);
+      console.error("Ошибка при изменении города:", error);
     }
+  };
+
+  const fetchCity = async () => {
+    fetch(`${apiBaseUrl}api/get_cities`)
+      .then((response) => response.json())
+      .then((data) => {
+        // console.log("Города успешно получены:", data);
+        setCities(data);
+      })
+      .catch((error) => {
+        console.error("Ошибка при получении города:", error);
+      });
   };
 
   const fetchData = async () => {
@@ -90,17 +117,12 @@ export default function ProfileScreen() {
         if (clientResponse.ok) {
           const clientData = await clientResponse.json();
           setClientData(clientData.client);
-          // console.log(
-          //   "Данные клиента успешно получены:",
-          //   clientData.client
-          // );
+          // console.log("Данные клиента успешно получены:", clientData);
 
           await SecureStore.setItemAsync(
             "clientData",
             JSON.stringify(clientData)
           );
-
-          // console.log("clientData", clientData);
         } else {
           console.error("Ошибка при загрузке данных клиента");
         }
@@ -112,6 +134,7 @@ export default function ProfileScreen() {
 
   useEffect(() => {
     fetchData();
+    fetchCity();
   }, []);
 
   return (
@@ -400,27 +423,16 @@ export default function ProfileScreen() {
                   </TouchableOpacity>
                   <Text style={styles.modalText}>Выбор города:</Text>
                   <View style={styles.citysContainer}>
-                    <TouchableOpacity style={styles.button} onPress={() => {}}>
-                      <Text style={styles.cityText}>Краснодар</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={styles.button}
-                      onPress={() => postCity() || setCity("Москва")}
-                    >
-                      <Text style={styles.cityText}>Москва</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={() => {}}>
-                      <Text style={styles.cityText}>Омск</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={() => {}}>
-                      <Text style={styles.cityText}>Оренбург</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={() => {}}>
-                      <Text style={styles.cityText}>Псков</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={() => {}}>
-                      <Text style={styles.cityText}>Самара</Text>
-                    </TouchableOpacity>
+                    {cities.length > 0 &&
+                      cities.map((item, index) => (
+                        <TouchableOpacity
+                          style={styles.button}
+                          onPress={() => changeCity(item.name)}
+                          key={index}
+                        >
+                          <Text style={styles.cityText}>{item.name}</Text>
+                        </TouchableOpacity>
+                      ))}
                   </View>
                 </View>
               </BlurView>

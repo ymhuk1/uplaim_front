@@ -1,29 +1,46 @@
-import { Modal, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  Linking,
+  Modal,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewBase,
+} from "react-native";
 import React, { useState } from "react";
 import { Image, ImageBackground } from "expo-image";
 import { FONTS, HEIGHT } from "../../constants/theme";
 import HeaderComponent from "../../components/HeaderComponent";
-import { elemBackgroundColor, fuchsia, textPrimaryColor } from "../../components/ColorsComponent";
+import {
+  elemBackgroundColor,
+  elemBackgroundColor2,
+  elemBackgroundColor3,
+  fuchsia,
+  textPrimaryColor,
+} from "../../components/ColorsComponent";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import Constants from "expo-constants";
+import WebView from "react-native-webview";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
 export default function About() {
   const [textValue, setTextValue] = useState("О приложении");
   const [pdfModalVisible, setPdfModalVisible] = useState(false);
-
+  const [currentPdfFile, setCurrentPdfFile] = useState();
+  console.log(currentPdfFile);
 
   const pdfSourseLinkAcceptance = {
     uri: `${apiBaseUrl}acceptance`,
-    cache: "true",
+    caches: true,
   };
   const pdfSourseLinkAgreement = {
     uri: `${apiBaseUrl}agreement`,
-    cache: "true",
+    caches: true,
   };
-  const pdfSourseLinkPrivacy = { uri: `${apiBaseUrl}privacy`, cache: "true" };
-
+  const pdfSourseLinkPrivacy = { uri: `${apiBaseUrl}privacy`, caches: true };
 
   const pdfModalToggle = () => {
     setPdfModalVisible(!pdfModalVisible);
@@ -47,7 +64,13 @@ export default function About() {
               width={25}
               height={25}
             />
-            <TouchableOpacity onPress={() => pdfModalToggle()}>
+            <TouchableOpacity
+              onPress={() =>
+                pdfModalToggle() ||
+                setCurrentPdfFile(pdfSourseLinkAcceptance.uri)
+              }
+              style={styles.info__item}
+            >
               <View style={styles.info__item}>
                 <Text style={styles.text_medium}>Руководство пользователя</Text>
               </View>
@@ -63,9 +86,17 @@ export default function About() {
               width={25}
               height={25}
             />
-            <View style={styles.info__item}>
-              <Text style={styles.text_medium}>Договоры и согласия</Text>
-            </View>
+            <TouchableOpacity
+              onPress={() =>
+                pdfModalToggle() ||
+                setCurrentPdfFile(pdfSourseLinkAgreement.uri)
+              }
+              style={styles.info__item}
+            >
+              <View style={styles.info__item}>
+                <Text style={styles.text_medium}>Договоры и согласия</Text>
+              </View>
+            </TouchableOpacity>
             <Icon name="arrow-forward-ios" size={40} color={fuchsia} />
           </View>
           <View style={styles.info__container_inner}>
@@ -77,11 +108,18 @@ export default function About() {
               width={25}
               height={25}
             />
-            <View style={styles.info__item}>
-              <Text style={styles.text_medium}>
-                Политика конфиденциальности
-              </Text>
-            </View>
+            <TouchableOpacity
+              onPress={() =>
+                pdfModalToggle() || setCurrentPdfFile(pdfSourseLinkPrivacy.uri)
+              }
+              style={styles.info__item}
+            >
+              <View style={styles.info__item}>
+                <Text style={styles.text_medium}>
+                  Политика конфиденциальности
+                </Text>
+              </View>
+            </TouchableOpacity>
             <Icon name="arrow-forward-ios" size={40} color={fuchsia} />
           </View>
           <View style={styles.logo__container}>
@@ -112,7 +150,6 @@ export default function About() {
           transparent={true}
         >
           <View style={styles.pdfView}>
-            <StatusBar barStyle="light-content" backgroundColor={elemBackgroundColor} />
             <TouchableOpacity
               onPress={() => pdfModalToggle()}
               style={styles.closePopup}
@@ -126,7 +163,7 @@ export default function About() {
                 height={40}
               />
             </TouchableOpacity>
-           <WebView source={pdfSourseLinkAcceptance} />
+            <WebView source={{ uri: currentPdfFile }}/>
           </View>
         </Modal>
       )}
@@ -176,12 +213,15 @@ const styles = StyleSheet.create({
     columnGap: 10,
   },
   pdfView: {
+    flex: 1,
     minHeight: HEIGHT.height,
-    backgroundColor: elemBackgroundColor,
-    paddingHorizontal: 15,
+    backgroundColor: elemBackgroundColor3,
     paddingVertical: 10,
+    rowGap: 10,
+    borderRadius: 20,
   },
   closePopup: {
     alignItems: "flex-end",
+    paddingRight: 10,
   },
 });

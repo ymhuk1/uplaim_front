@@ -19,7 +19,7 @@
       "supportsTablet": false
     },
     "android": {
-      "versionCode": 2,
+      "versionCode": 3,
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#24224A"
@@ -33,9 +33,7 @@
     "plugins": [
       "expo-router",
       "expo-font",
-      "expo-secure-store",
-      "@config-plugins/react-native-blob-util",
-      "@config-plugins/react-native-pdf"
+      "expo-secure-store"
     ],
     "extra": {
       "API_PROD": "https://uplaim.com/",
