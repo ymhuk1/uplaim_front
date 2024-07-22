@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "725667736255",
-    "project_id": "uplaim-6bc9e",
-    "storage_bucket": "uplaim-6bc9e.appspot.com"
+    "project_number": "36401919694",
+    "project_id": "uplaim",
+    "storage_bucket": "uplaim.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:725667736255:android:13cd86fadd244912f0b40a",
+        "mobilesdk_app_id": "1:36401919694:android:f82533ab0bab1f6274829f",
         "android_client_info": {
           "package_name": "com.viktorka.uplaim"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBPTIXOogKKLf5R5XnqWQ0iBblFDNbZZVo"
+          "current_key": "AIzaSyCpyk7H0_7S2798E1wMbHFLaRBPVdtE5bo"
         }
       ],
       "services": {
