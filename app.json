@@ -24,7 +24,8 @@
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#24224A"
       },
-      "package": "com.viktorka.uplaim"
+      "package": "com.viktorka.uplaim",
+      "googleServicesFile": "./google-services.json"
     },
     "scheme": "uplaim",
     "web": {
