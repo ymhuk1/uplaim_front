@@ -289,15 +289,15 @@ export default function Company() {
           <View style={styles.buttonContainer}>
             {clientData.companies &&
             clientData.companies.some((c) => c.id === company.id) ? (
-              <NewButtonComponent
-                title={"Рекомендовать"}
-                filled={true}
-                height={54}
-                fontSize={18}
-                onPress={() => {
-                  router.push({ pathname: "/secondary/recommendations" });
-                }}
-              />
+                <NewButtonComponent
+                  title={"Рекомендовать"}
+                  filled={true}
+                  height={54}
+                  fontSize={18}
+                  onPress={() => {
+                    router.push({ pathname: "/secondary/recommendations" });
+                  }}
+                />
             ) : (
               <NewButtonComponent
                 title={buttonText}

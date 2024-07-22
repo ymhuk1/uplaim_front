@@ -202,7 +202,6 @@ export default function NewCreateExchangeScreen() {
       if (companiesResponse.ok) {
         const companiesData = await companiesResponse.json();
         setCompaniesData(companiesData.companies);
-
       } else {
         console.error("Ошибка при загрузке данных компании");
       }
@@ -271,7 +270,7 @@ export default function NewCreateExchangeScreen() {
               title={button.title}
               filled={typeDeal === button.typeDeal}
               empty={typeDeal !== button.typeDeal}
-              height={38}
+              height={45}
               width={button.width}
               fontSize={12}
               onPress={() => {
@@ -454,7 +453,7 @@ export default function NewCreateExchangeScreen() {
       }
       style={styles.container}
       showsVerticalScrollIndicator={false}
-    //   scrollEnabled={false}
+      //   scrollEnabled={false}
     >
       <ImageBackground
         source={require("../../assets/background.png")}
@@ -465,14 +464,14 @@ export default function NewCreateExchangeScreen() {
           <HeaderComponent text={textValue} secondary={true} />
           <View style={styles.createExchangeContainer}>
             {renderButtons([
-              { title: "Обменять", typeDeal: "exchange", width: 80 },
-              { title: "Купить", typeDeal: "buy", width: 80 },
+              { title: "Обменять", typeDeal: "exchange",},
+              { title: "Купить", typeDeal: "buy",  },
               {
-                title: "Обменять или продать",
+                title: "Обменять\n или продать",
                 typeDeal: "exchange_sell",
-                width: 100,
+                
               },
-              { title: "Продать", typeDeal: "sell", width: 80 },
+              { title: "Продать", typeDeal: "sell", },
             ])}
             {(typeDeal === "exchange" || typeDeal === "exchange_sell") && (
               <View>

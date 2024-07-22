@@ -109,7 +109,6 @@ export default function LoginScreen() {
   const [notification, setNotification] = useState();
   const notificationListener = useRef();
   const responseListener = useRef();
-  const [pushToken, setPushToken] = useState();
 
   useEffect(() => {
     registerForPushNotificationsAsync()
