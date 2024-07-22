@@ -27,10 +27,10 @@ export default function SwitchComponent({ isEnabled, onToggle }) {
                 <Image
                     contentFit="contain"
                     contentPosition={"center"}
-                    source={require('../assets/up_g.svg')}
+                    source={require('../assets/up.svg')}
                     width={32}
                     height={24}
-                    style={styles.icon}/>
+                    style={styles.iconOff}/>
             )}
 
 
@@ -53,5 +53,9 @@ const styles = StyleSheet.create({
     },
     icon: {
         marginLeft: 10,
+    },
+    iconOff: {
+        marginLeft: 10,
+        opacity: 0.5
     },
 });
