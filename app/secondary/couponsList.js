@@ -63,12 +63,12 @@ export default function CouponsList() {
           name: "Все",
           icon: "/static/img/category/2/photo/category2.png",
         },
-        ...categoriesData.categories,
+        ...categoriesData,
       ];
 
       // Set categories and companies data
       setCategories(allCategories);
-      setCoupons(couponsData.coupons);
+      setCoupons(couponsData);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -90,8 +90,8 @@ export default function CouponsList() {
     setSelectedCategoryId(id);
   };
 
-  console.log("coupons: " + coupons);
-  console.log("selectedCategoryId: " + selectedCategoryId);
+  // console.log("coupons: " + coupons);
+  // console.log("selectedCategoryId: " + selectedCategoryId);
   return (
     <ScrollView
       refreshControl={
@@ -113,87 +113,99 @@ export default function CouponsList() {
               horizontal
               showsHorizontalScrollIndicator={false}
             >
-              {categories.map((item, index) => {
-                return (
-                  <TouchableOpacity
-                    key={item.id}
-                    onPress={() => handleCategoryClick(item.id)}
-                    activeOpacity={0.7}
-                  >
-                    <View
-                      style={[
-                        styles.story,
-                        selectedCategoryId === item.id &&
-                          styles.selectedCategory,
-                      ]}
-                    >
-                      <Image
-                        contentFit="contain"
-                        contentPosition="center"
-                        transition={0}
-                        source={{ uri: apiBaseUrl + item.icon }}
-                        width={46}
-                        height={46}
-                        style={styles.iconStories}
-                      />
-                      <View style={styles.textContainer}>
-                        <Text style={styles.textStories} numberOfLines={2}>{item.name}</Text>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                );
-              })}
+              {categories.length > 0
+                ? categories.map((item, index) => {
+                    return (
+                      <TouchableOpacity
+                        key={item.id}
+                        onPress={() => handleCategoryClick(item.id)}
+                        activeOpacity={0.7}
+                      >
+                        <View
+                          style={[
+                            styles.story,
+                            selectedCategoryId === item.id &&
+                              styles.selectedCategory,
+                          ]}
+                        >
+                          <Image
+                            contentFit="contain"
+                            contentPosition="center"
+                            transition={0}
+                            source={{ uri: apiBaseUrl + item.icon }}
+                            width={46}
+                            height={46}
+                            style={styles.iconStories}
+                          />
+                          <View style={styles.textContainer}>
+                            <Text style={styles.textStories} numberOfLines={2}>
+                              {item.name === "Фитнес-центр"
+                                ? "Фитнес-\nцентр"
+                                : item.name}
+                            </Text>
+                          </View>
+                        </View>
+                      </TouchableOpacity>
+                    );
+                  })
+                : null}
             </ScrollView>
           </View>
           <View style={styles.couponsContainer}>
-            {coupons
-              .filter(
-                (item) =>
-                  selectedCategoryId === null ||
-                  (item.company.category_id &&
-                    item.company.category_id === selectedCategoryId)
-              )
-              .map((item, index) => (
-                <View key={item.id} style={styles.view}>
-                  <View style={styles.itemActivity}>
-                    <View
-                      style={[
-                        styles.backActivity,
-                        { backgroundColor: `${item.company.color}20` },
-                      ]}
-                    >
-                      <Text
-                        style={[styles.activity, { color: item.company.color }]}
+            {coupons.length > 0 ? (
+              coupons
+                .filter(
+                  (item) =>
+                    selectedCategoryId === null ||
+                    (item.company.category_id &&
+                      item.company.category_id === selectedCategoryId)
+                )
+                .map((item, index) => (
+                  <View key={item.id} style={styles.view}>
+                    <View style={styles.itemActivity}>
+                      <View
+                        style={[
+                          styles.backActivity,
+                          { backgroundColor: `${item.color}20` },
+                        ]}
                       >
-                        {item.company.category}
-                      </Text>
+                        <Text style={[styles.activity, { color: item.color }]}>
+                          {item.category}
+                        </Text>
+                      </View>
+                    </View>
+                    <View>
+                      <View style={styles.logoContainer}>
+                        <Image
+                          contentFit="contain"
+                          contentPosition={"center"}
+                          source={
+                            item.company.main_photo
+                              ? apiBaseUrl + item.company.main_photo
+                              : require("../../assets/no-photo-coupon.png")
+                          }
+                          width={80}
+                          height={80}
+                          style={styles.logo}
+                        />
+                      </View>
+                      <View style={styles.couponContainer}>
+                        <Text style={styles.nameCoupon}>{item.company.name}</Text>
+                        <Text style={styles.deskCoupon} 
+                        // numberOfLines={3}
+                        >
+                          {item.description}
+                        </Text>
+                        <Text style={styles.dateCoupon}>
+                          {formatDate(item.created_at)}
+                        </Text>
+                      </View>
                     </View>
                   </View>
-                  <View>
-                    <View style={styles.logoContainer}>
-                      <Image
-                        contentFit="contain"
-                        contentPosition={"center"}
-                        source={
-                          item.company.photo
-                            ? apiBaseUrl + item.company.photo
-                            : require("../../assets/no-photo-coupon.png")
-                        }
-                        width={80}
-                        height={80}
-                        style={styles.logo}
-                      />
-                    </View>
-                    <View style={styles.couponContainer}>
-                      <Text style={styles.nameCoupon}>{item.company.name}</Text>
-                      <Text style={styles.deskCoupon} numberOfLines={2}>{item.description}</Text>
-                      <Text style={styles.dateCoupon}>
-                        {formatDate(item.date)}
-                      </Text>
-                    </View>
-                  </View>
-                </View>
-              ))}
+                ))
+            ) : (
+              <Text style={styles.text2}>Нет активных купонов</Text>
+            )}
           </View>
         </View>
       </ImageBackground>
@@ -213,8 +225,6 @@ const styles = StyleSheet.create({
   },
   containerView: {
     marginHorizontal: 15,
-    marginBottom: 80,
-    minHeight: 760,
   },
   textContainer2: {
     flexDirection: "row",
@@ -230,9 +240,7 @@ const styles = StyleSheet.create({
 
   storiesContainer: {
     overflow: "hidden",
-    flexDirection: "row",
     marginBottom: 30,
-    marginRight: -15,
     marginTop: 20,
   },
   story: {
@@ -257,20 +265,20 @@ const styles = StyleSheet.create({
   },
   textStories: {
     fontSize: 14,
-    color: "white",
+    color: textPrimaryColor,
     fontFamily: FONTS.medium,
   },
   couponsContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    justifyContent: "space-between",
+    gap: 15,
   },
   view: {
-    width: "48%",
+    flex: 1,
+    paddingHorizontal: 10,
+    paddingVertical: 7,
     borderRadius: 12,
     backgroundColor: "#24224A",
-    marginBottom: 15,
-    height: 240,
   },
   itemActivity: {
     alignItems: "flex-start",
@@ -293,10 +301,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   textNameContainer: {
-    height: 80,
-    alignItems: "center",
-    justifyContent: "center",
-    marginHorizontal: 10,
+    // height: 80,
+    // alignItems: "center",
+    // justifyContent: "center",
+    // marginHorizontal: 10,
   },
   nameCompany: {
     color: textPrimaryColor,
@@ -308,11 +316,15 @@ const styles = StyleSheet.create({
     borderColor: "#9B51E0",
   },
   couponContainer: {
+    flex: 1,
+    paddingHorizontal: 5,
+    // height: 120,
     alignItems: "center",
+    rowGap: 10,
   },
   nameCoupon: {
     fontFamily: FONTS.medium,
-    color: "white",
+    color: textPrimaryColor,
     fontSize: 16,
     lineHeight: 20,
   },
@@ -320,17 +332,15 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.light,
     lineHeight: 14,
     fontSize: 14,
-    marginVertical: 7,
-    color: "white",
-    fontWeight: "300",
-    width: 120,
+    paddingHorizontal: 15,
+    color: textPrimaryColor,
     textAlign: "center",
+    marginBottom: "auto",
   },
   dateCoupon: {
     fontFamily: FONTS.light,
     fontSize: 12,
     lineHeight: 20,
-    fontWeight: "300",
     color: "#9A95B2",
   },
 });

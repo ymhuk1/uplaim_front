@@ -24,7 +24,7 @@ export default function Qrcode() {
 
   const itemsPerSlide1 = 4;
   const itemHeight1 = 265;
-  let slideHeight1 = 400;
+  let slideHeight1 = 550;
   const groupedData1 = [];
 
   if (myCompanies.length === 1 || myCompanies.length === 0) {

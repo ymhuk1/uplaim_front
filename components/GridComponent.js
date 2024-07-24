@@ -26,7 +26,7 @@ import NewButtonComponent from "./NewButtonComponent";
 import TagComponent from "./TagComponent";
 import QRCodeComponent from "./QRCodeComponent";
 import { BlurView } from "expo-blur";
-import { FONTS, HEIGHT } from "../constants/theme";
+import { FONTS, HEIGHT, WIDTH } from "../constants/theme";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
@@ -47,6 +47,8 @@ const GridComponent = ({
   const [itemState, setItemState] = useState({});
   const [openQRCode, setOpenQRCode] = useState(false);
   const [hideButtonGet, setHideButtonGet] = useState(true);
+  const [currentCompany, setCurrentCompany] = useState();
+  const [currentTag, setCurrentTag] = useState();
 
   const router = useRouter();
 
@@ -182,7 +184,11 @@ const GridComponent = ({
           )}
           {coupon && (
             <TouchableOpacity
-              onPress={() => handleClick(item)}
+              onPress={() =>
+                handleClick(item) ||
+                setCurrentCompany(item.company.name) ||
+                setCurrentTag(item.company.tags)
+              }
               style={styles.elemContainer}
             >
               <View style={styles.itemActivity}>
@@ -193,7 +199,7 @@ const GridComponent = ({
                   ]}
                 >
                   <Text style={[styles.activity, { color: item.color }]}>
-                    {item.category}
+                    {item.category ? item.category : item.category?.name}
                   </Text>
                 </View>
               </View>
@@ -203,8 +209,8 @@ const GridComponent = ({
                     contentFit="contain"
                     contentPosition={"center"}
                     source={
-                      item.photo
-                        ? apiBaseUrl + item.photo
+                      item.company?.main_photo
+                        ? apiBaseUrl + item.company?.main_photo
                         : require("../assets/no-photo-coupon.png")
                     }
                     width={80}
@@ -213,8 +219,10 @@ const GridComponent = ({
                   />
                 </View>
                 <View style={styles.couponContainer}>
-                  <Text style={styles.nameCoupon}>{item.name}</Text>
-                  <Text style={styles.deskCoupon} numberOfLines={2}>
+                  <Text style={styles.nameCoupon}>
+                    {item.company?.name ? item.company.name : item.name}
+                  </Text>
+                  <Text style={styles.deskCoupon} numberOfLines={3}>
                     {item.description}
                   </Text>
                   <Text style={styles.dateCoupon}>{formatDate(item.date)}</Text>
@@ -231,7 +239,7 @@ const GridComponent = ({
                     intensity={40}
                     blurReductionFactor={10}
                     experimentalBlurMethod={"dimezisBlurView"}
-                    style={styles.centeredView}
+                    style={styles.blurView}
                   >
                     <StatusBar
                       barStyle="light-content"
@@ -250,8 +258,8 @@ const GridComponent = ({
                               contentPosition={"center"}
                               transition={1000}
                               source={require("../assets/close.svg")}
-                              width={36}
-                              height={36}
+                              width={40}
+                              height={40}
                             />
                           </TouchableOpacity>
                         </View>
@@ -261,8 +269,8 @@ const GridComponent = ({
                             contentPosition={"center"}
                             transition={1000}
                             source={
-                              item.photo
-                                ? apiBaseUrl + item.photo
+                              item.company?.main_photo
+                                ? apiBaseUrl + item.company?.main_photo
                                 : require("../assets/no-photo-coupon.png")
                             }
                             width={74}
@@ -270,10 +278,8 @@ const GridComponent = ({
                             style={[styles.logo, { borderRadius: 10 }]}
                           />
                           <View style={styles.infoTopContainer}>
-                            <View style={styles.textTopContainer}>
-                              <Text style={styles.textTop}>{item.name}</Text>
-                            </View>
-                            {/* <TagComponent tags={item.company.tags}/> */}
+                            <Text style={styles.textTop}>{currentCompany}</Text>
+                            <TagComponent tags={currentTag} />
                           </View>
                         </View>
                         <Text style={styles.description}>
@@ -377,7 +383,9 @@ const GridComponent = ({
                 </View>
               </Link>
               <View style={styles.textNameCompanyContainer}>
-                <Text style={styles.textNameCompany}>{item.name}</Text>
+                <Text style={styles.textNameCompany} numberOfLines={1}>
+                  {item.name}
+                </Text>
               </View>
               <View style={styles.ballsContainerQR}>
                 <View style={styles.ballsHideContainer}>
@@ -422,7 +430,10 @@ const GridComponent = ({
                   style={styles.dopInfoCashback}
                   colors={elemGradientColors2}
                 >
-                  <Text style={styles.dopInfoCashbackText}>Кешбэк 10%</Text>
+                  <Text style={styles.dopInfoCashbackText}>
+                    Кешбэк {item.cashback === null ? 0 : item.cashback.cashback}
+                    %
+                  </Text>
                 </LinearGradient>
                 <Image
                   contentFit="contain"
@@ -556,24 +567,31 @@ const styles = StyleSheet.create({
     color: "white",
   },
   couponContainer: {
+    height: 110,
     alignItems: "center",
+    rowGap: 7,
   },
   nameCoupon: {
     color: "white",
     fontSize: 16,
     fontFamily: FONTS.medium,
+    paddingHorizontal: 20,
   },
   deskCoupon: {
-    marginVertical: 7,
+    fontFamily: FONTS.light,
+    // marginVertical: 7,
     color: "white",
     fontSize: 14,
-    fontWeight: "300",
-    width: 120,
+    lineHeight: 14,
+    // width: 120,
+    paddingHorizontal: 30,
     textAlign: "center",
+    marginBottom: "auto",
   },
   dateCoupon: {
     fontSize: 12,
-    fontWeight: "300",
+    lineHeight: 20,
+    fontFamily: FONTS.light,
     color: "#9A95B2",
   },
   companySliderContainer: {},
@@ -587,19 +605,22 @@ const styles = StyleSheet.create({
   },
   companyDesc: {
     fontSize: 14,
-    color: "white",
+    color: textPrimaryColor,
     margin: 10,
   },
-  centeredView: {
+  blurView: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.3)",
-    width: "100%",
+  },
+  centeredView: {
+    // padding: 20,
+    // justifyContent: "center",
+    // // minHeight: HEIGHT.height,
+    // // width: "100%",
   },
   modalView: {
     // height: 400,
-    width: "94%",
+    width: WIDTH.width,
     backgroundColor: elemBackgroundColor,
     borderRadius: 20,
     padding: 20,
@@ -611,6 +632,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+    // marginHorizontal: 10,
   },
   buttonClose: {
     // position: "absolute",
@@ -623,13 +645,15 @@ const styles = StyleSheet.create({
   },
   topContainer: {
     flexDirection: "row",
+    alignItems: "center",
+    columnGap: 15,
   },
   infoTopContainer: {
-    marginLeft: 15,
+    flex: 1,
   },
   textTopContainer: {
-    flexDirection: "row",
-    alignItems: "flex-end",
+    // flexDirection: "row",
+    // alignItems: "flex-end",
     marginBottom: 15,
   },
   logo: {
@@ -639,14 +663,14 @@ const styles = StyleSheet.create({
   textTop: {
     fontFamily: FONTS.medium,
     fontSize: 24,
-    color: "white",
-    marginBottom: -5,
-    marginRight: 5,
+    color: textPrimaryColor,
+    // marginBottom: -5,
+    // paddingRight: 5,
   },
   description: {
     fontSize: 24,
     fontFamily: FONTS.medium,
-    color: "white",
+    color: textPrimaryColor,
     marginVertical: 15,
   },
   descriptionSmall: {
@@ -657,7 +681,7 @@ const styles = StyleSheet.create({
   textNameCompanyContainer: {
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: 10,
+    // marginBottom: 10,
   },
   textNameCompany: {
     color: textPrimaryColor,

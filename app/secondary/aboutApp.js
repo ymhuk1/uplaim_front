@@ -30,7 +30,6 @@ export default function About() {
   const [textValue, setTextValue] = useState("О приложении");
   const [pdfModalVisible, setPdfModalVisible] = useState(false);
   const [currentPdfFile, setCurrentPdfFile] = useState();
-  console.log(currentPdfFile);
 
   const pdfSourseLinkAcceptance = {
     uri: `${apiBaseUrl}acceptance`,

@@ -41,6 +41,7 @@ export default function Company() {
   const [clientData, setClientData] = useState({});
   const [isAssociated, setIsAssociated] = useState(false);
   const [buttonText, setButtonText] = useState("Присоединиться");
+  // console.log("company", company);
 
   const router = useRouter();
 
@@ -52,9 +53,9 @@ export default function Company() {
   const groupedData1 = [];
 
   const itemsPerSlide3 = 4;
-  const itemHeight3 = 240;
+  const itemHeight3 = 255;
   let slideHeight3 = 520;
-  const groupedData3 = [];  
+  const groupedData3 = [];
 
   if (company?.news && company.news.length > 0) {
     for (let i = 0; i < company.news.length; i += itemsPerSlide1) {
@@ -164,7 +165,7 @@ export default function Company() {
 
       if (companyResponse.ok) {
         const companyData = await companyResponse.json();
-        console.log("Данные компании успешно получены:", companyData);
+        // console.log("Данные компании успешно получены:", companyData);
         setCompany(companyData);
       } else {
         console.error(
@@ -185,8 +186,7 @@ export default function Company() {
       if (clientResponse.ok) {
         const clientData = await clientResponse.json();
         const { client } = clientData;
-        console.log("Данные клиента успешно получены:", client);
-        
+        // console.log("Данные клиента успешно получены:", client);
         setClientData(client);
       } else {
         console.error(
@@ -238,7 +238,9 @@ export default function Company() {
             />
             <View style={styles.infoTopContainer}>
               <View style={styles.textTopContainer}>
-                <Text style={styles.textTop}>{company.name}</Text>
+                <Text style={styles.textTop} numberOfLines={2}>
+                  {company.name}
+                </Text>
                 <Link
                   href={{
                     pathname: "/secondary/about-company",
@@ -289,15 +291,15 @@ export default function Company() {
           <View style={styles.buttonContainer}>
             {clientData.companies &&
             clientData.companies.some((c) => c.id === company.id) ? (
-                <NewButtonComponent
-                  title={"Рекомендовать"}
-                  filled={true}
-                  height={54}
-                  fontSize={18}
-                  onPress={() => {
-                    router.push({ pathname: "/secondary/recommendations" });
-                  }}
-                />
+              <NewButtonComponent
+                title={"Рекомендовать"}
+                filled={true}
+                height={54}
+                fontSize={18}
+                onPress={() => {
+                  router.push({ pathname: "/secondary/recommendations" });
+                }}
+              />
             ) : (
               <NewButtonComponent
                 title={buttonText}
@@ -403,10 +405,10 @@ export default function Company() {
                         <TouchableOpacity
                           style={styles.tariffConnect}
                           onPress={() =>
-                              router.push({
-                                pathname: "/secondary/tariffs",
-                                params: { id: tariff.id },
-                              })
+                            router.push({
+                              pathname: "/secondary/tariffs",
+                              params: { id: tariff.id },
+                            })
                           }
                         >
                           <Text
@@ -554,16 +556,14 @@ const styles = StyleSheet.create({
   },
   topContainer: {
     flexDirection: "row",
-    alignItems: "center",
     marginVertical: 12,
   },
   infoTopContainer: {
     marginLeft: 15,
   },
   textTopContainer: {
+    maxWidth: 244,
     flexDirection: "row",
-    alignItems: "flex-end",
-    // marginBottom: 15,
   },
   logo: {
     borderRadius: 100,
@@ -573,9 +573,7 @@ const styles = StyleSheet.create({
   textTop: {
     fontFamily: FONTS.medium,
     fontSize: 24,
-    color: "white",
-    marginBottom: -5,
-    marginRight: 5,
+    color: textPrimaryColor,
   },
   ratingText: {
     color: "white",
@@ -590,7 +588,6 @@ const styles = StyleSheet.create({
   slider: {},
   buttonContainer: {
     alignItems: "center",
-    // marginTop: -10,
     marginBottom: 20,
   },
   tariffContainer: {
@@ -607,7 +604,6 @@ const styles = StyleSheet.create({
     marginVertical: 2,
   },
   tariffActual: {
-    // paddingVertical: 1,
     borderRadius: 8,
     marginBottom: -10,
     zIndex: 10,

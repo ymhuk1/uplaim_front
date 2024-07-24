@@ -45,7 +45,7 @@ export default function MainScreen() {
   const itemsPerSlide3 = 4;
   const itemHeight1 = 180;
   const itemHeight2 = 150;
-  const itemHeight3 = 240;
+  const itemHeight3 = 255;
   let slideHeight1 = 600;
   let slideHeight2 = 350;
   let slideHeight3 = 520;

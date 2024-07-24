@@ -225,7 +225,10 @@ export default function CompanyList() {
                         height={16}
                         style={styles.taskMainStatusImage}
                       />
-                      <Text style={styles.dopInfoBallsText}>86 баллов</Text>
+                      <Text style={styles.dopInfoBallsText}>
+                        {item.welcome_balls === null ? 0 : item.welcome_balls}{" "}
+                        баллов
+                      </Text>
                     </View>
                     <Text style={styles.dopInfoWelcomeText}>
                       Приветственных
@@ -234,7 +237,13 @@ export default function CompanyList() {
                       style={styles.dopInfoCashbackContainer}
                       colors={elemGradientColors2}
                     >
-                      <Text style={styles.dopInfoCashbackText}>Кешбэк 10%</Text>
+                      <Text style={styles.dopInfoCashbackText}>
+                        Кешбэк{" "}
+                        {item.cashback.cashback === null
+                          ? 0
+                          : item.cashback.cashback}
+                        %
+                      </Text>
                     </LinearGradient>
                   </View>
                 </View>
