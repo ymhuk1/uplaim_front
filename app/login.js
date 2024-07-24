@@ -9,6 +9,7 @@ import {
   StatusBar,
   ActivityIndicator,
   Platform,
+  Modal,
 } from "react-native";
 import { Image, ImageBackground } from "expo-image";
 import Constants from "expo-constants";
@@ -33,6 +34,8 @@ import {
   checkboxStyles,
   containerViewIMGStyles,
 } from "../styles/loginStyles";
+import { FONTS } from "../constants/theme";
+import WebView from "react-native-webview";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -103,6 +106,7 @@ export default function LoginScreen() {
   const [error, setError] = useState("");
   const [checkboxError, setCheckboxError] = useState("");
   const [token, setToken] = useState(null);
+  const [pdfModalVisible, setPdfModalVisible] = useState();
   const deviceInfo = Constants.deviceName;
 
   const [expoPushToken, setExpoPushToken] = useState("");
@@ -231,6 +235,10 @@ export default function LoginScreen() {
     }
   };
 
+  const pdfModalToggle = () => {
+    setPdfModalVisible(!pdfModalVisible);
+  };
+
   return (
     <ScrollView
       style={containerStyles}
@@ -293,14 +301,14 @@ export default function LoginScreen() {
           </View>
           <View style={inputStyles}>
             <InputComponent
-              placeholder="Введите номер"
+              placeholder="Введите номер телефона"
               keyboardType="numeric"
               value={phoneNumber}
               onChangeText={setPhoneNumber}
               error={error}
             />
             <InputComponent
-              placeholder="Реферальный код"
+              placeholder="Реферальный код (необязательно)"
               value={referralCode}
               onChangeText={setReferralCode}
             />
@@ -310,7 +318,27 @@ export default function LoginScreen() {
               isChecked={isChecked}
               onToggle={setIsChecked}
               error={checkboxError}
-              title={"Я согласен с Политикой конфиденциальности"}
+              title={
+                <>
+                  <TouchableOpacity
+                    onPress={() => pdfModalToggle()}
+                    style={styles.privacyContainer}
+                  >
+                    <Text
+                      style={{
+                        marginLeft: 8,
+                        color: "rgba(255, 255, 255, 0.2)",
+                        fontFamily: FONTS.regular,
+                      }}
+                    >
+                      {"Я согласен с "}
+                      <Text style={styles.privacyPolicy}>
+                        Политикой конфиденциальности
+                      </Text>
+                    </Text>
+                  </TouchableOpacity>
+                </>
+              }
             />
           </View>
           <View style={buttonStyles}>
@@ -325,6 +353,30 @@ export default function LoginScreen() {
           </View>
         </View>
         <StatusBar backgroundColor="transparent" barStyle="light-content" />
+        {pdfModalVisible && (
+          <Modal
+            animationType="fade"
+            isVisible={pdfModalVisible}
+            transparent={true}
+          >
+            <View style={styles.pdfView}>
+              <TouchableOpacity
+                onPress={() => pdfModalToggle()}
+                style={styles.closePopup}
+              >
+                <Image
+                  contentFit="contain"
+                  contentPosition={"center"}
+                  transition={1000}
+                  source={require("../assets/close.svg")}
+                  width={40}
+                  height={40}
+                />
+              </TouchableOpacity>
+              <WebView source={{ uri: "https://uplaim.com/privacy" }} />
+            </View>
+          </Modal>
+        )}
       </ImageBackground>
     </ScrollView>
   );

@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
-import  { COLORS, SIZES, HEIGHT, FONTS, WIDTH } from "../constants/theme";
+import { COLORS, SIZES, HEIGHT, FONTS, WIDTH } from "../constants/theme";
+import { elemBackgroundColor3 } from "../components/ColorsComponent";
 
 const styles = StyleSheet.create({
   container: {
@@ -84,6 +85,25 @@ const styles = StyleSheet.create({
   buttonSmall: {
     marginBottom: 25,
     width: 260,
+  },
+  privacyContainer: {
+    width: 200,
+  },
+  privacyPolicy: {
+    textDecorationLine: "underline",
+    textDecorationStyle: "solid",
+  },
+  pdfView: {
+    flex: 1,
+    minHeight: HEIGHT.height,
+    backgroundColor: elemBackgroundColor3,
+    paddingVertical: 10,
+    rowGap: 10,
+    borderRadius: 20,
+  },
+  closePopup: {
+    alignItems: "flex-end",
+    paddingRight: 10,
   },
 });
 
