@@ -154,20 +154,6 @@ export default function Gifts() {
         } else {
           console.error("Произошла ошибка при получении данных вопросов");
         }
-
-        //Tickets on sell
-        // const ticketsOnSellResponse = await fetch(
-        //   `${apiBaseUrl}api/tickets_on_sell`
-        // );
-        // if (ticketsOnSellResponse.ok) {
-        //   const data = await ticketsOnSellResponse.json();
-        //   // console.log("Данные ticketsOnSell успешно получены:", data);
-        //   setTicketsOnSell(data);
-        // } else {
-        //   console.error(
-        //     "Произошла ошибка при получении данных билетов на продажу"
-        //   );
-        // }
       }
     } catch (error) {
       console.error("Произошла ошибка при получении данных:", error);

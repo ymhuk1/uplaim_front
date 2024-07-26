@@ -25,6 +25,7 @@ const InputComponent = ({
         style={styles.input}
         type={"custom"}
         options={{ mask: "+7 999 999-99-99" }}
+        maxLength={16}
         placeholderTextColor="rgba(255, 255, 255, 0.2)"
         placeholder={placeholder}
         keyboardType={keyboardType}

@@ -284,7 +284,7 @@ export default function ProfileScreen() {
                 <Text style={styles.textMenu}>Сообщения</Text>
               </View>
             </View> */}
-            {/* <View style={styles.itemMenuContainer}>
+            <View style={styles.itemMenuContainer}>
               <View style={styles.iconMenuContainer}>
                 <Image
                   contentFit="contain"
@@ -303,7 +303,7 @@ export default function ProfileScreen() {
                   <Text style={styles.textMenu}>Мои финансы</Text>
                 </TouchableOpacity>
               </View>
-            </View> */}
+            </View>
             {/* <View style={styles.itemMenuContainer}>
               <View style={styles.iconMenuContainer}>
                 <Image
