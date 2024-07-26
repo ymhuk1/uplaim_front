@@ -265,19 +265,20 @@ export default function NewCreateExchangeScreen() {
       ) : (
         <View style={styles.buttonTypeDeal}>
           {buttonData.map((button) => (
-            <NewButtonComponent
-              key={button.title}
-              title={button.title}
-              filled={typeDeal === button.typeDeal}
-              empty={typeDeal !== button.typeDeal}
-              height={45}
-              width={button.width}
-              fontSize={12}
-              onPress={() => {
-                setTypeDeal(button.typeDeal);
-                resetState();
-              }}
-            />
+              <NewButtonComponent
+                key={button.title}
+                title={button.title}
+                filled={typeDeal === button.typeDeal}
+                empty={typeDeal !== button.typeDeal}
+                height={38}
+                width={button.width}
+                fontSize={12}
+                onPress={() => {
+                  setTypeDeal(button.typeDeal);
+                  resetState();
+                }}
+                exchange={true}
+              />
           ))}
         </View>
       )}
@@ -464,14 +465,13 @@ export default function NewCreateExchangeScreen() {
           <HeaderComponent text={textValue} secondary={true} />
           <View style={styles.createExchangeContainer}>
             {renderButtons([
-              { title: "Обменять", typeDeal: "exchange",},
-              { title: "Купить", typeDeal: "buy",  },
+              { title: "Обменять", typeDeal: "exchange" },
+              { title: "Купить", typeDeal: "buy" },
               {
                 title: "Обменять\n или продать",
                 typeDeal: "exchange_sell",
-                
               },
-              { title: "Продать", typeDeal: "sell", },
+              { title: "Продать", typeDeal: "sell" },
             ])}
             {(typeDeal === "exchange" || typeDeal === "exchange_sell") && (
               <View>
@@ -663,6 +663,8 @@ const styles = StyleSheet.create({
   buttonTypeDeal: {
     flexDirection: "row",
     justifyContent: "space-between",
+    // columnGap: 10,
+    // marginLeft: "auto",
     marginBottom: 15,
   },
   tagContainer: {

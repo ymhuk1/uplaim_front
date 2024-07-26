@@ -22,6 +22,7 @@ const GradientButton = ({
   height,
   fontSize,
   disabled,
+  exchange,
 }) => {
   return (
     <TouchableOpacity onPress={onPress} disabled={onPress === null}>
@@ -30,7 +31,10 @@ const GradientButton = ({
         start={[0.4, -0.9]}
         // end={[  0.1, 0.5 ]}
         colors={disabled ? ["#7c7f86", "#5F5F65"] : ["#7434b7", "#7730e5"]}
-        style={[styles.button, { width: width, height: height }]}
+        style={[
+          exchange ? styles.buttonExchange : styles.button,
+          { width: width, height: height },
+        ]}
       >
         {onPress === null ? (
           <ActivityIndicator size="large" color="white" />
@@ -54,6 +58,7 @@ const NewButtonComponent = ({
   height,
   fontSize,
   disabled,
+  exchange,
 }) => {
   return (
     <View style={styles.containerButton}>
@@ -66,6 +71,7 @@ const NewButtonComponent = ({
             height={height}
             fontSize={fontSize}
             disabled={disabled}
+            exchange={exchange}
           />
         </View>
       )}
@@ -108,6 +114,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     // marginBottom: 10,
   },
+  buttonExchange: {
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   buttonEmpty: {
     borderRadius: 8,
     alignItems: "center",
@@ -120,7 +131,6 @@ const styles = StyleSheet.create({
     fontFamily: FONTS.medium,
     color: "white",
     paddingHorizontal: 12,
-    marginBottom: 3,
     textAlign: "center",
   },
   buttonEmptyDisabled: {

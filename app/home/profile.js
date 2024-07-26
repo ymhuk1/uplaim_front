@@ -169,7 +169,9 @@ export default function ProfileScreen() {
                 <TouchableOpacity
                   onPress={() => router.push({ pathname: "/secondary/myData" })}
                 >
-                  <Text style={styles.text}>{clientData.name}</Text>
+                  <Text style={styles.text}>
+                    {clientData.name ? clientData.name : "Гость"}
+                  </Text>
                 </TouchableOpacity>
                 <Text style={styles.minText}>Рефералов: 113</Text>
               </View>

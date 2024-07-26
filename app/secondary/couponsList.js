@@ -192,7 +192,7 @@ export default function CouponsList() {
                       <View style={styles.couponContainer}>
                         <Text style={styles.nameCoupon}>{item.company.name}</Text>
                         <Text style={styles.deskCoupon} 
-                        // numberOfLines={3}
+                        numberOfLines={3}
                         >
                           {item.description}
                         </Text>
