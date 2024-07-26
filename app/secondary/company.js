@@ -562,7 +562,7 @@ const styles = StyleSheet.create({
     marginLeft: 15,
   },
   textTopContainer: {
-    maxWidth: 244,
+    maxWidth: 210,
     flexDirection: "row",
   },
   logo: {

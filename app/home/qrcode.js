@@ -53,7 +53,7 @@ export default function Qrcode() {
 
         // My companies
         const myCompaniesResponse = await fetch(
-            `${apiBaseUrl}api/my_companies`,
+          `${apiBaseUrl}api/my_companies`,
           { headers }
         );
         if (myCompaniesResponse.ok) {
@@ -114,13 +114,21 @@ export default function Qrcode() {
             />
             <Text style={styles.text2}>Мои компании</Text>
           </View>
-          <SliderComponent
-            qrcode={true}
-            data={groupedData1}
-            itemsPerSlide={itemsPerSlide1}
-            itemHeight={itemHeight1}
-            slideHeight={slideHeight1}
-          />
+          {myCompanies.length > 0 ? (
+            <SliderComponent
+              qrcode={true}
+              data={groupedData1}
+              itemsPerSlide={itemsPerSlide1}
+              itemHeight={itemHeight1}
+              slideHeight={slideHeight1}
+            />
+          ) : (
+            <View
+              style={{ marginTop: 10, marginBottom: 25, alignItems: "center" }}
+            >
+              <Text style={styles.text}>Вы пока не добавили компании</Text>
+            </View>
+          )}
           <View style={styles.textContainer2}>
             <Image
               contentFit="contain"
@@ -131,14 +139,22 @@ export default function Qrcode() {
             />
             <Text style={styles.text2}>Неактивные баллы</Text>
           </View>
-          <SliderComponent
-            qrcode={true}
-            hide={true}
-            data={groupedData1}
-            itemsPerSlide={itemsPerSlide1}
-            itemHeight={itemHeight1}
-            slideHeight={slideHeight1}
-          />
+          {myCompanies.length > 0 ? (
+            <SliderComponent
+              qrcode={true}
+              hide={true}
+              data={groupedData1}
+              itemsPerSlide={itemsPerSlide1}
+              itemHeight={itemHeight1}
+              slideHeight={slideHeight1}
+            />
+          ) : (
+            <View
+              style={{ marginTop: 10, marginBottom: 25, alignItems: "center" }}
+            >
+              <Text style={styles.text}>У вас нет неактивных баллов</Text>
+            </View>
+          )}
         </View>
       </ImageBackground>
     </ScrollView>
