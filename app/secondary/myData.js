@@ -556,8 +556,15 @@ const styles = StyleSheet.create({
   photoModal__item: {
     paddingVertical: 12,
   },
+  containerModal: {
+    flex: 1,
+    justifyContent: "flex-end",
+  },
+  modal: {},
   nameModal_blur: {
     flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
   },
   nameModal__container: {
     paddingHorizontal: 10,
@@ -570,7 +577,7 @@ const styles = StyleSheet.create({
   nameModal__container_inner: {
     marginTop: 20,
     rowGap: 20,
-    marginBottom: 40,
+    marginBottom: 25,
   },
   nameModal__title: {
     fontFamily: FONTS.medium,

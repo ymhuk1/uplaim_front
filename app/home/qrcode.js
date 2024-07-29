@@ -12,7 +12,7 @@ import QRCodeComponent from "../../components/QRCodeComponent";
 import SliderComponent from "../../components/SliderComponent";
 import * as SecureStore from "expo-secure-store";
 import { textPrimaryColor } from "../../components/ColorsComponent";
-import { FONTS } from "../../constants/theme";
+import { FONTS, HEIGHT } from "../../constants/theme";
 import Constants from "expo-constants";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
@@ -164,8 +164,9 @@ export default function Qrcode() {
 const styles = StyleSheet.create({
   container: {},
   containerView: {
+    minHeight: HEIGHT.height,
     marginHorizontal: 15,
-    marginBottom: 80,
+    // marginBottom: 80,
     marginTop: 60,
   },
   textContainerHead: {
