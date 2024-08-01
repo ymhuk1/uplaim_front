@@ -7,6 +7,7 @@ import {
   Pressable,
   TouchableOpacity,
   StatusBar,
+  Share,
 } from "react-native";
 import { Link, useLocalSearchParams } from "expo-router";
 import {
@@ -20,6 +21,8 @@ import { COLORS, FONTS, HEIGHT, WIDTH } from "../constants/theme";
 import { BlurView } from "expo-blur";
 import NewButtonComponent from "./NewButtonComponent";
 import QRCodeComponent from "../components/QRCodeComponent";
+import Constants from "expo-constants";
+import * as SecureStore from "expo-secure-store";
 
 export default function ModalComponent({
   setModalState,
@@ -31,11 +34,61 @@ export default function ModalComponent({
 }) {
   const [textValue, setTextValue] = useState("Рекомендации");
   const [modalVisible, setModalVisible] = useState(false);
-  // const modalon = useLocalSearchParams();
+  const [referalCode, setReferalCode] = useState("");
 
   useEffect(() => {
     setModalVisible(modal);
   });
+
+  const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userToken = await SecureStore.getItemAsync("userData");
+        const token = userToken ? JSON.parse(userToken).token : null;
+
+        if (!token) {
+          console.error("Токен не найден.");
+          return;
+        }
+
+        // Fetch для данных клиента
+        const clientUrl = `${apiBaseUrl}api/client`;
+        const clientResponse = await fetch(clientUrl, {
+          headers: {
+            Authorization: token,
+          },
+        });
+
+        if (clientResponse.ok) {
+          const clientData = await clientResponse.json();
+          const { client } = clientData;
+          console.log("Данные клиента успешно получены:", client.referral_link);
+          setReferalCode(client.referral_link);
+        } else {
+          console.error(
+            "Ошибка при загрузке данных клиента:",
+            clientResponse.status
+          );
+        }
+      } catch (error) {
+        console.error("Ошибка при получении данных клиента:", error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleShare = async () => {
+    try {
+      await Share.share({
+        message: `https://uplaim.com/referral?referral=${referalCode}`,
+      });
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
   return (
     <Modal animationType="fade" transparent={true} visible={modalVisible}>
@@ -68,7 +121,7 @@ export default function ModalComponent({
             style={
               qrCode
                 ? styles.topContainer
-                : [styles.topContainer, { paddingBottom: 0 }]
+                : [styles.topContainer, { paddingBottom: 15 }]
             }
           >
             <Text style={styles.textTop}>{title}</Text>
@@ -96,6 +149,7 @@ export default function ModalComponent({
                 filled={true}
                 height={54}
                 fontSize={18}
+                onPress={() => handleShare()}
               />
             ) : null}
             {qrCode ? (

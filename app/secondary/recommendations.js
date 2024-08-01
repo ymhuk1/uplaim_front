@@ -276,13 +276,13 @@ export default function Recommendations() {
             onBackdropPress={toggleTooltip2}
             // style={styles.modal}
           >
-            <ModalComponent
-              onClose={toggleTooltip2}
-              title={"Это ваша персональная ссылка"}
-              description={
-                "Отправьте ее друзьям, пусть они сами выберут, что оформить, а Вы получите бонус 300 баллов."
-              }
-            />
+              <ModalComponent
+                onClose={toggleTooltip2}
+                title={"Это ваша персональная ссылка"}
+                description={
+                  "Отправьте ее друзьям, пусть они сами выберут, что оформить, а Вы получите бонус 300 баллов."
+                }
+              />
           </Modal>
         )}
         {isModalVisible && (

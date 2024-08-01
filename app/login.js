@@ -36,11 +36,12 @@ import {
 } from "../styles/loginStyles";
 import { FONTS } from "../constants/theme";
 import WebView from "react-native-webview";
+import * as Linking from "expo-linking";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
-    shouldPlaySound: false,
+    shouldPlaySound: true,
     shouldSetBadge: false,
   }),
 });
@@ -50,13 +51,16 @@ function handleRegistrationError(errorMessage) {
   throw new Error(errorMessage);
 }
 
+const logo = require("../assets/logo.svg");
+
 async function registerForPushNotificationsAsync() {
   if (Platform.OS === "android") {
     Notifications.setNotificationChannelAsync("default", {
       name: "default",
       importance: Notifications.AndroidImportance.MAX,
       vibrationPattern: [0, 250, 250, 250],
-      lightColor: "#FF231F7C",
+      // lightColor: "#FF231F7C",
+      icon: logo, // Добавление иконки
     });
   }
 
@@ -113,6 +117,20 @@ export default function LoginScreen() {
   const [notification, setNotification] = useState();
   const notificationListener = useRef();
   const responseListener = useRef();
+
+  useEffect(() => {
+    const getReferralCodeFromLink = async () => {
+      const url = await Linking.getInitialURL();
+      if (url) {
+        const params = new URLSearchParams(url.split("?")[1]);
+        const referral = params.get("referral");
+        if (referral) {
+          setReferralCode(referral);
+        }
+      }
+    };
+    getReferralCodeFromLink();
+  }, []);
 
   useEffect(() => {
     registerForPushNotificationsAsync()
@@ -311,6 +329,8 @@ export default function LoginScreen() {
               placeholder="Реферальный код (необязательно)"
               value={referralCode}
               onChangeText={setReferralCode}
+              keyboardType={"text"}
+              referal={true}
             />
           </View>
           <View style={checkboxStyles}>

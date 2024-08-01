@@ -94,7 +94,6 @@ export default function MyData() {
   };
 
   const fetchData = async () => {
-    const userDataStr = await SecureStore.getItemAsync("userData");
     try {
       const userToken = await SecureStore.getItemAsync("userData");
       const token = userToken ? JSON.parse(userToken).token : null;
