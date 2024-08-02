@@ -15,6 +15,7 @@ import { ImageBackground, Image } from "expo-image";
 import HeaderComponent from "../../components/HeaderComponent";
 import NewButtonComponent from "../../components/NewButtonComponent";
 import Carousel from "react-native-reanimated-carousel";
+
 import {
   elemBackgroundColor,
   textBackgroundColor2,
@@ -24,7 +25,8 @@ import {
 import Constants from "expo-constants";
 import { useRouter } from "expo-router";
 import * as SecureStore from "expo-secure-store";
-import { FONTS, HEIGHT } from "../../constants/theme";
+import { FONTS, HEIGHT, WIDTH } from "../../constants/theme";
+import { Path, Svg } from "react-native-svg";
 
 const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
 
@@ -41,7 +43,6 @@ export default function Tariffs() {
   );
   const [finalSubscribeModal, setFinalSubscribeModal] = useState(false);
 
-  const width = Dimensions.get("window").width;
   const router = useRouter();
 
   // вынести данные тарифа во «Все преимущества»
@@ -143,7 +144,8 @@ export default function Tariffs() {
     }
   };
 
-  console.log("tariffs: ", tariffs);
+  // console.log("tariffs: ", tariffs);
+  const width = Dimensions.get("window").width;
 
   return (
     <View>
@@ -152,6 +154,7 @@ export default function Tariffs() {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
         showsVerticalScrollIndicator={false}
+        scrollEnabled={false}
         contentContainerStyle={styles.container}
       >
         <ImageBackground
@@ -161,21 +164,24 @@ export default function Tariffs() {
         >
           <View style={styles.containerView}>
             <HeaderComponent text={textValue} secondary={true} />
-            <View>
-              {tariffs ? (
-                <View>
-                  <Carousel
+            {tariffs ? (
+              <View style={styles.carousel}>
+                <Carousel
+                  vertical={false}
                   width={width}
                   height={width * 2}
                   mode="parallax"
                   data={tariffs}
+                  windowSize={2}
+                  panGestureHandlerProps={{
+                    activeOffsetX: [-10, 10],
+                  }}
                   // onSnapToItem={handleIndexChange}
                   // onSnapToItem={(index) => console.log('current index:', index)}
                   // defaultIndex={currentIndex}
                   renderItem={({ item }) => (
-                    <View
-                        style={styles.containerSwiper}>
-                      <View style={styles.tariffContainer}>
+                    <View style={styles.containerSwiper}>
+                      <View style={{ rowGap: 10, marginBottom: 15 }}>
                         <Text style={styles.tariffName}>{item.name}</Text>
                         <View
                           style={[
@@ -186,12 +192,14 @@ export default function Tariffs() {
                         <Image
                           contentFit="contain"
                           contentPosition="center"
-                          // transition={1000}
+                          transition={1000}
                           source={apiBaseUrl + item.icon}
                           width={75}
                           height={75}
                           style={styles.tariffLogo}
                         />
+                      </View>
+                      <View style={{ rowGap: 10, marginBottom: 30 }}>
                         <Text style={styles.tariffDesc}>
                           {item.description}
                         </Text>
@@ -210,33 +218,59 @@ export default function Tariffs() {
                             </Text>
                           </View>
                         </View>
-
-                        <View style={styles.tariffCheck}>
-                          {item.check_list &&
-                            item.check_list
-                              .split(";")
-                              .map((checkItem, index) => (
-                                <View
-                                  key={index}
-                                  style={styles.tariffCheckContainer}
-                                >
-                                  <Image
-                                    contentFit="contain"
-                                    contentPosition="center"
-                                    transition={1000}
-                                    source={require("../../assets/checkTariff.svg")}
-                                    width={20}
-                                    height={20}
-                                    style={styles.tariffCheckIcon}
-                                  />
-                                  <Text style={styles.tariffCheckText}>
-                                    {checkItem.trim()}
-                                  </Text>
-                                </View>
-                              ))}
-                        </View>
-                        <TouchableOpacity onPress={() => {setAllPrivilegeModal(!allPrivilegeModal)}}>
-                            <Text style={styles.tariffAllPrivilege}>Все преимущества</Text>
+                      </View>
+                      <View
+                        style={
+                          item.name !== "Free"
+                            ? styles.tariffCheck
+                            : { rowGap: 50 }
+                        }
+                      >
+                        {item.check_list &&
+                          item.check_list.split(";").map((checkItem, index) => (
+                            <View
+                              key={index}
+                              style={
+                                item.name !== "Free"
+                                  ? styles.tariffCheckContainer
+                                  : [
+                                      styles.tariffCheckContainer,
+                                      { width: "95%" },
+                                    ]
+                              }
+                            >
+                              <Svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 20 20"
+                                fill={item.color}
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <Path
+                                  fill-rule="evenodd"
+                                  clip-rule="evenodd"
+                                  d="M10 2C5.58172 2 2 5.58172 2 10C2 14.4183 5.58172 18 10 18C14.4183 18 18 14.4183 18 10C18 5.58172 14.4183 2 10 2ZM0 10C0 4.47715 4.47715 0 10 0C15.5228 0 20 4.47715 20 10C20 15.5228 15.5228 20 10 20C4.47715 20 0 15.5228 0 10ZM14.6783 6.2652C15.0841 6.6398 15.1094 7.27246 14.7348 7.67828L9.19634 13.6783C9.00704 13.8834 8.74064 14 8.46154 14C8.18244 14 7.91604 13.8834 7.72674 13.6783L5.2652 11.0116C4.89059 10.6058 4.9159 9.97313 5.32172 9.59853C5.72754 9.22393 6.3602 9.24923 6.7348 9.65505L8.46154 11.5257L13.2652 6.32172C13.6398 5.9159 14.2725 5.89059 14.6783 6.2652Z"
+                                />
+                              </Svg>
+                              <Text style={styles.tariffCheckText}>
+                                {checkItem.trim()}
+                              </Text>
+                            </View>
+                          ))}
+                      </View>
+                      <View
+                        style={{
+                          rowGap: 15,
+                        }}
+                      >
+                        <TouchableOpacity
+                          onPress={() => {
+                            setAllPrivilegeModal(!allPrivilegeModal);
+                          }}
+                        >
+                          <Text style={styles.tariffAllPrivilege}>
+                            Все преимущества
+                          </Text>
                         </TouchableOpacity>
                         {item.name && item.name !== "Free" && (
                           <View>
@@ -247,7 +281,7 @@ export default function Tariffs() {
                                   style={styles.tariffButton}
                                   title={"Подключить"}
                                   filled={true}
-                                  height={48}
+                                  height={64}
                                   fontSize={18}
                                   onPress={() => {
                                     fetchSubscribe(item.id);
@@ -260,7 +294,7 @@ export default function Tariffs() {
                                   style={styles.tariffButton}
                                   title={"Подключено"}
                                   empty={true}
-                                  height={48}
+                                  height={64}
                                   fontSize={18}
                                   onPress={() => {}}
                                 />
@@ -268,26 +302,23 @@ export default function Tariffs() {
                             )}
                           </View>
                         )}
-                        {clientData && clientData.tariff.name === item.name && item.name !== 'Free' && (
-                          <TouchableOpacity onPress={() => {}}>
-                            <Text style={styles.tariffCancel}>
-                              Отменить подписку
-                            </Text>
-                          </TouchableOpacity>
-                        )}
+                        {clientData &&
+                          clientData.tariff.name === item.name &&
+                          item.name !== "Free" && (
+                            <TouchableOpacity onPress={() => {}}>
+                              <Text style={styles.tariffCancel}>
+                                Отменить подписку
+                              </Text>
+                            </TouchableOpacity>
+                          )}
                       </View>
-
                     </View>
-
                   )}
                 />
-                </View>
-
-                ) : (
-                <View></View>
-              )}
-
-            </View>
+              </View>
+            ) : (
+              <View></View>
+            )}
           </View>
         </ImageBackground>
       </ScrollView>
@@ -394,50 +425,53 @@ export default function Tariffs() {
           </TouchableOpacity>
         </View>
       </Modal>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={finalSubscribeModal}
-      >
-        <View style={styles.finalSubscribeModal}>
-          <Text style={styles.finalSubscribeModalText}>
-            Поздравляем! Вы подключили Uplaim PRO. Пользуйтесь повышенными
-            привилегиями уже сейчас.
-          </Text>
-          <View style={styles.finalSubscribeButton}>
-            <NewButtonComponent
-              title={"Хорошо"}
-              filled={true}
-              height={48}
-              fontSize={18}
+      {finalSubscribeModal && (
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={finalSubscribeModal}
+        >
+          <View style={styles.finalSubscribeModal}>
+            <Text style={styles.finalSubscribeModalText}>
+              Поздравляем! Вы подключили Uplaim PRO. Пользуйтесь повышенными
+              привилегиями уже сейчас.
+            </Text>
+            <View style={styles.finalSubscribeButton}>
+              <NewButtonComponent
+                title={"Хорошо"}
+                filled={true}
+                height={48}
+                fontSize={18}
+                onPress={() => {
+                  setFinalSubscribeModal(!finalSubscribeModal);
+                  onRefresh();
+                }}
+              />
+            </View>
+            <TouchableOpacity
+              style={styles.closeButton}
               onPress={() => {
-                setFinalSubscribeModal(!finalSubscribeModal);
-                onRefresh();
+                setSubscribeModal(!subscribeModal);
               }}
-            />
+            >
+              <Image
+                contentFit="contain"
+                contentPosition="center"
+                source={require("../../assets/closeModal.svg")}
+                width={36}
+                height={36}
+              />
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            style={styles.closeButton}
-            onPress={() => {
-              setSubscribeModal(!subscribeModal);
-            }}
-          >
-            <Image
-              contentFit="contain"
-              contentPosition="center"
-              source={require("../../assets/closeModal.svg")}
-              width={36}
-              height={36}
-            />
-          </TouchableOpacity>
-        </View>
-      </Modal>
+        </Modal>
+      )}
     </View>
   );
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // minHeight: HEIGHT.height,
   },
   containerImg: {
     minHeight: HEIGHT.height,
@@ -445,31 +479,31 @@ const styles = StyleSheet.create({
   containerView: {
     // height: 840,
   },
+  carousel: {
+    // backgroundColor: "green",
+    // marginTop: 20,
+  },
   containerSwiper: {
     flex: 1,
     backgroundColor: "#41357A",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
+    alignItems: "center",
     marginTop: -80,
+    paddingHorizontal: 20,
+    paddingVertical: 20,
     borderRadius: 16,
-  },
-
-  tariffContainer: {
-    borderRadius: 16,
-    alignSelf: "center",
-    width: 300,
-    // marginHorizontal: 30,
+    // marginHorizontal: 15,
   },
   tariffName: {
     fontFamily: FONTS.medium,
-    marginTop: 30,
+    // paddingTop: 30,
     fontSize: 36,
-    // fontFamily: FONTS.medium,
-    color: "white",
+    color: textPrimaryColor,
     textAlign: "center",
   },
   tariffBorder: {
     alignSelf: "center",
-    marginTop: 24,
+    marginTop: 15,
     width: 54,
     borderWidth: 3,
     marginBottom: 10,
@@ -477,23 +511,23 @@ const styles = StyleSheet.create({
   },
   tariffLogo: {
     alignSelf: "center",
-    marginVertical: 15,
+    // marginVertical: 5,
   },
   tariffDesc: {
     textAlign: "center",
-    marginTop: 10,
+    // marginTop: 10,
     fontSize: 20,
-    color: "white",
-    marginBottom: 5,
+    color: textPrimaryColor,
+    // marginBottom: 5,
   },
   tariffDescTwoContainer: {
     alignSelf: "center",
     flexDirection: "row",
-    marginBottom: 36,
+    // paddingBottom: 30,
   },
   tariffDescTwo: {
     fontSize: 20,
-    color: "white",
+    color: textPrimaryColor,
   },
   tariffNameDopContainer: {
     paddingHorizontal: 8,
@@ -502,38 +536,39 @@ const styles = StyleSheet.create({
   },
   tariffNameDopText: {
     fontSize: 20,
-    color: "white",
+    color: textPrimaryColor,
   },
-  tariffCheck: {},
-  checkListItem: {
-    flexDirection: "row",
-    marginHorizontal: 30,
+  tariffCheck: {
+    rowGap: 20,
+    // justifyContent: "space-between",
     marginBottom: 10,
   },
   tariffCheckContainer: {
+    // flex: 1,
+    width: "90%",
     flexDirection: "row",
-  },
-  tariffCheckIcon: {
-    fill: "red",
+    columnGap: 10,
+    // backgroundColor: "red",
+    // marginBottom: 20,
   },
   tariffCheckText: {
-    marginLeft: 10,
+    fontFamily: FONTS.regular,
     fontSize: 20,
     color: "white",
-    marginBottom: 15,
+    // paddingBottom: 30,
   },
   tariffAllPrivilege: {
     color: "#4D5FFF",
     fontSize: 20,
-    marginVertical: 50,
+    // marginVertical: 50,
     textAlign: "center",
   },
   tariffButtonContainer: {
-    marginHorizontal: 22,
-    marginTop: 50,
+    width: WIDTH.width - 80,
+    marginHorizontal: 15,
   },
   tariffButton: {
-    width: "100%",
+    // width: "100%",
   },
   allPrivilegeModal: {
     backgroundColor: elemBackgroundColor,
@@ -551,13 +586,15 @@ const styles = StyleSheet.create({
   tariffCancel: {
     color: "#4D5FFF",
     fontSize: 20,
-    marginVertical: 20,
+    // marginVertical: 20,
     textAlign: "center",
+    // marginTop: "auto",
+    // justifyContent: "flex-end",
   },
   allSubscribeModal: {
     backgroundColor: elemBackgroundColor,
     // height: "50%",
-    width: "90%",
+    // width: "90%",
     alignSelf: "center",
     borderRadius: 12,
   },
