@@ -473,17 +473,16 @@ export default function Gifts() {
                   </Skeleton>
                 </TouchableOpacity>
               </View>
-              <Skeleton
-                height={40}
-                {...SKELETON}
-              >
+              <Skeleton height={40} {...SKELETON}>
                 <Text style={styles.textTitle2}>История начислений</Text>
               </Skeleton>
               {transactions.length > 0
-                ? transactions.map((item, index) => (
-                  <View style={{ rowGap: 12, marginBottom: 20 }} key={index}>
+                ? transactions.slice(0, 3).map((item, index) => (
+                    <View style={{ rowGap: 12, marginBottom: 20 }} key={index}>
                       <Skeleton {...SKELETON}>
-                        <Text style={[styles.ticket__text, { marginBottom: 10 }]}>
+                        <Text
+                          style={[styles.ticket__text, { marginBottom: 10 }]}
+                        >
                           {item.created_at.slice(0, 10)}
                         </Text>
                         <FitnessGift
@@ -528,10 +527,7 @@ export default function Gifts() {
                 </Skeleton>
               )}
               <View style={{ marginTop: 20 }}>
-                <Skeleton
-                  height={40}
-                  {...SKELETON}
-                >
+                <Skeleton height={40} {...SKELETON}>
                   <Text style={styles.textTitle2}>Ответы на вопросы</Text>
                 </Skeleton>
               </View>

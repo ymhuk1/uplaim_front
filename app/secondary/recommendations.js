@@ -1,4 +1,5 @@
 import {
+  Clipboard,
   RefreshControl,
   ScrollView,
   StyleSheet,
@@ -7,7 +8,7 @@ import {
   View,
 } from "react-native";
 import Modal from "react-native-modal";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image, ImageBackground } from "expo-image";
 import { COLORS, FONTS, HEIGHT, WIDTH } from "../../constants/theme";
 import HeaderComponent from "../../components/HeaderComponent";
@@ -21,12 +22,15 @@ import { LinearGradient } from "expo-linear-gradient";
 import QRCodeComponent from "../../components/QRCodeComponent";
 import PopupComponent from "../../components/PopupComponent";
 import ModalComponent from "../../components/ModalComponent";
+import Constants from "expo-constants";
+import * as SecureStore from "expo-secure-store";
 
 export default function Recommendations() {
   const [textValue, setTextValue] = useState("Рекомендации");
   const [isTooltipVisible, setTooltipVisible] = useState(false);
   const [isTooltipVisible2, setTooltipVisible2] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
+  const [referalCode, setReferalCode] = useState("");
 
   const toggleTooltip = () => {
     setTooltipVisible(!isTooltipVisible);
@@ -37,6 +41,57 @@ export default function Recommendations() {
   };
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
+  };
+
+  const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const userToken = await SecureStore.getItemAsync("userData");
+        const token = userToken ? JSON.parse(userToken).token : null;
+
+        if (!token) {
+          console.error("Токен не найден.");
+          return;
+        }
+
+        // Fetch для данных клиента
+        const clientUrl = `${apiBaseUrl}api/client`;
+        const clientResponse = await fetch(clientUrl, {
+          headers: {
+            Authorization: token,
+          },
+        });
+
+        if (clientResponse.ok) {
+          const clientData = await clientResponse.json();
+          const { client } = clientData;
+          console.log("Данные клиента успешно получены:", client.referral_link);
+          setReferalCode(client.referral_link);
+        } else {
+          console.error(
+            "Ошибка при загрузке данных клиента:",
+            clientResponse.status
+          );
+        }
+      } catch (error) {
+        console.error("Ошибка при получении данных клиента:", error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleCopyLink = async () => {
+    try {
+      await Clipboard.setString(
+        `https://uplaim.com/referral?referral=${referalCode}`
+      );
+      // alert("Ссылка скопирована в буфер обмена");
+    } catch (error) {
+      alert(error.message);
+    }
   };
 
   return (
@@ -181,10 +236,12 @@ export default function Recommendations() {
                   style={[styles.linkQRC__text, { fontSize: 14 }]}
                   numberOfLines={1}
                 >
-                  www.website.com/pes..
+                  {`${apiBaseUrl}referral`}
                 </Text>
               </TouchableOpacity>
-              <Text style={styles.linkQRC__text}>Скопировать ссылку</Text>
+              <TouchableOpacity onPress={() => handleCopyLink()}>
+                <Text style={styles.linkQRC__text}>Скопировать ссылку</Text>
+              </TouchableOpacity>
             </View>
             <TouchableOpacity
               style={[styles.linkQRC__inner, { flex: 100 }]}
@@ -276,13 +333,14 @@ export default function Recommendations() {
             onBackdropPress={toggleTooltip2}
             // style={styles.modal}
           >
-              <ModalComponent
-                onClose={toggleTooltip2}
-                title={"Это ваша персональная ссылка"}
-                description={
-                  "Отправьте ее друзьям, пусть они сами выберут, что оформить, а Вы получите бонус 300 баллов."
-                }
-              />
+            <ModalComponent
+              onClose={toggleTooltip2}
+              title={"Это ваша персональная ссылка"}
+              description={
+                "Отправьте ее друзьям, пусть они сами выберут, что оформить, а Вы получите бонус 300 баллов."
+              }
+              referalCode={referalCode}
+            />
           </Modal>
         )}
         {isModalVisible && (
@@ -298,6 +356,7 @@ export default function Recommendations() {
                 "Нужно отсканировать и выбрать что оформить, а Вы получите бонус 300 баллов."
               }
               qrCode={true}
+              referalCode={referalCode}
             />
           </Modal>
         )}

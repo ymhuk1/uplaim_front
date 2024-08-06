@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   StatusBar,
   Share,
+  Clipboard,
 } from "react-native";
 import { Link, useLocalSearchParams } from "expo-router";
 import {
@@ -31,60 +32,34 @@ export default function ModalComponent({
   title,
   description,
   qrCode,
+  referalCode,
 }) {
   const [textValue, setTextValue] = useState("Рекомендации");
   const [modalVisible, setModalVisible] = useState(false);
-  const [referalCode, setReferalCode] = useState("");
+  // const [referalLink, setReferalLink] = useState("");
 
   useEffect(() => {
     setModalVisible(modal);
   });
-
-  const apiBaseUrl = Constants.expoConfig.extra.API_PROD;
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userToken = await SecureStore.getItemAsync("userData");
-        const token = userToken ? JSON.parse(userToken).token : null;
-
-        if (!token) {
-          console.error("Токен не найден.");
-          return;
-        }
-
-        // Fetch для данных клиента
-        const clientUrl = `${apiBaseUrl}api/client`;
-        const clientResponse = await fetch(clientUrl, {
-          headers: {
-            Authorization: token,
-          },
-        });
-
-        if (clientResponse.ok) {
-          const clientData = await clientResponse.json();
-          const { client } = clientData;
-          console.log("Данные клиента успешно получены:", client.referral_link);
-          setReferalCode(client.referral_link);
-        } else {
-          console.error(
-            "Ошибка при загрузке данных клиента:",
-            clientResponse.status
-          );
-        }
-      } catch (error) {
-        console.error("Ошибка при получении данных клиента:", error.message);
-      }
-    };
-
-    fetchData();
-  }, []);
+  
+  const referalLink = `https://uplaim.com/referral?referral=${referalCode}`;
 
   const handleShare = async () => {
     try {
       await Share.share({
         message: `https://uplaim.com/referral?referral=${referalCode}`,
       });
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  const handleCopyLink = async () => {
+    try {
+      await Clipboard.setString(
+        `https://uplaim.com/referral?referral=${referalCode}`
+      );
+      // alert("Ссылка скопирована в буфер обмена");
     } catch (error) {
       alert(error.message);
     }
@@ -131,16 +106,18 @@ export default function ModalComponent({
             {!qrCode ? (
               <View style={styles.link__container}>
                 <Text style={styles.link__text} numberOfLines={1}>
-                  www.website.com/pes..
+                  {`https://uplaim.com/referral?referral=${referalCode}`}
                 </Text>
-                <Image
-                  contentFit="contain"
-                  contentPosition={"center"}
-                  transition={1000}
-                  source={require("../assets/copy-link.svg")}
-                  width={16}
-                  height={16}
-                />
+                <TouchableOpacity onPress={() => handleCopyLink()}>
+                  <Image
+                    contentFit="contain"
+                    contentPosition={"center"}
+                    transition={1000}
+                    source={require("../assets/copy-link.svg")}
+                    width={16}
+                    height={16}
+                  />
+                </TouchableOpacity>
               </View>
             ) : null}
             {!qrCode ? (
@@ -154,7 +131,7 @@ export default function ModalComponent({
             ) : null}
             {qrCode ? (
               <View style={styles.qrcode}>
-                <QRCodeComponent size={280} logoSize={88} />
+                <QRCodeComponent size={280} logoSize={88} data={referalLink} />
               </View>
             ) : null}
           </View>
@@ -170,8 +147,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalView: {
-    // height: 330,
-    // flex: 1,
     width: WIDTH.width - 30,
     backgroundColor: elemBackgroundColor,
     borderRadius: 20,
@@ -189,10 +164,8 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
   },
   topContainer: {
-    // flexDirection: "row",
     paddingHorizontal: 15,
     paddingBottom: 20,
-    // backgroundColor: "green"
   },
   textTop: {
     fontFamily: FONTS.medium,
@@ -214,19 +187,15 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 100,
     backgroundColor: COLORS.primary,
-    // alignItems: "center",
     marginBottom: 20,
   },
   link__text: {
     fontFamily: FONTS.regular,
     fontSize: 14,
-    // lineHeight: 14,
     color: textPrimaryColor,
     marginRight: "auto",
   },
   qrcode: {
-    // flex: 1,
-    // marginBottom: 10,
     alignItems: "center",
   },
 });

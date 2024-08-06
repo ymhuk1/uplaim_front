@@ -42,7 +42,7 @@ export default function Tariffs() {
     subscriptions ? subscriptions[0] : ""
   );
   const [finalSubscribeModal, setFinalSubscribeModal] = useState(false);
-
+  // console.log("clientData", clientData.id);
   const router = useRouter();
 
   // вынести данные тарифа во «Все преимущества»
@@ -95,9 +95,12 @@ export default function Tariffs() {
       .then((response) => response.json())
       .then((data) => {
         console.log("Данные успешно получены:", data);
-        setSubscriptions(data);
+        if (data) {
+          setSubscriptions(data);
+          setSubscribeModal(!subscribeModal);
+        }
+        console.log("subscriptions", subscriptions);
         setRefreshing(false);
-        setSubscribeModal(!subscribeModal);
       })
       .catch((error) => {
         console.error("Ошибка при загрузке данных: ", error);
@@ -272,36 +275,36 @@ export default function Tariffs() {
                             Все преимущества
                           </Text>
                         </TouchableOpacity>
-                        {item.name && item.name !== "Free" && (
-                          <View>
-                            {clientData &&
-                            clientData.tariff.name !== item.name ? (
-                              <View style={styles.tariffButtonContainer}>
-                                <NewButtonComponent
-                                  style={styles.tariffButton}
-                                  title={"Подключить"}
-                                  filled={true}
-                                  height={64}
-                                  fontSize={18}
-                                  onPress={() => {
-                                    fetchSubscribe(item.id);
-                                  }}
-                                />
-                              </View>
-                            ) : (
-                              <View style={styles.tariffButtonContainer}>
-                                <NewButtonComponent
-                                  style={styles.tariffButton}
-                                  title={"Подключено"}
-                                  empty={true}
-                                  height={64}
-                                  fontSize={18}
-                                  onPress={() => {}}
-                                />
-                              </View>
-                            )}
-                          </View>
-                        )}
+                        {/* {item.name && item.name !== "Free" && ( */}
+                        <View>
+                          {clientData &&
+                          clientData.tariff.name !== item.name ? (
+                            <View style={styles.tariffButtonContainer}>
+                              <NewButtonComponent
+                                style={styles.tariffButton}
+                                title={"Подключить"}
+                                filled={true}
+                                height={64}
+                                fontSize={18}
+                                onPress={() => {
+                                  fetchSubscribe(item.id);
+                                }}
+                              />
+                            </View>
+                          ) : (
+                            <View style={styles.tariffButtonContainer}>
+                              <NewButtonComponent
+                                style={styles.tariffButton}
+                                title={"Подключено"}
+                                empty={true}
+                                height={64}
+                                fontSize={18}
+                                onPress={() => {}}
+                              />
+                            </View>
+                          )}
+                        </View>
+                        {/* )} */}
                         {clientData &&
                           clientData.tariff.name === item.name &&
                           item.name !== "Free" && (
@@ -425,46 +428,44 @@ export default function Tariffs() {
           </TouchableOpacity>
         </View>
       </Modal>
-      {finalSubscribeModal && (
-        <Modal
-          animationType="fade"
-          transparent={true}
-          visible={finalSubscribeModal}
-        >
-          <View style={styles.finalSubscribeModal}>
-            <Text style={styles.finalSubscribeModalText}>
-              Поздравляем! Вы подключили Uplaim PRO. Пользуйтесь повышенными
-              привилегиями уже сейчас.
-            </Text>
-            <View style={styles.finalSubscribeButton}>
-              <NewButtonComponent
-                title={"Хорошо"}
-                filled={true}
-                height={48}
-                fontSize={18}
-                onPress={() => {
-                  setFinalSubscribeModal(!finalSubscribeModal);
-                  onRefresh();
-                }}
-              />
-            </View>
-            <TouchableOpacity
-              style={styles.closeButton}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={finalSubscribeModal}
+      >
+        <View style={styles.finalSubscribeModal}>
+          <Text style={styles.finalSubscribeModalText}>
+            Поздравляем! Вы подключили Uplaim PRO. Пользуйтесь повышенными
+            привилегиями уже сейчас.
+          </Text>
+          <View style={styles.finalSubscribeButton}>
+            <NewButtonComponent
+              title={"Хорошо"}
+              filled={true}
+              height={48}
+              fontSize={18}
               onPress={() => {
-                setSubscribeModal(!subscribeModal);
+                setFinalSubscribeModal(!finalSubscribeModal);
+                onRefresh();
               }}
-            >
-              <Image
-                contentFit="contain"
-                contentPosition="center"
-                source={require("../../assets/closeModal.svg")}
-                width={36}
-                height={36}
-              />
-            </TouchableOpacity>
+            />
           </View>
-        </Modal>
-      )}
+          <TouchableOpacity
+            style={styles.closeButton}
+            onPress={() => {
+              setSubscribeModal(!subscribeModal);
+            }}
+          >
+            <Image
+              contentFit="contain"
+              contentPosition="center"
+              source={require("../../assets/closeModal.svg")}
+              width={36}
+              height={36}
+            />
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -489,10 +490,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     alignItems: "center",
     marginTop: -80,
-    paddingHorizontal: 20,
+    paddingHorizontal: 15,
     paddingVertical: 20,
     borderRadius: 16,
-    // marginHorizontal: 15,
+    marginHorizontal: 10,
   },
   tariffName: {
     fontFamily: FONTS.medium,
