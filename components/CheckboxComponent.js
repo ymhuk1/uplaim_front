@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { FONTS } from "../constants/theme";
+import { fuchsia, textPrimaryColor } from "./ColorsComponent";
 
-const CheckboxComponent = ({ isChecked, onToggle, error, title }) => {
+const CheckboxComponent = ({ isChecked, onToggle, error, title, basket }) => {
   const handleCheckboxToggle = () => {
     onToggle(!isChecked);
   };
@@ -37,16 +38,17 @@ const CheckboxComponent = ({ isChecked, onToggle, error, title }) => {
                   alignItems: "center",
                 }}
               >
-                <Text style={{ color: "white", fontSize: 16 }}>✓</Text>
+                <Text style={{ color: fuchsia, fontSize: 16 }}>✓</Text>
               </View>
             )}
           </View>
         </TouchableOpacity>
         <Text
           style={{
-            marginLeft: 8,
-            color: "rgba(255, 255, 255, 0.2)",
+            marginLeft: basket ? 10 : 8,
+            color: basket ? textPrimaryColor : "rgba(255, 255, 255, 0.2)",
             fontFamily: FONTS.regular,
+            fontSize: basket ? 16 : null,
           }}
         >
           {title}

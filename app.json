@@ -3,7 +3,7 @@
     "owner": "viktorka",
     "name": "Uplaim",
     "slug": "desert",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -12,30 +12,44 @@
       "resizeMode": "contain",
       "backgroundColor": "#181629"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": false
+      "supportsTablet": false,
+      "bundleIdentifier": "com.viktorka.uplaim",
+      "associatedDomains": ["applinks:uplaim.com"]
     },
     "android": {
-      "versionCode": 7,
+      "versionCode": 8,
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#24224A"
       },
       "package": "com.viktorka.uplaim",
-      "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./google-services.json",
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": [
+            {
+              "scheme": "uplaim",
+              "host": "uplaim.com",
+              "pathPrefix": "/"
+            },
+            {
+              "scheme": "https",
+              "host": "uplaim.com",
+              "pathPrefix": "/"
+            }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ]
     },
-    "scheme": "uplaim",
+    "scheme": "https",
     "web": {
       "favicon": "./assets/logo_store.png"
     },
-    "plugins": [
-      "expo-router",
-      "expo-font",
-      "expo-secure-store"
-    ],
+    "plugins": ["expo-router", "expo-font", "expo-secure-store"],
     "extra": {
       "API_PROD": "https://uplaim.com/",
       "API_STAGE": "http://127.0.0.1:5000/",

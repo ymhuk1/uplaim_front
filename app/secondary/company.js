@@ -576,13 +576,13 @@ const styles = StyleSheet.create({
     color: textPrimaryColor,
   },
   ratingText: {
-    color: "white",
+    color: textPrimaryColor,
     fontFamily: FONTS.medium,
     fontSize: 14,
   },
   description: {
     fontSize: 14,
-    color: "white",
+    color: textPrimaryColor,
     marginBottom: 15,
   },
   slider: {},

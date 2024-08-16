@@ -14,6 +14,7 @@ import StoryComponent from "../../components/StoryComponent";
 import {
   elemBackgroundColor,
   elemBackgroundColor3,
+  fuchsia,
   textBackgroundColor,
   textBackgroundColor2,
   textColor3,
@@ -25,6 +26,7 @@ import { ImageBackground, Image } from "expo-image";
 import { Link, useRouter } from "expo-router";
 import { Skeleton } from "moti/skeleton";
 import { FONTS, SIZES, SKELETON } from "../../constants/theme";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 export default function MainScreen() {
   const [refreshing, setRefreshing] = useState(false);
@@ -135,7 +137,7 @@ export default function MainScreen() {
         } else {
           console.error("Ошибка при загрузке данных клиента");
         }
-        
+
         // My companies
         const myCompaniesResponse = await fetch(
           "https://uplaim.com/api/my_companies",
@@ -145,7 +147,7 @@ export default function MainScreen() {
           const myCompaniesData = await myCompaniesResponse.json();
           setMyCompanies(myCompaniesData);
         } else if (myCompaniesResponse.status === 404) {
-          setMyCompanies([])
+          setMyCompanies([]);
         } else {
           console.error("Ошибка при загрузке данных моих компаний");
         }
@@ -285,6 +287,24 @@ export default function MainScreen() {
                 />
               </Skeleton>
             )}
+
+            <Skeleton {...SKELETON}>
+              <TouchableOpacity onPress={() => router.push({ pathname: "/secondary/delivery" })}>
+                <View style={styles.delivery__container}>
+                  <Image
+                    contentFit="contain"
+                    contentPosition={"center"}
+                    transition={1000}
+                    source={require("../../assets/pizza.svg")}
+                    width={24}
+                    height={26}
+                  />
+                  <Text style={styles.text__delivery}>Доставка еды</Text>
+                  <Icon name="arrow-forward-ios" size={15} color={fuchsia} />
+                </View>
+              </TouchableOpacity>
+            </Skeleton>
+
             <TouchableOpacity
               onPress={() => router.push({ pathname: "/home/qrcode" })}
               style={styles.textContainer2}
@@ -422,7 +442,11 @@ export default function MainScreen() {
                         Заработок в день
                       </Text>
                     </View>
-                    <Text style={styles.referralBottomText}>{clientData?.reward_in_day ? clientData?.reward_in_day : 0}</Text>
+                    <Text style={styles.referralBottomText}>
+                      {clientData?.reward_in_day
+                        ? clientData?.reward_in_day
+                        : 0}
+                    </Text>
                   </View>
                   <View style={styles.referralDownContainer}>
                     <View style={styles.referralMini}>
@@ -438,7 +462,9 @@ export default function MainScreen() {
                         Всего приглашено
                       </Text>
                     </View>
-                    <Text style={styles.referralBottomText}>{clientData?.referrals?.length}</Text>
+                    <Text style={styles.referralBottomText}>
+                      {clientData?.referrals?.length}
+                    </Text>
                   </View>
                   <View style={styles.referralDownContainer}>
                     <Image
@@ -665,5 +691,23 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     marginHorizontal: 15,
     marginTop: 2,
+  },
+  delivery__container: {
+    flexDirection: "row",
+    columnGap: 15,
+    paddingHorizontal: 15,
+    paddingVertical: 20,
+    backgroundColor: elemBackgroundColor,
+    borderRadius: 10,
+    marginTop: 12,
+    // justifyContent: "space-between",
+    alignItems: "center",
+  },
+  text__delivery: {
+    fontFamily: FONTS.regular,
+    color: textPrimaryColor,
+    fontSize: 16,
+    lineHeight: 20,
+    marginRight: "auto",
   },
 });

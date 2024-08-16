@@ -34,7 +34,7 @@ const GiftNow = ({
           </Svg>
         </View>
         <Image
-          contentFit="cover"
+          contentFit="contain"
           contentPosition={"top"}
           transition={1000}
           height={imageHeight}

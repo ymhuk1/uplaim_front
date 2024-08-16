@@ -548,7 +548,7 @@ export default function Gifts() {
               {isTooltipVisible && (
                 <Modal
                   visible={isTooltipVisible}
-                  animationType="slide"
+                  animationType="fade"
                   transparent={true}
                 >
                   <UniversalModal
@@ -567,7 +567,7 @@ export default function Gifts() {
               {isModalVisible && (
                 <Modal
                   visible={isModalVisible}
-                  animationType="slide"
+                  animationType="fade"
                   transparent={true}
                 >
                   <ActivatesModalComponent

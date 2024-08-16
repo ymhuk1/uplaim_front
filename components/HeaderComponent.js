@@ -69,8 +69,6 @@ const HeaderComponent = ({ text, secondary, home, main, notify, skeleton }) => {
                   height={32}
                 />
               </TouchableOpacity>
-              {/* </Skeleton>
-              <Skeleton show={skeleton} height={40} {...SKELETON}> */}
               <Text style={styles.headerText}>{text}</Text>
             </View>
           </Skeleton>
