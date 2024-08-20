@@ -21,7 +21,7 @@ import { FONTS, WIDTH } from "../constants/theme";
 import { BlurView } from "expo-blur";
 import { Path, Svg } from "react-native-svg";
 
-export default function ActivatesModalComponent({ onClose, disabled, modal, balance, ticketColor }) {
+export default function ActivatesModalComponent({ onClose, disabled, modal, balance, ticketColor, name, date }) {
   const [modalVisible, setModalVisible] = useState(modal);
   const [quantity, setQuantityCount] = useState(0);
 
@@ -69,7 +69,10 @@ export default function ActivatesModalComponent({ onClose, disabled, modal, bala
               />
             </TouchableOpacity>
             <View style={styles.header}>
-              <Text style={styles.header__title}>Магазин билетов</Text>
+              <Text style={styles.header__title}>Активация билетов</Text>
+              <Text style={styles.header__subtitle}>
+                для розыгрыша “{name}” ({date})
+              </Text>
             </View>
             <View style={styles.container__inner}>
               <View style={{ alignItems: "center" }}>
@@ -189,17 +192,20 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 16,
   },
   header: {
-    borderBottomColor: "#24224A",
-    borderBottomWidth: 1,
-    borderStyle: "solid",
     width: WIDTH.width - 30,
   },
   header__title: {
     fontFamily: FONTS.medium,
     fontSize: 24,
+    lineHeight: 24,
     color: textPrimaryColor,
-    marginBottom: 10,
     marginTop: 45,
+  },
+  header__subtitle: {
+    fontFamily: FONTS.regular,
+    fontSize: 14,
+    lineHeight: 24,
+    color: textPrimaryColor,
   },
   closePopup: {
     position: "absolute",
