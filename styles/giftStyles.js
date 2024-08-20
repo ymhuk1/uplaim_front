@@ -97,6 +97,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   currentGifts__text_title: {
+    width: WIDTH.width - 225,
     fontFamily: FONTS.medium,
     fontSize: 16,
     color: textPrimaryColor,
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
     marginRight: 4,
   },
   currentGifts__button_text: {
-    width: 94,
+    // width: 94,
     fontFamily: FONTS.regular,
     textAlign: "center",
     fontSize: 12,

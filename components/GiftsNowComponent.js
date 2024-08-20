@@ -15,8 +15,8 @@ const GiftNow = ({
   imageHeight,
 }) => {
   return (
-    <View style={styles.giftsNow} height={height} width={width}>
-      <View key={text} style={styles.giftsNow__img}>
+    <View style={styles.giftsNow} height={height} width={width} key={text}>
+      <View style={styles.giftsNow__img}>
         <View style={styles.giftsNow__img_ticket}>
           <Svg
             width="45"
@@ -34,8 +34,8 @@ const GiftNow = ({
           </Svg>
         </View>
         <Image
-          contentFit="contain"
-          contentPosition={"top"}
+          contentFit="cover"
+          contentPosition={"center"}
           transition={1000}
           height={imageHeight}
           width={width}
