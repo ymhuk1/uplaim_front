@@ -129,6 +129,7 @@ export default function CompanyList() {
               style={styles.storiesContainer}
               horizontal
               showsHorizontalScrollIndicator={false}
+              contentOffset={{ x: id * 125 }}
             >
               {categories.map((item, index) => {
                 return (
