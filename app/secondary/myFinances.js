@@ -129,6 +129,7 @@ export default function MyFinances({ disabled }) {
         return;
       } else {
         setError("Карта успешно добавлена!");
+        setIsModalVisible(false);
       }
 
       const requestBody = {
