@@ -6,8 +6,8 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Modal,
 } from "react-native";
-import Modal from "react-native-modal";
 import React, { useEffect, useState } from "react";
 import { Image, ImageBackground } from "expo-image";
 import { COLORS, FONTS, HEIGHT, WIDTH } from "../../constants/theme";
@@ -319,6 +319,7 @@ export default function Recommendations() {
             isVisible={isTooltipVisible}
             onBackdropPress={toggleTooltip}
             // style={styles.modal}
+            animationType="fade"
           >
             <PopupComponent
               onClose={toggleTooltip}
@@ -332,6 +333,7 @@ export default function Recommendations() {
             isVisible={isTooltipVisible2}
             onBackdropPress={toggleTooltip2}
             // style={styles.modal}
+            animationType="fade"
           >
             <ModalComponent
               onClose={toggleTooltip2}
@@ -348,6 +350,7 @@ export default function Recommendations() {
             isVisible={isModalVisible}
             onBackdropPress={toggleModal}
             // style={styles.modal}
+            animationType="fade"
           >
             <ModalComponent
               onClose={toggleModal}

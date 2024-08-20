@@ -233,7 +233,7 @@ export default function CreateExchangeModalComponent({
 
   return (
     <Modal
-      animationType="slide"
+      animationType="fade"
       transparent={true}
       visible={visible}
       onRequestClose={onRequestClose}

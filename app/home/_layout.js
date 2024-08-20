@@ -1,6 +1,6 @@
 import { Tabs } from "expo-router";
 import { Image } from "expo-image";
-import { StyleSheet } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 
 export default () => {
   return (
@@ -19,11 +19,13 @@ export default () => {
       <Tabs.Screen
         name={"main"}
         options={{
-          tabBarIcon: ({ color }) => (
+          tabBarIcon: ({ color, focused }) => (
             <Image
               source={require("../../assets/bottom-menu/house.svg")}
-              style={{ height: 34, width: 34 }}
               color={color}
+              style={{ opacity: focused ? 1 : 0.5 }}
+              height={34}
+              width={34}
             />
           ),
         }}
@@ -31,11 +33,13 @@ export default () => {
       <Tabs.Screen
         name={"companyList"}
         options={{
-          tabBarIcon: ({ color }) => (
+          tabBarIcon: ({ color, focused }) => (
             <Image
               source={require("../../assets/bottom-menu/search.svg")}
-              style={{ height: 34, width: 34 }}
               color={color}
+              style={{ opacity: focused ? 1 : 0.5 }}
+              height={34}
+              width={34}
             />
           ),
         }}
@@ -43,7 +47,7 @@ export default () => {
       <Tabs.Screen
         name={"qrcode"}
         options={{
-          tabBarIcon: ({ color }) => (
+          tabBarIcon: ({ color, focused }) => (
             <Image
               source={require("../../assets/bottom-menu/qrcode_gr.svg")}
               style={{ height: 34, width: 34 }}
@@ -55,11 +59,13 @@ export default () => {
       <Tabs.Screen
         name={"exchange"}
         options={{
-          tabBarIcon: ({ color }) => (
+          tabBarIcon: ({ color, focused }) => (
             <Image
               source={require("../../assets/bottom-menu/invite.svg")}
-              style={{ height: 34, width: 34 }}
               color={color}
+              style={{ opacity: focused ? 1 : 0.5 }}
+              height={34}
+              width={34}
             />
           ),
         }}
@@ -67,11 +73,13 @@ export default () => {
       <Tabs.Screen
         name={"profile"}
         options={{
-          tabBarIcon: ({ color }) => (
+          tabBarIcon: ({ color, focused }) => (
             <Image
               source={require("../../assets/bottom-menu/profile.svg")}
-              style={{ height: 34, width: 34 }}
               color={color}
+              style={{ opacity: focused ? 1 : 0.5 }}
+              height={34}
+              width={34}
             />
           ),
         }}

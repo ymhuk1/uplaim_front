@@ -200,7 +200,7 @@ const Tickets = () => {
       {isTooltipVisible && (
         <Modal
           visible={isTooltipVisible}
-          animationType="slide"
+          animationType="fade"
           transparent={true}
         >
           <TicketsModalComponent onClose={toggleTooltip} />

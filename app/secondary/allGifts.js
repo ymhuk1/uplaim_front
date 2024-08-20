@@ -178,7 +178,7 @@ export default function AllGifts() {
           {isTooltipVisible && (
             <Modal
               visible={isTooltipVisible}
-              animationType="slide"
+              animationType="fade"
               transparent={true}
               // onRequestClose={onClose}
             >

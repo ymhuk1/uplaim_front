@@ -171,7 +171,7 @@ export default function AllTasks() {
         {isTooltipVisible && (
           <Modal
             visible={isTooltipVisible}
-            animationType="slide"
+            animationType="fade"
             transparent={true}
           >
             <UniversalModal

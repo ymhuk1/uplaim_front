@@ -4,7 +4,6 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Modal,
   StatusBar,
 } from "react-native";
 import React, { useState } from "react";
@@ -329,12 +328,6 @@ export default function DeliveryCompany() {
         </ImageBackground>
       </ScrollView>
       {isModalVisible && (
-        // <Modal
-        //   visible={isModalVisible}
-        //   animationType="fade"
-        //   transparent={true}
-        //   style={styles.modal}
-        // >
         <View style={styles.modal__container}>
           <StatusBar barStyle="light-content" backgroundColor="#121123" />
           <View style={styles.modal__inner}>
@@ -380,7 +373,6 @@ export default function DeliveryCompany() {
             </View>
           </View>
         </View>
-        // {/* </Modal> */}
       )}
     </>
   );
@@ -534,10 +526,6 @@ const styles = StyleSheet.create({
     fontSize: 19,
     lineHeight: 19,
     color: textPrimaryColor,
-  },
-  modal: {
-    flex: 1,
-    // backgroundColor: elemBackgroundColor2,
   },
   modal__container: {
     flex: 1,

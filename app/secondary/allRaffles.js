@@ -139,7 +139,7 @@ export default function AllRaffles() {
         {isModalVisible && (
           <Modal
             visible={isModalVisible}
-            animationType="slide"
+            animationType="fade"
             transparent={true}
           >
             <ActivatesModalComponent onClose={toggleModal} />

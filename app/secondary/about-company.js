@@ -7,11 +7,12 @@ import {
   TouchableOpacity,
   RefreshControl,
   Linking,
+  Modal,
 } from "react-native";
 import HeaderComponent from "../../components/HeaderComponent";
 import PopupComponent from "../../components/PopupComponent";
 import TagComponent from "../../components/TagComponent";
-import Modal from "react-native-modal";
+// import Modal from "react-native-modal";
 import { Link, useGlobalSearchParams } from "expo-router";
 import Constants from "expo-constants";
 import { Image, ImageBackground } from "expo-image";
@@ -210,6 +211,7 @@ export default function AboutCompany() {
               isVisible={isTooltipVisible}
               onBackdropPress={toggleTooltip}
               style={styles.modal}
+              animationType="fade"
             >
               <PopupComponent
                 onClose={toggleTooltip}
@@ -233,6 +235,7 @@ export default function AboutCompany() {
               isVisible={isFeedbackVisible}
               onBackdropPress={toggleFeedback}
               style={styles.modalFeedback}
+              animationType="fade"
             >
               <FeedbackComponent
                 onClose={toggleFeedback}
