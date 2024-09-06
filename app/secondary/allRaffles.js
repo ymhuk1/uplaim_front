@@ -26,6 +26,8 @@ export default function AllRaffles() {
   const [textValue, setTextValue] = useState("Все розыгрыши");
   const [isModalVisible, setModalVisible] = useState(false);
   const [competitions, setCompetitions] = useState([]);
+  const [currentBalance, setCurrentBalance] = useState();
+  const [loading, setLoading] = useState(false);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -33,13 +35,18 @@ export default function AllRaffles() {
 
   const fetchCompetitions = async (id) => {
     try {
-      const response = await fetch(`${apiBaseUrl}api/competitions?client_id=${id}`);
+      const response = await fetch(
+        `${apiBaseUrl}api/competitions?client_id=${id}`
+      );
       if (!response.ok) {
-        throw new Error(`Ошибка при загрузке данных конкурсов: ${response.statusText}`);
+        throw new Error(
+          `Ошибка при загрузке данных конкурсов: ${response.statusText}`
+        );
       }
       const data = await response.json();
       console.log("Данные Competitions успешно получены:", data);
       setCompetitions(data);
+      setLoading(true);
     } catch (error) {
       console.error("Произошла ошибка при получении данных:", error);
     }
@@ -55,20 +62,22 @@ export default function AllRaffles() {
             Authorization: userData.token,
             "Content-Type": "application/json",
           };
-          const clientResponse = await fetch(`${apiBaseUrl}api/client`, { headers });
+          const clientResponse = await fetch(`${apiBaseUrl}api/client`, {
+            headers,
+          });
           if (!clientResponse.ok) {
             throw new Error("Ошибка при загрузке данных клиента");
           }
           const clientData = await clientResponse.json();
           fetchCompetitions(clientData.client.id);
         }
+        setLoading(true);
       } catch (error) {
         console.error("Произошла ошибка при получении данных:", error);
       }
     };
     fetchDataAsync();
   }, []);
-
 
   return (
     <ScrollView style={styles.container}>
@@ -119,7 +128,12 @@ export default function AllRaffles() {
                 </View>
               </View>
               <View style={styles.currentGifts__button}>
-                <TouchableOpacity onPress={() => toggleModal()}>
+                <TouchableOpacity
+                  onPress={() => {
+                    toggleModal();
+                    setCurrentBalance(item);
+                  }}
+                >
                   <Text
                     style={[
                       styles.currentGifts__button_text,
@@ -142,7 +156,13 @@ export default function AllRaffles() {
             animationType="fade"
             transparent={true}
           >
-            <ActivatesModalComponent onClose={toggleModal} />
+            <ActivatesModalComponent
+              onClose={toggleModal}
+              balance={loading && currentBalance?.quantity_ticket}
+              ticketColor={loading && currentBalance?.color}
+              name={loading && currentBalance?.name}
+              date={loading && currentBalance?.date_end}
+            />
           </Modal>
         )}
       </View>
