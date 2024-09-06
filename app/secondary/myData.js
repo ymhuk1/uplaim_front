@@ -86,9 +86,11 @@ export default function MyData() {
       if (response.ok) {
         console.log("Данные успешно добавлены:", response);
       }
+      
     } catch (error) {
       console.error("Ошибка при обновлении данных:", error.message);
     } finally {
+      setNameModalVisible(false);
       fetchData();
     }
   };
@@ -160,8 +162,8 @@ export default function MyData() {
             <View style={styles.header__text_container}>
               <Text style={styles.text_light}>ФИО</Text>
               <Text style={styles.text_medium}>
-                {clientData.name ? clientData.name : "Не указано"}{" "}
-                {clientData.last_name ? clientData.last_name : "Не указано"}
+                {clientData.name ? clientData.name : " "}{" "}
+                {clientData.last_name ? clientData.last_name : " "}
               </Text>
             </View>
             <Icon name="arrow-forward-ios" size={40} color={fuchsia} />
@@ -172,7 +174,7 @@ export default function MyData() {
             <View style={styles.info__item}>
               <Text style={styles.text_light}>Телефон</Text>
               <Text style={styles.text_medium}>
-                {!clientData.phone ? "Не указан" : clientData.phone}
+                {!clientData.phone ? " " : clientData.phone}
               </Text>
             </View>
             <Icon name="arrow-forward-ios" size={40} color={fuchsia} />
@@ -181,7 +183,7 @@ export default function MyData() {
             <View style={styles.info__item}>
               <Text style={styles.text_light}>E-mail</Text>
               <Text style={styles.text_medium}>
-                {!clientData.email ? "Не указан" : clientData.email}
+                {!clientData.email ? " " : clientData.email}
               </Text>
             </View>
             <Icon name="arrow-forward-ios" size={40} color={fuchsia} />
@@ -191,7 +193,7 @@ export default function MyData() {
               <Text style={styles.text_light}>День рождения</Text>
               <Text style={styles.text_medium}>
                 {!clientData.date_of_birth
-                  ? "Не указан"
+                  ? " "
                   : clientData.date_of_birth}
               </Text>
             </View>
@@ -201,7 +203,7 @@ export default function MyData() {
             <View style={styles.info__item}>
               <Text style={styles.text_light}>Пол</Text>
               <Text style={styles.text_medium}>
-                {!clientData.gender ? "Не указан" : clientData.gender}
+                {!clientData.gender ? " " : clientData.gender}
               </Text>
             </View>
             <Icon name="arrow-forward-ios" size={40} color={fuchsia} />

@@ -515,7 +515,18 @@ export default function Gifts() {
                       </Skeleton>
                     </View>
                   ))
-                : null}
+                : (
+                <Skeleton {...SKELETON}>
+                  <Text
+                    style={[
+                      styles.currentGifts__text_title,
+                      { textAlign: "center", marginVertical: 10, alignSelf: "center" },
+                    ]}
+                  >
+                    Пока нет начислений
+                  </Text>
+                </Skeleton>
+              )}
               {transactions.length > 0 ? (
                 <TouchableOpacity
                   onPress={() =>
@@ -528,18 +539,7 @@ export default function Gifts() {
                     </View>
                   </Skeleton>
                 </TouchableOpacity>
-              ) : (
-                <Skeleton {...SKELETON}>
-                  <Text
-                    style={[
-                      styles.currentGifts__text_title,
-                      { textAlign: "center", marginVertical: 10 },
-                    ]}
-                  >
-                    Пока нет начислений
-                  </Text>
-                </Skeleton>
-              )}
+              ) : null}
               <View style={{ marginTop: 20 }}>
                 <Skeleton height={40} {...SKELETON}>
                   <Text style={styles.textTitle2}>Ответы на вопросы</Text>

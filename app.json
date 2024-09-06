@@ -15,7 +15,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.viktorka.uplaim",
+      "bundleIdentifier": "ru.uplaim.mobile",
       "associatedDomains": ["applinks:uplaim.com"]
     },
     "android": {
@@ -45,7 +45,7 @@
         }
       ]
     },
-    "scheme": "https",
+    "scheme": "uplaim",
     "web": {
       "favicon": "./assets/logo_store.png"
     },

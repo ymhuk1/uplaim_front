@@ -240,9 +240,9 @@ export default function CompanyList() {
                     >
                       <Text style={styles.dopInfoCashbackText}>
                         Кешбэк{" "}
-                        {item.cashback.cashback === null
+                        {item.cashback?.cashback === null
                           ? 0
-                          : item.cashback.cashback}
+                          : item.cashback?.cashback}
                         %
                       </Text>
                     </LinearGradient>
