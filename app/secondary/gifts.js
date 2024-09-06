@@ -258,7 +258,7 @@ export default function Gifts() {
                             marginTop: 8,
                             marginBottom: 15,
                           }}
-                          key={index}
+                          key={item.id}
                         >
                           <TouchableOpacity>
                             <GiftsNow
@@ -299,12 +299,19 @@ export default function Gifts() {
                 {competitions.length > 0 &&
                   competitions.slice(0, 3).map((item, index) => (
                     <Skeleton height={90} {...SKELETON}>
-                      <View
-                        key={index}
+                      <TouchableOpacity
+                        data={competitions}
+                        key={item.id}
                         style={[
                           styles.currentGifts__inner,
                           { borderColor: item.color },
                         ]}
+                        onPress={() =>
+                          router.push({
+                            pathname: "/secondary/[raffle]",
+                            params: { id: index },
+                          })
+                        }
                       >
                         <View style={styles.currentGifts__img}>
                           <Image
@@ -315,7 +322,7 @@ export default function Gifts() {
                           />
                         </View>
                         <View style={styles.currentGifts__text}>
-                          <Text style={styles.currentGifts__text_title}>
+                          <Text style={styles.currentGifts__text_title} numberOfLines={1}>
                             {item.name}
                           </Text>
                           <Text style={styles.text_date}>
@@ -354,7 +361,11 @@ export default function Gifts() {
                         <View style={styles.currentGifts__button}>
                           <TouchableOpacity
                             onPress={() =>
-                              toggleModal() || setCurrentBalance(item)
+                              // toggleModal() || setCurrentBalance(item)
+                              router.push({
+                                pathname: "/secondary/[raffle]",
+                                params: { id: index },
+                              })
                             }
                           >
                             <Text
@@ -371,7 +382,7 @@ export default function Gifts() {
                             {item.current_client_active_tickets}
                           </Text>
                         </View>
-                      </View>
+                      </TouchableOpacity>
                     </Skeleton>
                   ))}
               </View>
@@ -432,7 +443,7 @@ export default function Gifts() {
               </View>
               {tasks.length > 0 &&
                 tasks.slice(0, 3).map((item, index) => (
-                  <View key={index} style={{ marginBottom: 5 }}>
+                  <View key={item.id} style={{ marginBottom: 5 }}>
                     <Skeleton {...SKELETON}>
                       <FitnessGift
                         imageSource={apiBaseUrl + item.photo}
@@ -478,7 +489,10 @@ export default function Gifts() {
               </Skeleton>
               {transactions.length > 0
                 ? transactions.slice(0, 3).map((item, index) => (
-                    <View style={{ rowGap: 12, marginBottom: 20 }} key={index}>
+                    <View
+                      style={{ rowGap: 12, marginBottom: 20 }}
+                      key={item.id}
+                    >
                       <Skeleton {...SKELETON}>
                         <Text
                           style={[styles.ticket__text, { marginBottom: 10 }]}
@@ -534,7 +548,7 @@ export default function Gifts() {
               <View style={styles.accordion__container}>
                 {questions.length > 0 &&
                   questions.map((item, index) => (
-                    <View style={{ marginBottom: 20 }} key={index}>
+                    <View style={{ marginBottom: 20 }} key={item.id}>
                       <Skeleton {...SKELETON}>
                         <Accordion
                           title={item.question}

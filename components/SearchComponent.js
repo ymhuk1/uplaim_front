@@ -31,7 +31,9 @@ const SearchComponent = ({ main, modal, company, onChange }) => {
 
   const handleInputChange = async (text) => {
     try {
-      const response = await fetch(`${apiBaseUrl}api/company/search?term=${text}`);
+      const response = await fetch(
+        `${apiBaseUrl}api/company/search?term=${text}`
+      );
       const data = await response.json();
       onChange(data);
     } catch (error) {
